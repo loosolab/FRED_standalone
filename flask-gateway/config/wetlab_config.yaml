@@ -1,0 +1,78 @@
+All:
+  color: "EBF1DE"
+  header_objects:
+    - header: Sequencing Method [single/paired-end,...]
+      validation_type: dropdown
+      validation_values: 
+        - single-end
+        - paired-end
+        - max. n Reads
+        - min n Reads
+    - header: QC dilution
+      validation_type: none
+    - header: QC concentration [ng/µl]
+      validation_type: between
+      validation_values:
+        - 0
+        - 10000
+ATAC: 
+  color: "FFFFCC"
+  header_objects:
+  - header: Cells/DNA
+    validation_type: dropdown_stop
+    validation_values: 
+      - Cells
+      - DNA
+CHIP/CnR/CnT: 
+  color: "F2DCDB"
+  header_objects:
+  - header: amount of sample [µl] (DNA)
+    validation_type: between
+    validation_values:
+      - 0
+      - 10000
+  - header: which antibody was used
+    validation_type: none
+RNAseq:
+  color: "DAEEF3"
+  header_objects:
+  - header: concentration [ng/µl] (RNA)
+    validation_type: between
+    validation_values:
+      - 0
+      - 10000
+  - header: concentration measurement method (Nanodrop, Qubit)
+    validation_type: dropdown
+    validation_values: 
+      - Nanodrop
+      - Qubit
+      - BioAnalyzer
+  - header: amount of sample [µl] (RNA)
+    validation_type: between
+    validation_values:
+      - 0
+      - 10000
+  - header: low input (less than 10000-50000 cells [yes/no]
+    validation_type: dropdown
+    validation_values: 
+      - "yes"
+      - "no"
+  - header: lib prep type (mRNA, whole transcriptome, smallRNA)
+    validation_type: dropdown_stop
+    validation_values: 
+      - mRNA
+      - whole transcriptome
+      - smallRNA
+Exome:
+  color: "E4DFEC"
+  header_objects:
+  - header: concentration [ng/µl] (Exome)
+    validation_type: between
+    validation_values:
+      - 0
+      - 10000
+  - header: amount of sample [µl] (Exome)
+    validation_type: between
+    validation_values:
+      - 0
+      - 10000
