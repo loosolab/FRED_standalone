@@ -20,6 +20,6 @@ export class HomeComponent implements OnInit {
     window.open("https://loosolab.pages.gwdg.de/container/bcu-documentation/introduction_overview/")
   }
   test(){
-    this.apiService.testRequest()
+    this.apiService.getPgmMask()
   }
 }
