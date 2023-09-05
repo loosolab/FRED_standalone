@@ -1,0 +1,3 @@
+[submodule "flask-gateway/metadata-organizer"]
+	path = flask-gateway/metadata-organizer
+	url = https://gitlab.gwdg.de/loosolab/software/metadata-organizer.git
