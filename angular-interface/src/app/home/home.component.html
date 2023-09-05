@@ -2,7 +2,7 @@
     <!--<button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>-->
-  
+
     <span><!--<img height="50px" src="assets/images/bcu_icon_minimal.png">--></span>
     <!--<span>Welcome to BCU Repository</span>-->
     <a style="margin-left: 16px;" mat-flat-button color="primary" routerLink="/home"
@@ -14,14 +14,15 @@
         Metadata</a>
     <a mat-flat-button color="primary" routerLinkActive="active-nav-button" routerLink="/meta-search">Project Search</a>
     <!--<a mat-flat-button color="primary" routerLinkActive="active-nav-button" >DSI</a>-->
-  
+
     <span class="example-spacer"></span>
-    <button mat-icon-button color="accent" (click)="openHelp()" #tooltip="matTooltip" matTooltip="Help" matTooltipPosition="below">
+    <button mat-icon-button color="accent" (click)="openHelp()" #tooltip="matTooltip" matTooltip="Help"
+        matTooltipPosition="below">
         <mat-icon>question_mark</mat-icon>
     </button>
     <!--<img src="assets/images/mpi_icon.svg" height="60">-->
-  </mat-toolbar>
-  <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
+</mat-toolbar>
+<div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
     <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
         <mat-card appearance="outlined" class="mat-elevation-z4" matRipple routerLink="/sdoa">
             <mat-card-header>
@@ -66,4 +67,5 @@
             </mat-card-content>
         </mat-card>
     </div>
-  </div>
+</div>
+<button mat-raised-button (click)="test()">test</button>

@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 # Create a Flask application
 app = Flask(__name__)
+cors = CORS(app)
 
 # Define a test endpoint
 @app.route('/test', methods=['GET'])
