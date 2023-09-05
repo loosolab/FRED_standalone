@@ -1,0 +1,3 @@
+[submodule "metadata-organizer"]
+	path = metadata-organizer
+	url = https://gitlab.gwdg.de/loosolab/software/metadata-organizer.git
