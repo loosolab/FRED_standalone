@@ -8,13 +8,6 @@ UPLOAD_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 app = Flask(__name__)
 cors = CORS(app)
 
-# Define a test endpoint
-@app.route('/test', methods=['GET'])
-def test_endpoint():
-    # Dummy data
-    data = {'message': 'This is a test endpoint', 'status': 'success'}
-    return jsonify(data)
-
 @app.route("/getPgmMask")
 def getPgmMask():
     return pgm_calls.getEmptyMask()
