@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import pgm_calls
+import os
 
+UPLOAD_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 # Create a Flask application
 app = Flask(__name__)
 cors = CORS(app)
@@ -38,6 +40,31 @@ def searchWhitelist():
 def genConditions():
     request_data = request.get_json()
     return pgm_calls.genConditions(request_data)
+
+@app.route("/validatePgmWithSummary", methods=["POST"])
+def validatePgmWithSummary():
+    request_data = request.get_json()
+    return pgm_calls.validateMetadataObjectWithSummary(request_data)
+
+@app.route("/createFilelist", methods=["POST"])
+def createFilelist():
+    request_data = request.get_json()
+    return pgm_calls.createFilelist(request_data)
+
+@app.route("/finishPgm", methods=["POST"])
+def finishPgm():
+    request_data = request.get_json()
+    return pgm_calls.finishResult(UPLOAD_DIRECTORY, request_data)
+
+@app.route("/getPgmFiles", methods=["GET"])
+def getPgmFiles():
+    filename = request.args.get("filename")
+    private_directory = os.path.join(UPLOAD_DIRECTORY)
+    path_to_file =  os.path.join(private_directory,"tmp", filename)
+    try:
+        return send_file(path_to_file, as_attachment=True)
+    except:
+        return "File not Found", 404
 
 if __name__ == '__main__':
     # Run the Flask application on port 5000 (default)

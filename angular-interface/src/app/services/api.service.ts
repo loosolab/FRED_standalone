@@ -126,4 +126,62 @@ export class ApiService {
       })
     }))
   }
+
+  /**
+   * Returns a promise that resolves with an empty string when the api call is finished
+   * @param data - the metadata object to be validated
+   * @param factors - list of factors that are needed by the API
+   * @param from_edit - a boolean that is true when this metadata is from editing, false when the metadata is new
+   * @returns a promise that resolves with an empty string
+   */
+  finishMetadata(data, factors) {
+    return new Promise((resolve) => {
+      let post_obj: any;
+      
+        post_obj = {
+          object: data,
+          factors: factors
+        };
+      
+      this.http.post(this.apiURL + '/finishPgm', post_obj)
+        .subscribe(async (res: any) => {
+          console.log('path', res);
+          
+            for (const filename of res.filenames) {
+              console.log('my filename', filename);
+              const data = await this.http.get(this.apiURL + '/getPgmFiles', { params: { filename: filename }, responseType: 'blob' }).toPromise();
+              this.safeContentToFile(data, filename);
+              console.log('Metadata was generated successfully.');
+            }
+            resolve('');
+          
+
+        });
+    });
+  }
+
+  downloadFileList(file_string) {
+    return new Promise((resolve => {
+      var post_obj = { file_string: file_string }
+      this.http.post(this.apiURL + "/createFilelist", post_obj).pipe().subscribe((res: any) => {
+        var filename = res.filename
+        this.http.get(this.apiURL + "/getPgmFiles", { params: { filename: filename }, responseType: 'blob' }).pipe().subscribe(data => {
+          this.safeContentToFile(data, filename)
+          resolve("")
+        })
+
+      })
+    }))
+  }
+
+  safeContentToFile(data, filename) {
+    console.log("filename in safe", filename)
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

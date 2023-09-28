@@ -45,7 +45,6 @@ export class PgmComponent implements OnInit {
   was_validated = false
   loading_validation = true
   waiting_for_data = true
-  edit_mode = false
   condition_filter_str = ""
   filterPanelOpenState = false
   chip_conditions: any
@@ -651,6 +650,106 @@ addExperimantalSetting(){
       } else {
         return true
       }
+    }
+
+    finishDisabled() {
+      if (this.was_validated && this.summed_errors == 0) {
+        return false
+      } else {
+        return true
+      }
+    }
+
+    requiredFieldFilledOut() {
+      var fieldsFilled_project = []
+      this.apiService.empty_pgmMask.value.project.input_fields.forEach(element => {
+        if (element.mandatory) {
+          if (element.input_fields) {
+            element.input_fields.forEach(inner_element => {
+              if (inner_element.mandatory) {
+                if (inner_element.value) {
+                  fieldsFilled_project.push(true)
+                } else {
+                  fieldsFilled_project.push(false)
+                }
+              }
+            })
+          } else {
+            if (element.mandatory) {
+              if (element.value) {
+                fieldsFilled_project.push(true)
+              } else {
+                fieldsFilled_project.push(false)
+              }
+            }
+          }
+        }
+      })
+  
+      var fieldsFilled_experiment = []
+      var exp_setting_elements = this.apiService.empty_pgmMask.value.experimental_setting.list_value
+      if (this.apiService.empty_pgmMask.value.experimental_setting.list_value.length > 0) {
+  
+        fieldsFilled_experiment.push(true)
+      } else {
+        fieldsFilled_experiment.push(false)
+      }
+  
+      var fieldsFilled_techDetails = []   
+      var technique_elemts = this.apiService.empty_pgmMask.value.technical_details.input_fields.filter(e => e.position == "technical_details:techniques")[0].list_value
+      console.log("technique_elemts",technique_elemts.length, "exp_setting_elements", exp_setting_elements.length)
+      if (technique_elemts.length != 0 && technique_elemts.length >= exp_setting_elements.length){
+        fieldsFilled_techDetails.push(true)
+      } else {
+        fieldsFilled_techDetails.push(false)
+      }
+  
+      return [!fieldsFilled_project.includes(false), !fieldsFilled_experiment.includes(false), !fieldsFilled_techDetails.includes(false)]
+    }
+
+    finishMetadataInput() {
+      var filledOutField_return = this.requiredFieldFilledOut()
+      if (!filledOutField_return.includes(false)) {
+        const dialogRef = this.dialog.open(PgmAlertsComponent, {
+          hasBackdrop: true,
+          data: { title: "Finish Metadate Input", message: "Are you sure you want to finish your Input? It can not be edited until your project appears under the 'Self Deployment Omics Analysis' Part of this Website." }
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            const loadingRef = this.dialog.open(LoadingComponent, {
+              disableClose: true
+            })
+            this.apiService.finishMetadata(this.apiService.empty_pgmMask.value, this.all_factors).then((res: any) => {
+  
+              this.inputSaved = true
+              loadingRef.close()
+            })
+          }
+        })
+      } else {
+        var missing_part = []
+        filledOutField_return.forEach((part, index) => {
+          if (!part) {
+            if (index == 0) {
+              missing_part.push("'Details about Project'")
+            } else if (index == 1) {
+              missing_part.push("'Details about Experimental Setting'")
+            } else if (index == 2) {
+              missing_part.push("'Technical Details Project'")
+            }
+          }
+        })
+        this.openSnackBar("Not all required fields are filled out. Please check your input at " + missing_part.join(", "))
+      }
+  
+    }
+
+    downloadFileList(file_string) {
+      const loadingRef = this.dialog.open(LoadingComponent, {
+        disableClose: true
+      })
+      this.apiService.downloadFileList(file_string)
+      loadingRef.close()
     }
 
 }
