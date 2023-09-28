@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PgmAlertsComponent } from '../dialogs/pgm-alerts/pgm-alerts.component';
 import { PgmEditFactorsComponent } from '../dialogs/pgm-edit-factors/pgm-edit-factors.component';
 import { PgmEditConditionComponent } from '../dialogs/pgm-edit-condition/pgm-edit-condition.component';
+import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
 
 
 @Component({
@@ -96,14 +97,14 @@ export class PgmComponent implements OnInit {
   }
 
   openHelpDialog(){
-    /*const dialogRef = this.dialog.open(PgmHelpComponent, {
+    const dialogRef = this.dialog.open(PgmHelpComponent, {
       hasBackdrop: true,
       width: "50%",
       height: "50%",
       data: {
         help_url: ""
       }
-    })*/
+    })
   }
   openSnackBar(message) {
     this.snackBar.open(message, "", {
