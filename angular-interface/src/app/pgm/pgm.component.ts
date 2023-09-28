@@ -6,6 +6,9 @@ import { NavigationService } from '../services/navigation.service';
 import { LoadingComponent } from '../dialogs/loading/loading.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PgmAlertsComponent } from '../dialogs/pgm-alerts/pgm-alerts.component';
+import { PgmEditFactorsComponent } from '../dialogs/pgm-edit-factors/pgm-edit-factors.component';
+import { PgmEditConditionComponent } from '../dialogs/pgm-edit-condition/pgm-edit-condition.component';
 
 
 @Component({
@@ -102,6 +105,12 @@ export class PgmComponent implements OnInit {
         help_url: ""
       }
     })*/
+  }
+  openSnackBar(message) {
+    this.snackBar.open(message, "", {
+      duration: 5000,
+      panelClass: ["warning-snackbar"]
+    })
   }
 
   selectionChange(event) {
@@ -308,11 +317,340 @@ addToGenericExpandable(element) {
   }
 }
 
-openSnackBar(message) {
-  this.snackBar.open(message, "", {
-    duration: 5000,
-    panelClass: ["warning-snackbar"]
+setOrganismDisabled(organism_name) {
+  if (organism_name && this.organism_was_selected == false) {
+    return false
+  } else {
+    return true
+  }
+}
+
+clearOrganismDisabled() {
+  if (this.organism_was_selected == true) {
+    return false
+  } else {
+    return true
+  }
+}
+
+setOrganismName(organism_name) {
+  this.organism_name = organism_name
+  this.organism_was_selected = true
+}
+
+clearOrganismName(element) {
+  console.log("WARNING All will deleted")
+  const dialogRef = this.dialog.open(PgmAlertsComponent, {
+    hasBackdrop: true,
+    data: { title: "Clear Organism", message: "Are you sure you want to reset the organism and reset your current input?" }
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.organism_name = ""
+      element.value = ""
+      this.organism_was_selected = false
+      this.factors = []
+      this.organism_name = ""
+      //this.del_conditions = []
+      this.conditions = []
+      this.chip_conditions = []
+      this.filterPanelAllowed = false
+      this.filterPanelOpenState = false
+      this.update_selected_conditions()
+      this.resetFilterChipConds()
+      this.apiService.empty_pgmMask.value.experimental_setting.input_fields = JSON.parse(JSON.stringify(this.original_exp_setting))
+    }
   })
 }
+update_selected_conditions() {
+  this.selected_conditions = this.conditions.filter(cond => cond.selected == true)
+  console.log("sel conds", this.selected_conditions)
+}
+resetFilterChipConds() {
+  this.selected_filter_factor_object = [
+    {
+      selected_filter_factor: {},
+      selected_filter_factor_values: []
+    },
+    {
+      selected_filter_factor: {},
+      selected_filter_factor_values: []
+    }
+  ]
+  this.filterUnselectedChips = false
+  this.filterSelectedChips = false
+  this.condition_filter_str = ""
+  this.filterChipConditions()
+}
+
+chipSelectionChange(event: any, cond) {
+  cond.selected = event.selected
+  this.filterChipConditions()
+  this.update_selected_conditions()
+  //if event false --> unselect
+}
+selectAllChipConds() {
+  this.chip_conditions.map(v => v.selected = true)
+  this.filterChipConditions()
+  this.update_selected_conditions()
+
+}
+unselectAllChipConds() {
+  this.chip_conditions.map(v => v.selected = false)
+  this.filterChipConditions()
+  this.update_selected_conditions()
+
+}
+filterUnseleced() {
+  if (this.filterUnselectedChips) {
+    this.filterSelectedChips = false
+  }
+  this.filterChipConditions()
+}
+filterSeleced() {
+  if (this.filterSelectedChips) {
+    this.filterUnselectedChips = false
+  }
+  this.filterChipConditions()
+}
+
+filterChipConditions() {
+
+  var filter_data = this.conditions
+  if (this.filterSelectedChips) {
+    filter_data = filter_data.filter(cond => cond.selected == true)
+  }
+  if (this.filterUnselectedChips) {
+    filter_data = filter_data.filter(cond => cond.selected == false)
+  }
+  console.log(filter_data)
+  this.selected_filter_factor_object.forEach((filter_object: any) => {
+
+    if (filter_object.selected_filter_factor) {
+      filter_object.selected_filter_factor_values.forEach(filter_factor_value => {
+        filter_data = filter_data.filter(cond =>
+          cond.search.includes(
+            filter_object.selected_filter_factor.factor.toLowerCase().trim()
+            + ':"' + filter_factor_value.toLowerCase().trim() + '"')
+        )
+        console.log(filter_object.selected_filter_factor.factor.toLowerCase().trim()
+          + ':"' + filter_factor_value.toLowerCase().trim() + '"')
+      })
+    }
+  })
+
+  //filter for filter string
+
+  filter_data = filter_data.filter(cond =>
+    cond.search.some(search_element =>
+      search_element.includes(
+        this.condition_filter_str.toLowerCase().trim()
+      )
+    )
+  )
+  console.log("after filter", filter_data)
+  this.chip_conditions = filter_data
+
+}
+openFactorsDialogAllowed() {
+  if (this.organism_name) {
+    this.openFactorsDialog()
+  } else {
+    this.openSnackBar("Please confirm the organism first.")
+  }
+}
+
+openFactorsDialog() {
+  const dialogRef = this.dialog.open(PgmAlertsComponent, {
+    hasBackdrop: true,
+    data: { title: "Edit factors and generate conditions", message: "Are you sure you want to edit the facors? This will reset your current input for the conditions." }
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      const loadingRef = this.dialog.open(LoadingComponent, {
+        disableClose: true
+      })
+      this.apiService.getFactors(this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value).then((data_res: any) => {
+        loadingRef.close()
+        const dialogRef = this.dialog.open(PgmEditFactorsComponent, {
+          hasBackdrop: true,
+          disableClose: true,
+
+          minWidth: "40%",
+          width: "40%",
+          data: {
+            factors: data_res.factor,
+            values: data_res.values,
+          }
+          //organism_name: this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value
+
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            console.log("factors RESULT", result)
+            Object.assign(result, { organism_name: this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value })
+            this.conditions = []
+            const loadingRef = this.dialog.open(LoadingComponent, {
+              disableClose: true
+            })
+            this.factors = JSON.parse(JSON.stringify(result.factor_list))
+            this.apiService.getConditions(result).then((res_conditions: any) => {
+              console.log("factors?", this.factors)
+              this.conditions = JSON.parse(JSON.stringify(res_conditions.conditions))
+
+              // thiis goes to filter function
+              //this.del_conditions = []
+              this.condition_whitelists[res_conditions.organism] = JSON.parse(JSON.stringify(res_conditions.whitelist_object))
+              console.log("whitelist test", this.condition_whitelists)
+              console.log("All conditions", this.conditions)
+              
+              this.chip_conditions = this.conditions.map(v => Object.assign(v, { selected: false }))
+              this.filterPanelAllowed = true
+              this.filterPanelOpenState = true
+              this.update_selected_conditions()
+              this.resetFilterChipConds()
+              loadingRef.close()
+            })
+          }
+        })
+      })
+    }
+  })
+}
+
+getFilterFactorValues(filter_object) {
+
+  //filer_factor_values = this.factors.filter(filter_factor => filter_factor.factor == this.selected_filter_factor)
+  //console.log("getFilterFactorValues", this.selected_filter_factor,filer_factor_values)
+  if (filter_object.selected_filter_factor.values) {
+    if (typeof filter_object.selected_filter_factor.values[0] == 'object') {
+      var nested_vales_return = []
+      Object.entries(filter_object.selected_filter_factor.values[0]).forEach(([nested_factor, nested_value]) => {
+        if (typeof nested_value != 'boolean') {
+          nested_vales_return = nested_vales_return.concat(nested_value)
+        }
+      })
+      return nested_vales_return
+    } else {
+      return filter_object.selected_filter_factor.values
+    }
+  } else {
+    return []
+  }
+}
+
+editCondition(condition, organism_name) {
+  const dialogRef = this.dialog.open(PgmEditConditionComponent, {
+    hasBackdrop: true,
+    disableClose: true,
+    width: "70%",
+    data: { condition: condition, whitelist: this.condition_whitelists[organism_name] }
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log("sample ls", result)
+      condition.list_value = result
+      console.log(condition)
+      console.log(this.conditions)
+    }
+  })
+}
+
+editFinishedCondition(condition, setting) {
+  console.log("edit Finished", condition, setting)
+  var organism_name_to_edit = ""
+  setting.forEach(category => {
+    if (category.position == "experimental_setting:organism") {
+      organism_name_to_edit = category.value
+    }
+  })
+  this.editCondition(condition, organism_name_to_edit)
+}
+
+checkEnteredSamples(){
+  var sample_counts = this.selected_conditions.map(condition => condition.list_value.length)
+  console.log("sample_counts",sample_counts)
+  if(!sample_counts.includes(0)){
+    return true
+  } else {
+    console.log("false")
+    return false
+  }
+}
+
+addExperimentalSettingDialogs() {
+    
+  const dialogRef = this.dialog.open(PgmAlertsComponent, {
+    hasBackdrop: true,
+    data: { 
+      title: "Add Experimental Setting", 
+      message: "Are you sure you want to add the experimental setting? You will only be able to add more samples in the given conditions.",
+    }
+  })
+  dialogRef.afterClosed().subscribe(result => {
+    
+    
+    if (result) {
+      //add_setting_allowed = this.checkEnteredSamples()
+      console.log("add_setting_allowed 1", this.checkEnteredSamples())
+      if (!this.checkEnteredSamples()){
+        const seconddialogRef = this.dialog.open(PgmAlertsComponent, {
+          hasBackdrop: true,
+          data: {
+            title: "Missing Samples!",
+            message: "Please be aware that not all conditions have associated samples. Would you like to proceed and save this experimental setting regardless?"
+          }
+        })
+        seconddialogRef.afterClosed().subscribe(no_sample_result => {
+          if (no_sample_result){
+            this.addExperimantalSetting()
+          }
+        })
+      } else {
+        this.addExperimantalSetting()
+      }
+      
+      
+    }
+  })
+}
+
+addExperimantalSetting(){
+  //add conditions
+          //this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:experimental_factors")[0].list_value = JSON.parse(JSON.stringify(this.factors))
+          //this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:setting_id")[0] = 
+          this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:conditions")[0].list_value = JSON.parse(JSON.stringify(this.selected_conditions))
+          this.apiService.empty_pgmMask.value.experimental_setting.list_value.push(JSON.parse(JSON.stringify(this.apiService.empty_pgmMask.value.experimental_setting.input_fields)))
+          this.apiService.empty_pgmMask.value.experimental_setting.input_fields = JSON.parse(JSON.stringify(this.original_exp_setting))
+          this.all_factors.push(this.factors)
+          this.apiService.empty_pgmMask.value.all_factors.push(this.factors)
+          console.log("all factors", this.all_factors)
+          this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:setting_id")[0].value = "exp"+ String(this.getExpSettingID())
+          this.conditions = []
+          this.selected_conditions = []
+          this.factors = []
+          this.organism_name = ""
+          //this.del_conditions = []
+          this.organism_was_selected = false
+          console.log(this.original_exp_setting)
+          console.log(this.apiService.empty_pgmMask.value)
+          this.resetFilterChipConds()
+    }
+    removeExperimentalSetting(setting) {
+      this.apiService.empty_pgmMask.value.experimental_setting.list_value.splice(this.apiService.empty_pgmMask.value.experimental_setting.list_value.indexOf(setting), 1)
+      this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:setting_id")[0].value = "exp"+ String(this.getExpSettingID())
+    }
+  
+    addExperimentalSettingDisabled() {
+      //change to multiple checks
+      if (this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value != null
+        && this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value != ""
+        && this.selected_conditions.length > 0
+        && this.factors.length > 0) {
+        return false
+      } else {
+        return true
+      }
+    }
 
 }

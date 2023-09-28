@@ -1,0 +1,11 @@
+<h1 mat-dialog-title color="accent">
+    {{data.title}}
+</h1>
+
+<div mat-dialog-content>
+    {{data.message}}
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="accent" [mat-dialog-close]="true">Yes</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+</div>

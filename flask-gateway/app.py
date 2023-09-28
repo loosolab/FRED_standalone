@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pgm_calls
 
@@ -16,6 +16,28 @@ def test_endpoint():
 @app.route("/getPgmMask")
 def getPgmMask():
     return pgm_calls.getEmptyMask()
+
+@app.route("/validatePgm", methods=["POST"])
+def validatePgm():
+    request_data = request.get_json()
+    return pgm_calls.validateMetadataObject(request_data)
+
+@app.route("/getFactors", methods=["POST"])
+def getFactors():
+    request_data = request.get_json()
+    return pgm_calls.getFactors(request_data["organism_name"])
+
+@app.route("/searchWhitelist", methods=["POST"])
+def searchWhitelist():
+    request_data = request.get_json()
+    whitelist_data = pgm_calls.getSingleWhitelist(request_data["search_object"])
+    searched_data = pgm_calls.searchElements(request_data["search_string"],25, whitelist_data)
+    return {"search_results": searched_data}
+
+@app.route("/genConditions", methods=["POST"])
+def genConditions():
+    request_data = request.get_json()
+    return pgm_calls.genConditions(request_data)
 
 if __name__ == '__main__':
     # Run the Flask application on port 5000 (default)

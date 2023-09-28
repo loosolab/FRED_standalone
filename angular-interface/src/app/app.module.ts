@@ -33,6 +33,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { PgmComponent } from './pgm/pgm.component';
 import { LoadingComponent } from './dialogs/loading/loading.component';
+import { PgmAlertsComponent } from './dialogs/pgm-alerts/pgm-alerts.component';
+import { PgmEditFactorsComponent } from './dialogs/pgm-edit-factors/pgm-edit-factors.component';
+import { PgmEditConditionComponent } from './dialogs/pgm-edit-condition/pgm-edit-condition.component';
 
 
 
@@ -43,7 +46,10 @@ import { LoadingComponent } from './dialogs/loading/loading.component';
     AppComponent,
     HomeComponent,
     PgmComponent,
-    LoadingComponent
+    LoadingComponent,
+    PgmAlertsComponent,
+    PgmEditFactorsComponent,
+    PgmEditConditionComponent
   ],
   imports: [
     BrowserModule,
