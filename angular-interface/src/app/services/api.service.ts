@@ -42,5 +42,54 @@ export class ApiService {
     }))
   }
 
+  /**
+   * Returns a promise that resolves with an array containing the validated metadata object
+   * @param data - the metadata object to be validated
+   * @param factors - list of factors that are needed by the API
+   * @returns a promise that resolves with an array containing the validated metadata
+   */
+  validateObject(data, factors) {
+    return new Promise((resolve => {
+      var post_obj = { object: data, factors: factors }
+      console.log("Object to validate", post_obj)
+      this.http.post(this.apiURL + "/validatePgm", post_obj).pipe().subscribe((res: any) => {
+        console.log("validated object", res)
+        console.log("validated object", res.object)
+        this.empty_pgmMask.next(res.object)
+        var new_res = res
+        delete new_res["object"]
+        console.log("only validate", new_res)
+        console.log("Validation Step finished.")
+        resolve(new_res)
+      })
+    }))
+  }
 
+   /**
+   * Returns a promise that resolves with an object, containing an array with the validated metadata object and a summary in html
+   * @param data - the metadata object to be validated
+   * @param factors - list of factors that are needed by the API
+   * @returns a promise that resolves with an object, containing an array with the validated metadata and a summary in html
+   */
+   validateObjectWithSummary(data, factors) {
+    return new Promise((resolve => {
+      var post_obj = { object: data, factors: factors }
+      this.http.post(this.apiURL + "/validatePgmWithSummary", post_obj).pipe().subscribe((res: any) => {
+        console.log("validated object", res)
+
+        console.log("with summary", res)
+        resolve(res)
+      })
+    }))
+  }
+
+  searchWhitelistElements(search_string, result_count, search_object) {
+    return new Promise((resolve) => {
+      var post_obj = { search_string: search_string, result_count: result_count, search_object: search_object }
+      this.http.post(this.apiURL + "/searchWhitelist", post_obj).pipe().subscribe((res: any) => {
+        console.log("Search res: ", res)
+        resolve(res.search_results)
+      })
+    })
+  }
 }

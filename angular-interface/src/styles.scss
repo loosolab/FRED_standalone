@@ -1,4 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
+
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies();
+@include mat.core();
+
+//Theming
+//$my-primary: mat.define-palette(mat.$teal-palette,400);
+//$my-accent: mat.define-palette(mat.$green-palette, A400);
+//$my-warn: mat.define-palette(mat.$red-palette);
+// Define a new color for warning
+$angular-default-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$grey-palette,900),
+      accent: mat.define-palette(mat.$purple-palette, A700),
+      warn:  mat.define-palette(mat.$red-palette),
+    ),
+  )
+);
+@include mat.all-component-themes($angular-default-theme);
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.active-nav-button {
+    color: #000000 !important; /* Note: You could also use a custom theme */
+    background-color: #b205f7 !important;
+  }
+
+.loading-wrapper {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: calc(100vh - 20px);
+  }
+
+  .loading-spinner {
+    padding: 12px;
+  }
+
+  .full-form {
+    width: 100%;
+  }
+
+  .half-form {
+    width: 50%;
+  }
+
+  .list-style-type-circle {
+    list-style-type: disc;
+  }
+  
+  .list-style-none {
+    list-style: none;
+  }
+  
+  .table_style_condition_title{
+    border-collapse: collapse;
+  }
+  
+  .tr_style_condition_title{
+    border-bottom: 1pt solid black;
+  }
+  
+  .td_style_condition_title_factor{
+    border-right: 1pt solid black;
+    padding: 5px;
+  }
+  
+  .td_style_condition_title_value{
+    padding: 5px;
+  }

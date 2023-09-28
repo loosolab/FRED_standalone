@@ -6,13 +6,33 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { PgmComponent } from './pgm/pgm.component';
+import { LoadingComponent } from './dialogs/loading/loading.component';
 
 
 
@@ -22,21 +42,46 @@ import { PgmComponent } from './pgm/pgm.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    PgmComponent
+    PgmComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FlexLayoutModule,
-    MatCardModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatToolbarModule,
-    MatButtonModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+
+    //Mat Imports
+    FlexLayoutModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    FormsModule,
+    MatListModule,
+    MatIconModule,
+    MatRippleModule,
+    HttpClientModule,
+    MatTableModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatStepperModule,
+    MatDividerModule,
+    MatChipsModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: "de-DE" }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
