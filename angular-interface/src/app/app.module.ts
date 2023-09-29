@@ -36,6 +36,7 @@ import { LoadingComponent } from './dialogs/loading/loading.component';
 import { PgmAlertsComponent } from './dialogs/pgm-alerts/pgm-alerts.component';
 import { PgmEditFactorsComponent } from './dialogs/pgm-edit-factors/pgm-edit-factors.component';
 import { PgmEditConditionComponent } from './dialogs/pgm-edit-condition/pgm-edit-condition.component';
+import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
 
 
 
@@ -49,7 +50,8 @@ import { PgmEditConditionComponent } from './dialogs/pgm-edit-condition/pgm-edit
     LoadingComponent,
     PgmAlertsComponent,
     PgmEditFactorsComponent,
-    PgmEditConditionComponent
+    PgmEditConditionComponent,
+    PgmHelpComponent
   ],
   imports: [
     BrowserModule,
