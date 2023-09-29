@@ -1,0 +1,20 @@
+version: '3'
+services:
+  angular-interface:
+    build:
+      context: ./angular-interface
+    ports:
+      - "4200:4200"  # Adjust the port if needed
+    working_dir: /app/angular-interface
+    command: npm start  # Adjust the command to start your Angular app
+    depends_on:
+      - flask-gateway
+
+  flask-gateway:
+    build:
+      context: ./flask-gateway
+    ports:
+      - "5000:5000"  # Adjust the port if needed
+    working_dir: /flask-gateway
+    command: python app.py  # Adjust the command to start your Flask API
+
