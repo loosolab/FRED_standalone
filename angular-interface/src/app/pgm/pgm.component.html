@@ -1,19 +1,12 @@
 <mat-toolbar color="primary">
-    <span><!--<img height="50px" src="assets/images/bcu_icon_minimal.png">--></span>
-    <a style="margin-left: 16px;" mat-flat-button color="primary" routerLink="/home"
+    <!--<span><img height="50px" src="assets/images/bcu_icon_minimal.png"></span>-->
+    <a style="margin-left: 16px; margin-right: 16px" mat-flat-button color="primary" routerLink="/home"
         routerLinkActive="active-nav-button">Home</a>
-    <a mat-flat-button color="primary" routerLink="/sdoa" routerLinkActive="active-nav-button">Self Deployment
-        Omics Analyses</a>
-    <a mat-flat-button color="primary" routerLink="/sss" routerLinkActive="active-nav-button">Self Service
-        Software</a>
-    <a mat-flat-button color="primary" routerLink="/pgm" routerLinkActive="active-nav-button">Project Generator
+    <a style="margin-right: 16px;" mat-flat-button color="primary" routerLink="/pgm" routerLinkActive="active-nav-button">Project Generator
         Metadata</a>
-    <a mat-flat-button color="primary" routerLinkActive="active-nav-button" routerLink="/meta-search">Project
-        Search</a>
-
     <!--<a mat-flat-button color="primary"  routerLinkActive="active-nav-button" >DSI</a>-->
 
-    <span class="example-spacer"></span>
+
     <button mat-icon-button color="accent" (click)="openHelpDialog()" #tooltip="matTooltip" matTooltip="Help"
         matTooltipPosition="below">
         <mat-icon>question_mark</mat-icon>

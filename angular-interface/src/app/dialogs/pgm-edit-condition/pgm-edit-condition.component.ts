@@ -41,23 +41,6 @@ export class PgmEditConditionComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    /*addDesease(element) {
-        //this.dummy filter () filter () push
-        this.desease_ls.push(JSON.parse(JSON.stringify(element)))
-        console.log(this.desease_ls)
-    }
-    removeDesease(element) {
-        this.desease_ls.splice(this.desease_ls.indexOf(element), 1)
-    }
-
-    addTreatment(element) {
-        this.treatment_ls.push(JSON.parse(JSON.stringify(element)))
-        console.log(this.treatment_ls)
-    }
-    removeTreatment(element) {
-        this.treatment_ls.splice(this.treatment_ls.indexOf(element), 1)
-    }*/
-
     applyRestrictedShortText(input_event, regex_string, max_length){
         const input = input_event.target.value;
         const regex = new RegExp(regex_string, "g")
@@ -106,18 +89,54 @@ export class PgmEditConditionComponent implements OnInit {
         element.list_value.splice(index, 1)
     }
 
+    addSampleDisabled(){
+
+        {
+            var filled_out_ls = []
+            this.sample.forEach(field => {
+                if (field.mandatory) {
+                    if (field. position != "experimental_setting:conditions:biological_replicates:samples:technical_replicates"){
+
+                    if (field.input_type == "value_unit") {
+                        if (field.value && field.value_unit) {
+                          filled_out_ls.push(true)
+                      } else {
+                          filled_out_ls.push(false)
+                      }
+                    }else if (field.list || field.input_type == "single_autofill"){
+                        if (field.list_value.length > 0){
+                          filled_out_ls.push(true)
+                        } else {
+                          filled_out_ls.push(false)
+                        }
+                      }else {
+                          if (field.value) {
+                              filled_out_ls.push(true)
+                          } else {
+                              filled_out_ls.push(false)
+                          }
+                      } 
+
+                    }
+                }
+            })
+            console.log(filled_out_ls)
+            if (filled_out_ls.includes(false)) {
+                return true
+            } else {
+                return false
+            }
+        }
+       
+    }
+
     addSample() {
 
         if (this.sample.filter(e => e.position == 'experimental_setting:conditions:biological_replicates:samples:sample_name')[0].value != null) {
 
             this.testIfDisabledInputAdded()
-            //this.sample.filter(e => e.position == "experimental_setting:conditions:biological_replicates:samples:disease_information")[0].input_fields.filter(e => e.position == "experimental_setting:conditions:biological_replicates:samples:disease_information:disease")[0].list_value = this.desease_ls
-            //this.sample.filter(e => e.position == "experimental_setting:conditions:biological_replicates:samples:treatment_information")[0].input_fields.filter(e => e.position == "experimental_setting:conditions:biological_replicates:samples:treatment_information:treatment")[0].list_value = this.treatment_ls
             this.sample_ls.push(JSON.parse(JSON.stringify(this.sample)))
             this.sample = JSON.parse(JSON.stringify(this.original_sample))
-            /*this.desease_ls = []
-            this.treatment_ls = []*/
-            //this.gene_filtered_list = this.data.whitelist.gene.slice(0, 50)
             console.log(this.sample_ls)
             this.updateSampleNames()
         } else {

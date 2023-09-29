@@ -579,7 +579,7 @@
             </mat-card>
           </mat-card-content>
           <mat-card-actions>
-            <button name="Save Sample" mat-raised-button color="accent" (click)="addSample()"
+            <button name="Save Sample" mat-raised-button color="accent" [disabled]="addSampleDisabled()" (click)="addSample()"
               style="margin-right: 10px;">Save Sample</button>
             <button name="Save Condition" mat-raised-button mat-dialog-close color="accent"
               [mat-dialog-close]="sample_ls">Save
