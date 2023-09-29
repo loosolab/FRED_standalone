@@ -6,7 +6,7 @@ services:
     ports:
       - "4200:4200"  # Adjust the port if needed
     working_dir: /app/angular-interface
-    command: npm start  # Adjust the command to start your Angular app
+    command: ng serve --host 0.0.0.0  # Adjust the command to start your Angular app
     depends_on:
       - flask-gateway
 
@@ -15,6 +15,6 @@ services:
       context: ./flask-gateway
     ports:
       - "5000:5000"  # Adjust the port if needed
-    working_dir: /flask-gateway
+    working_dir: /app
     command: python app.py  # Adjust the command to start your Flask API
 
