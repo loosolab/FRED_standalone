@@ -364,7 +364,7 @@
                         <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
                           <div fxFlex="50%">
                             <mat-form-field color="accent" appearance="fill" class="full-form">
-                              <mat-label>{{inner_element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
+                              <mat-label>{{inner_element.displayName}}<sup *ngIf="inner_element.mandatory">*</sup></mat-label>
                               <input attr.data-type="{{inner_element.input_type}}-number"
                                 [name]="inner_element.position + ':value'" matInput type="number"
                                 [(ngModel)]="inner_element.value" [disabled]="inner_element.input_disabled">

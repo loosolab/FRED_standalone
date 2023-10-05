@@ -35,16 +35,10 @@
                     <ng-template #justInputBlock>
                         <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
 
-                            <div [fxFlex]="styling_vars.input_types.std" *ngIf="element.input_type == 'short_text'">
-                                <mat-form-field color="accent" appearance="fill" class="full-form"
-                                    style="margin-bottom: 25px;">
-                                    <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                                    <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                        [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                                    <!--<mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                    <mat-error *ngIf="element.error">{{element.error_text}}</mat-error>-->
-                                </mat-form-field>
-                            </div>
+                            <ng-container *ngIf="element.input_type == 'short_text'"
+                                [ngTemplateOutlet]="test_short_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
 
 
                             <div [fxFlex]="styling_vars.input_types.long_text[0]"
@@ -94,7 +88,8 @@
                                 </mat-form-field>
                             </div>
 
-                            <div [fxFlex]="styling_vars.input_types.std"  *ngIf="element.input_type == 'select' && !element.list">
+                            <div [fxFlex]="styling_vars.input_types.std"
+                                *ngIf="element.input_type == 'select' && !element.list">
                                 <mat-form-field color="accent" appearance="fill" class="full-form"
                                     style="margin-bottom: 25px;">
                                     <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
@@ -220,16 +215,24 @@
                                 </div>
                             </div>
 
+
+
+
                             <!--fxFlex="auto" not working for text wrap-->
-                            <div [fxFlex]="styling_vars.input_types.std" style="word-wrap: break-word; white-space: pre-wrap;" *ngIf="element.input_type != 'long_text'" [innerHTML]="element.desc">
+                            <div [fxFlex]="styling_vars.input_types.std"
+                                style="word-wrap: break-word; white-space: pre-wrap;"
+                                *ngIf="element.input_type != 'long_text'" [innerHTML]="element.desc">
                             </div>
 
-                            <div [fxFlex]="styling_vars.input_types.long_text[1]" *ngIf="element.input_type == 'long_text'"
-                                [innerHTML]="element.desc"> </div>
+                            <div [fxFlex]="styling_vars.input_types.long_text[1]"
+                                *ngIf="element.input_type == 'long_text'" [innerHTML]="element.desc"> </div>
                         </div>
 
+                        <ng-container *ngIf="element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(element.input_type)"
+                                [ngTemplateOutlet]="test_chip_grid"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
                         <!--Butten explizit in input felder, funktioniert da template???-->
-                        <div
+                        <!--<div
                             *ngIf="element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(element.input_type)">
                             <button mat-raised-button [name]="element.position + '_btn'"
                                 [disabled]="addDisabledToGenericList(element)" color="accent"
@@ -245,7 +248,7 @@
                                     </button>
                                 </mat-chip-option>
                             </mat-chip-listbox>
-                        </div>
+                        </div>-->
 
 
                     </ng-template>
@@ -263,7 +266,13 @@
                                 </mat-expansion-panel-header>
 
                                 <div *ngFor="let inner_element of element.input_fields">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
+
+                                    <ng-container *ngIf="inner_element.input_type == 'short_text'"
+                                        [ngTemplateOutlet]="test_short_text_template"
+                                        [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+
+                                    <!--<mat-form-field color="accent" appearance="fill" class="full-form"
                                         style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'short_text'">
                                         <mat-label>{{inner_element.displayName}}<sup
                                                 *ngIf="inner_element.mandatory">*</sup></mat-label>
@@ -271,7 +280,7 @@
                                             [name]="inner_element.position" matInput
                                             [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
                                         <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
+                                    </mat-form-field>-->
 
                                     <mat-form-field color="accent" appearance="fill" class="full-form"
                                         style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'long_text'">
@@ -491,6 +500,10 @@
                                         <div fxFlex></div>
 
                                     </mat-action-row>
+                                    <mat-card appearance="outlined" class="mat-elevation-z4">
+                                        <mat-card-content>
+                                            <div *ngIf="element.list_value.length == 0"  style="text-align: center; color:rgb(112, 112, 112)">No Elements Added HARDCODED</div>
+                                        
                                     <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
                                         <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%"
                                             *ngFor="let list_element of element.list_value">
@@ -531,6 +544,8 @@
                                             </mat-card>
                                         </div>
                                     </div>
+                                </mat-card-content>
+                            </mat-card>
                                 </div>
                             </mat-expansion-panel>
                         </mat-accordion>
@@ -1974,3 +1989,40 @@
         </mat-step>
     </mat-stepper>
 </div>
+
+<ng-template #test_short_text_template let-element="element">
+    <div [fxFlex]="styling_vars.input_types.std" *ngIf="element.input_type == 'short_text'">
+        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
+            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
+            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
+                [disabled]="element.input_disabled" [(ngModel)]="element.value">
+            <ng-container matSuffix *ngIf="element.list" [ngTemplateOutlet]="test_list_button"
+                [ngTemplateOutletContext]="{element: element}"></ng-container>
+        </mat-form-field>
+    </div>
+</ng-template>
+
+<ng-template #test_list_button let-element="element">
+    <button mat-icon-button [name]="element.position + '_btn'" [disabled]="addDisabledToGenericList(element)"
+        color="accent" (click)="addToGenericList(element)"><mat-icon>send</mat-icon></button>
+</ng-template>
+
+<ng-template #test_chip_grid let-element="element">
+
+    <mat-card appearance="outlined" style="margin-bottom: 40px;">
+        <mat-card-content>
+            <div *ngIf="element.list_value.length == 0" style="text-align: center; color:rgb(112, 112, 112)">No elements added HARDCODED</div>
+            <mat-chip-listbox>
+        <mat-chip-option *ngFor="let list_item of element.list_value"
+            style="border: 1px; border-color: black;border-style: solid;height: auto !important"
+            (removed)="deleteFromGenericList(element, list_item)">
+            {{list_item}}
+            <button matChipRemove style="color: red;">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-option>
+    </mat-chip-listbox>
+        </mat-card-content>
+    </mat-card>
+    
+</ng-template>
