@@ -25,7 +25,6 @@ export class PgmComponent implements OnInit {
   }
 
   inputSaved = false;
-
   disableAnimation = true;
   conditions = []
   selected_conditions = []
@@ -64,6 +63,8 @@ export class PgmComponent implements OnInit {
   ]
 
   autofill_filter_list = []
+
+  styling_vars = {input_types: {std: "50", long_text: ["70", "30"]}}
 
   constructor(
     /*private dialog: MatDialog,
