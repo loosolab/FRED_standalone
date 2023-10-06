@@ -199,7 +199,7 @@
   
               </ng-template>
               <ng-template #expandableBlock>
-                <mat-accordion>
+                <mat-accordion togglePosition="before">
                   <mat-expansion-panel style="margin-bottom: 15px;">
                     <mat-expansion-panel-header [attr.name]="element.position + '_exp'">
                       <mat-panel-title>
@@ -484,7 +484,7 @@
                 </div>
               </mat-card-header>
               <mat-card-content>
-                <mat-accordion>
+                <mat-accordion togglePosition="before">
                   <mat-expansion-panel style="margin-bottom: 10px">
                     <mat-expansion-panel-header>
                       <b>Details</b>
