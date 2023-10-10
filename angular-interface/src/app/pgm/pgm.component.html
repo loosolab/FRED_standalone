@@ -27,10 +27,10 @@
         <mat-step label="Details about Project" [color]=" object_errors.project.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <mat-label>
-                    <div [innerHTML]="apiService.empty_pgmMask.value.project.desc"
-                        style="margin-bottom: 50px; color:#da3030"></div>
-                </mat-label>
+                <ng-container  [ngTemplateOutlet]="step_header_desc"
+                                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.project.desc}"></ng-container>
+                
+                
                 <div *ngFor="let element of this.apiService.empty_pgmMask.value.project.input_fields">
 
                     <ng-template #justInputBlock>
@@ -71,22 +71,21 @@
                                 [ngTemplateOutlet]="value_unit_template"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                                <ng-container *ngIf="element.input_type != 'long_text'"
-                                [ngTemplateOutlet]="std_description"
+                            <ng-container *ngIf="element.input_type != 'long_text'" [ngTemplateOutlet]="std_description"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
-                            
-                                <ng-container *ngIf="element.input_type == 'long_text'"
+
+                            <ng-container *ngIf="element.input_type == 'long_text'"
                                 [ngTemplateOutlet]="long_text_description"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            
-                            </div>
+
+                        </div>
                         <ng-container
                             *ngIf="element.list && !['select', 'group_select'].includes(element.input_type) || element.input_type == 'single_autofill'"
                             [ngTemplateOutlet]="list_chip_grid_template"
                             [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                    
+
                     </ng-template>
 
                     <ng-template #expandableBlock>
@@ -103,289 +102,66 @@
 
                                 <div *ngFor="let inner_element of element.input_fields">
 
-                                    <!--ng-container *ngIf="inner_element.input_type == 'short_text'"
-                                        [ngTemplateOutlet]="short_text_template"
-                                        [ngTemplateOutletContext]="{element: inner_element}"></ng-container>-->
-
-
-                                    <!--<mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'short_text'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>-->
-
-                                    <!--<mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'long_text'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <textarea attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" spellcheck="false" matInput
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.value"></textarea>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field *ngIf="inner_element.input_type == 'restricted_short_text'"
-                                        color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" [disabled]="inner_element.input_disabled"
-                                            matInput [(ngModel)]="inner_element.value"
-                                            (keyup)="applyRestrictedShortText($event, inner_element.restriction.regex, inner_element.restriction.max_length, inner_element)"
-                                            #input>
-                                        <mat-hint align="start"
-                                            [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'number'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput type="number"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'date'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput disabled
-                                            [(ngModel)]="inner_element.value" [matDatepicker]="picker">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
-
-                                    </mat-form-field>
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'select' && !inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                            <mat-option [value]="value"
-                                                *ngFor="let value of inner_element.whitelist">{{value}}</mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'group_select' && !inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                            <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                [label]="group.title">
-                                                <mat-option *ngFor="let value of group.whitelist"
-                                                    [value]="value">{{value}}</mat-option>
-                                            </mat-optgroup>
-                                        </mat-select>
-                                        <mat-hint align="start"
-                                            [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'select' && inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position" multiple
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.list_value">
-                                            <mat-option [value]="value"
-                                                *ngFor="let value of inner_element.whitelist">{{value}}
-                                            </mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'group_select' && inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}" multiple
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.list_value">
-                                            <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                [label]="group.title">
-                                                <mat-option *ngFor="let value of group.whitelist"
-                                                    [value]="value">{{value}}</mat-option>
-                                            </mat-optgroup>
-                                        </mat-select>
-                                        <mat-hint align="start"
-                                            [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                    </mat-form-field>
-
-
-                                    <div style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'">
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 10px;">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input (paste)="(false)" attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position"
-                                                [disabled]="(inner_element.input_type == 'single_autofill' && inner_element.list_value.length >= 1) || element.input_disabled"
-                                                matInput [matChipInputFor]="chipGrid"
-                                                (keyup)="applySearchFilter(input.value, inner_element.search_info)"
-                                                [matAutocomplete]="auto" #input>
-                                            <mat-autocomplete #auto="matAutocomplete"
-                                                (optionSelected)="selectSomeValues($event.option.value, inner_element);input.value=''">
-                                                <mat-option *ngFor="let value of autofill_filter_list" [value]="value">
-                                                    {{value}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                            <button [name]="inner_element.position + '_btn'" *ngIf="input.value"
-                                                color="accent" matSuffix mat-icon-button aria-label="Clear"
-                                                (click)="input.value=''">
-                                                <mat-icon>close</mat-icon>
-                                            </button>
-                                            <mat-hint align="start"
-                                                [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                        </mat-form-field>
-                                        <mat-chip-grid #chipGrid>
-                                            <mat-chip-row *ngFor="let value of inner_element.list_value"
-                                                style="border: 1px; border-color: black;border-style: solid;"
-                                                (removed)="unselectValue(value, inner_element)"
-                                                [disabled]="inner_element.input_disabled">
-                                                {{value}}
-                                                <button matChipRemove style="color: red;">
-                                                    <mat-icon>cancel</mat-icon>
-                                                </button>
-                                            </mat-chip-row>
-                                        </mat-chip-grid>
-
-                                    </div>
-
-                                    <div *ngIf="inner_element.input_type == 'value_unit'" style="margin-bottom: 25px;">
-                                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                            <div fxFlex="50%">
-                                                <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                    <mat-label>{{inner_element.displayName}}<sup
-                                                            *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                                    <input attr.data-type="{{inner_element.input_type}}-number"
-                                                        [name]="inner_element.position + ':value'" matInput
-                                                        type="number" [(ngModel)]="inner_element.value"
-                                                        [disabled]="inner_element.input_disabled">
-                                                    <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                                </mat-form-field>
-                                            </div>
-                                            <div fxFlex="50%">
-                                                <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                    <mat-label>Unit</mat-label>
-                                                    <mat-select attr.data-type="{{inner_element.input_type}}-select"
-                                                        [attr.name]="inner_element.position + ':unit'"
-                                                        [(ngModel)]="inner_element.value_unit"
-                                                        [disabled]="inner_element.input_disabled">
-                                                        <mat-option [value]="value_unit"
-                                                            *ngFor="let value_unit of inner_element.whitelist">
-                                                            {{value_unit}}</mat-option>
-                                                    </mat-select>
-                                                    <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-
-                                    <div
-                                        *ngIf="inner_element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(inner_element.input_type)">
-                                        <button [name]="inner_element.position + '_btn'" mat-raised-button
-                                            [disabled]="addDisabledToGenericList(inner_element)" color="accent"
-                                            (click)="addToGenericList(inner_element)">Add to
-                                            {{inner_element.displayName}}</button>
-
-                                        <mat-chip-listbox style="margin-bottom: 25px;">
-                                            <mat-chip-option *ngFor="let list_item of inner_element.list_value"
-                                                style="border: 1px; border-color: black;border-style: solid;height: auto !important"
-                                                (removed)="deleteFromGenericList(inner_element, list_item)">
-                                                {{list_item}}
-                                                <button matChipRemove style="color: red;">
-                                                    <mat-icon>cancel</mat-icon>
-                                                </button>
-                                            </mat-chip-option>
-                                        </mat-chip-listbox>
-
-                                    </div>-->
-
                                     <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
 
                                         <ng-container *ngIf="inner_element.input_type == 'short_text'"
                                             [ngTemplateOutlet]="short_text_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
+
                                         <ng-container *ngIf="inner_element.input_type == 'long_text'"
                                             [ngTemplateOutlet]="long_text_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
+
                                         <ng-container *ngIf="inner_element.input_type == 'restricted_short_text'"
                                             [ngTemplateOutlet]="restricted_short_text_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-                                        <ng-container *ngIf="inner_element.input_type == 'number'" [ngTemplateOutlet]="number_template"
+
+                                        <ng-container *ngIf="inner_element.input_type == 'number'"
+                                            [ngTemplateOutlet]="number_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-                                        <ng-container *ngIf="inner_element.input_type == 'date'" [ngTemplateOutlet]="date_template"
+
+                                        <ng-container *ngIf="inner_element.input_type == 'date'"
+                                            [ngTemplateOutlet]="date_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-                                        <ng-container *ngIf="inner_element.input_type == 'select'" [ngTemplateOutlet]="select_template"
+
+                                        <ng-container *ngIf="inner_element.input_type == 'select'"
+                                            [ngTemplateOutlet]="select_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
+
                                         <ng-container *ngIf="inner_element.input_type == 'group_select'"
                                             [ngTemplateOutlet]="group_select_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
+
                                         <ng-container
                                             *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'"
                                             [ngTemplateOutlet]="autofill_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-            
+
+
                                         <ng-container *ngIf="inner_element.input_type == 'value_unit'"
                                             [ngTemplateOutlet]="value_unit_template"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-                                            <ng-container *ngIf="inner_element.input_type != 'long_text'"
+
+                                        <ng-container *ngIf="inner_element.input_type != 'long_text'"
                                             [ngTemplateOutlet]="std_description"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-                                        
-                                            <ng-container *ngIf="inner_element.input_type == 'long_text'"
+
+                                        <ng-container *ngIf="inner_element.input_type == 'long_text'"
                                             [ngTemplateOutlet]="long_text_description"
                                             [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
-            
-                                        
-                                        </div>
+
+
+                                    </div>
                                     <ng-container
                                         *ngIf="inner_element.list && !['select', 'group_select'].includes(inner_element.input_type) || inner_element.input_type == 'single_autofill'"
                                         [ngTemplateOutlet]="list_chip_grid_template"
                                         [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
                                 </div>
-                                
-                                <ng-container *ngIf="element.list"
-                                [ngTemplateOutlet]="expandable_list_template"
-                                        [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                                <div *ngIf="element.list">
-                                    
-                                </div>
+                                <ng-container *ngIf="element.list" [ngTemplateOutlet]="expandable_list_template"
+                                    [ngTemplateOutletContext]="{element: element}"></ng-container>
+
+
                             </mat-expansion-panel>
                         </mat-accordion>
                     </ng-template>
@@ -404,7 +180,10 @@
             [color]=" object_errors.experimental_setting.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <mat-label>
+                <ng-container  [ngTemplateOutlet]="step_header_desc"
+                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.experimental_setting.desc}"></ng-container>
+
+                <!--<mat-label>
                     <div [innerHTML]="apiService.empty_pgmMask.value.experimental_setting.desc"></div>
                     <br>
                     You need to set the organism with the button next to the input field.
@@ -412,184 +191,61 @@
                     the
                     'Clear Organism' button.
                     After you filled out everything you need to press the "Save Experimental Setting" button.
-                </mat-label>
+                </mat-label>-->
                 <div *ngFor="let element of apiService.empty_pgmMask.value.experimental_setting.input_fields">
 
                     <ng-template #justInputBlock>
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'short_text'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'long_text'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <textarea attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value"></textarea>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'short_text'"
+                                [ngTemplateOutlet]="short_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field *ngIf="element.input_type == 'restricted_short_text'" color="accent"
-                            appearance="fill" class="full-form" style="margin-bottom: 25px;">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position"
-                                [disabled]="element.input_disabled" matInput [(ngModel)]="element.value"
-                                (keyup)="applyRestrictedShortText($event, element.restriction.regex, element.restriction.max_length, element)"
-                                #input>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'long_text'"
+                                [ngTemplateOutlet]="long_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'date'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput disabled
-                                [(ngModel)]="element.value" [matDatepicker]="picker">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
+                            <ng-container *ngIf="element.input_type == 'restricted_short_text'"
+                                [ngTemplateOutlet]="restricted_short_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'select'  && !element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position"
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                                <mat-option [value]="value" *ngFor="let value of element.whitelist">{{value}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'number'" [ngTemplateOutlet]="number_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'group_select' && !element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position"
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                                <mat-optgroup *ngFor="let group of element.whitelist" [label]="group.title">
-                                    <mat-option *ngFor="let value of group.whitelist"
-                                        [value]="value">{{value}}</mat-option>
-                                </mat-optgroup>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'date'" [ngTemplateOutlet]="date_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'select' && element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position" multiple
-                                [disabled]="element.input_disabled" [(ngModel)]="element.list_value">
-                                <mat-option [value]="value" *ngFor="let value of element.whitelist">{{value}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'select'" [ngTemplateOutlet]="select_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'group_select' && element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position" multiple
-                                [disabled]="element.input_disabled" [(ngModel)]="element.list_value">
-                                <mat-optgroup *ngFor="let group of element.whitelist" [label]="group.title">
-                                    <mat-option *ngFor="let value of group.whitelist"
-                                        [value]="value">{{value}}</mat-option>
-                                </mat-optgroup>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'group_select'"
+                                [ngTemplateOutlet]="group_select_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'number'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                type="number" [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container
+                                *ngIf="element.input_type == 'single_autofill' || element.input_type == 'multi_autofill'"
+                                [ngTemplateOutlet]="autofill_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <div style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'single_autofill' || element.input_type == 'multi_autofill'">
 
-                            <mat-form-field color="accent" appearance="fill" class="full-form"
-                                style="margin-bottom: 10px;">
-                                <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                                <input (paste)="(false)" attr.data-type="{{element.input_type}}"
-                                    [name]="element.position"
-                                    [disabled]="(element.input_type == 'single_autofill' && element.list_value.length >= 1) || element.input_disabled"
-                                    matInput [matChipInputFor]="chipGrid"
-                                    (keyup)="applySearchFilter(input.value, element.search_info)"
-                                    [matAutocomplete]="auto" #input>
-                                <mat-autocomplete #auto="matAutocomplete"
-                                    (optionSelected)="selectSomeValues($event.option.value, element);input.value=''">
-                                    <mat-option *ngFor="let value of autofill_filter_list" [value]="value">
-                                        {{value}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <button [name]="element.position + '_btn'" *ngIf="input.value" color="accent" matSuffix
-                                    mat-icon-button aria-label="Clear" (click)="input.value=''">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                                <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                            </mat-form-field>
-                            <mat-chip-grid #chipGrid>
-                                <mat-chip-row *ngFor="let value of element.list_value"
-                                    style="border: 1px; border-color: black;border-style: solid;"
-                                    (removed)="unselectValue(value, element)" [disabled]="element.input_disabled">
-                                    {{value}}
-                                    <button matChipRemove style="color: red;">
-                                        <mat-icon>cancel</mat-icon>
-                                    </button>
-                                </mat-chip-row>
-                            </mat-chip-grid>
+                            <ng-container *ngIf="element.input_type == 'value_unit'"
+                                [ngTemplateOutlet]="value_unit_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
+                            <ng-container *ngIf="element.input_type != 'long_text'" [ngTemplateOutlet]="std_description"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
+                            <ng-container *ngIf="element.input_type == 'long_text'"
+                                [ngTemplateOutlet]="long_text_description"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
 
                         </div>
+                        <ng-container
+                            *ngIf="element.list && !['select', 'group_select'].includes(element.input_type) || element.input_type == 'single_autofill'"
+                            [ngTemplateOutlet]="list_chip_grid_template"
+                            [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <div *ngIf="element.input_type == 'value_unit'" style="margin-bottom: 25px;">
-                            <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                <div fxFlex="50%">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                        <mat-label>{{element.displayName}}<sup
-                                                *ngIf="element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{element.input_type}}-number"
-                                            [name]="element.position + ':value'" matInput type="number"
-                                            [(ngModel)]="element.value" [disabled]="element.input_disabled">
-                                        <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="50%">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                        <mat-label>Unit</mat-label>
-                                        <mat-select attr.data-type="{{element.input_type}}-select"
-                                            [attr.name]="element.position + ':unit'" [(ngModel)]="element.value_unit"
-                                            [disabled]="element.input_disabled">
-                                            <mat-option [value]="value_unit"
-                                                *ngFor="let value_unit of element.whitelist">
-                                                {{value_unit}}</mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            *ngIf="element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(element.input_type)">
-                            <button mat-raised-button [name]="element.position + '_btn'"
-                                [disabled]="addDisabledToGenericList(element)" color="accent"
-                                style="margin-bottom: 10px;" (click)="addToGenericList(element)">Add to
-                                {{element.displayName}}</button>
-                            <mat-chip-listbox style="margin-bottom: 25px;">
-                                <mat-chip-option *ngFor="let list_item of element.list_value"
-                                    style="border: 1px; border-color: black;border-style: solid;height: auto !important"
-                                    (removed)="deleteFromGenericList(element, list_item)">
-                                    {{list_item}}
-                                    <button matChipRemove style="color: red;">
-                                        <mat-icon>cancel</mat-icon>
-                                    </button>
-                                </mat-chip-option>
-                            </mat-chip-listbox>
-                        </div>
 
                         <div *ngIf="element.input_type =='organism_name'">
                             <div fxLayout="row wrap" fxLayoutGap="16px grid">
@@ -648,286 +304,65 @@
 
                                     <div *ngFor="let inner_element of element.input_fields">
 
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 10px;"
-                                            *ngIf="inner_element.input_type == 'short_text'">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position" matInput
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.value">
-                                            <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                        </mat-form-field>
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 10px;"
-                                            *ngIf="inner_element.input_type == 'long_text'">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <textarea attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position" matInput
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.value"></textarea>
-                                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field *ngIf="inner_element.input_type == 'restricted_short_text'"
-                                            color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position"
-                                                [disabled]="inner_element.input_disabled" matInput
-                                                [(ngModel)]="inner_element.value"
-                                                (keyup)="applyRestrictedShortText($event, inner_element.restriction.regex, inner_element.restriction.max_length, inner_element)"
-                                                #input>
-                                            <mat-hint align="start"
-                                                [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'number'">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position" matInput type="number"
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.value">
-                                            <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'date'">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position" matInput disabled
-                                                [(ngModel)]="inner_element.value" [matDatepicker]="picker">
-                                            <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
-
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 10px;"
-                                            *ngIf="inner_element.input_type == 'select' && !inner_element.list">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <mat-select attr.data-type="{{inner_element.input_type}}"
-                                                [attr.name]="inner_element.position"
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.value">
-                                                <mat-option [value]="value"
-                                                    *ngFor="let value of inner_element.whitelist">{{value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;"
-                                            *ngIf="inner_element.input_type == 'group_select' && !inner_element.list">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <mat-select attr.data-type="{{inner_element.input_type}}"
-                                                [attr.name]="inner_element.position"
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.value">
-                                                <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                    [label]="group.title">
-                                                    <mat-option *ngFor="let value of group.whitelist"
-                                                        [value]="value">{{value}}</mat-option>
-                                                </mat-optgroup>
-                                            </mat-select>
-                                            <mat-hint align="start"
-                                                [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;"
-                                            *ngIf="inner_element.input_type == 'select' && inner_element.list">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <mat-select attr.data-type="{{inner_element.input_type}}"
-                                                [attr.name]="inner_element.position" multiple
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.list_value">
-                                                <mat-option [value]="value"
-                                                    *ngFor="let value of inner_element.whitelist">{{value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                        </mat-form-field>
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 25px;"
-                                            *ngIf="inner_element.input_type == 'group_select' && inner_element.list">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <mat-select attr.data-type="{{inner_element.input_type}}" multiple
-                                                [attr.name]="inner_element.position"
-                                                [disabled]="inner_element.input_disabled"
-                                                [(ngModel)]="inner_element.list_value">
-                                                <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                    [label]="group.title">
-                                                    <mat-option *ngFor="let value of group.whitelist"
-                                                        [value]="value">{{value}}</mat-option>
-                                                </mat-optgroup>
-                                            </mat-select>
-                                            <mat-hint align="start"
-                                                [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                        </mat-form-field>
-
-
-                                        <div style="margin-bottom: 25px;"
-                                            *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'">
-
-                                            <mat-form-field color="accent" appearance="fill" class="full-form"
-                                                style="margin-bottom: 10px;">
-                                                <mat-label>{{inner_element.displayName}}<sup
-                                                        *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                                <input (paste)="(false)" attr.data-type="{{inner_element.input_type}}"
-                                                    [name]="inner_element.position"
-                                                    [disabled]="(inner_element.input_type == 'single_autofill' && inner_element.list_value.length >= 1) || element.input_disabled"
-                                                    matInput [matChipInputFor]="chipGrid"
-                                                    (keyup)="applySearchFilter(input.value, inner_element.search_info)"
-                                                    [matAutocomplete]="auto" #input>
-                                                <mat-autocomplete #auto="matAutocomplete"
-                                                    (optionSelected)="selectSomeValues($event.option.value, inner_element);input.value=''">
-                                                    <mat-option *ngFor="let value of autofill_filter_list"
-                                                        [value]="value">
-                                                        {{value}}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                                <button [name]="inner_element.position + '_btn'" *ngIf="input.value"
-                                                    color="accent" matSuffix mat-icon-button aria-label="Clear"
-                                                    (click)="input.value=''">
-                                                    <mat-icon>close</mat-icon>
-                                                </button>
-                                                <mat-hint align="start"
-                                                    [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                            </mat-form-field>
-                                            <mat-chip-grid #chipGrid>
-                                                <mat-chip-row *ngFor="let value of inner_element.list_value"
-                                                    style="border: 1px; border-color: black;border-style: solid;"
-                                                    (removed)="unselectValue(value, inner_element)"
-                                                    [disabled]="inner_element.input_disabled">
-                                                    {{value}}
-                                                    <button matChipRemove style="color: red;">
-                                                        <mat-icon>cancel</mat-icon>
-                                                    </button>
-                                                </mat-chip-row>
-                                            </mat-chip-grid>
-                                        </div>
-
-                                        <div *ngIf="inner_element.input_type == 'value_unit'"
-                                            style="margin-bottom: 25px;">
-                                            <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                                <div fxFlex="50%">
-                                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                        <mat-label>{{inner_element.displayName}}<sup
-                                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                                        <input attr.data-type="{{inner_element.input_type}}-number"
-                                                            [name]="inner_element.position + ':value'" matInput
-                                                            type="number" [(ngModel)]="inner_element.value"
-                                                            [disabled]="inner_element.input_disabled">
-                                                        <mat-hint align="start"
-                                                            [innerHTML]="inner_element.desc"></mat-hint>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div fxFlex="50%">
-                                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                        <mat-label>Unit</mat-label>
-                                                        <mat-select attr.data-type="{{inner_element.input_type}}-select"
-                                                            [attr.name]="inner_element.position + ':unit'"
-                                                            [(ngModel)]="inner_element.value_unit"
-                                                            [disabled]="inner_element.input_disabled">
-                                                            <mat-option [value]="value_unit"
-                                                                *ngFor="let value_unit of inner_element.whitelist">
-                                                                {{value_unit}}</mat-option>
-                                                        </mat-select>
-                                                        <mat-hint align="start"
-                                                            [innerHTML]="inner_element.desc"></mat-hint>
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            *ngIf="inner_element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(inner_element.input_type)">
-                                            <button [name]="inner_element.position + '_btn'" mat-raised-button
-                                                [disabled]="addDisabledToGenericList(inner_element)" color="accent"
-                                                (click)="addToGenericList(inner_element)">Add to
-                                                {{inner_element.displayName}}</button>
-
-                                            <mat-chip-listbox style="margin-bottom: 10px;">
-                                                <mat-chip-option *ngFor="let list_item of inner_element.list_value"
-                                                    style="border: 1px; border-color: black;border-style: solid;height: auto !important"
-                                                    (removed)="deleteFromGenericList(inner_element, list_item)">
-                                                    {{list_item}}
-                                                    <button matChipRemove style="color: red;">
-                                                        <mat-icon>cancel</mat-icon>
-                                                    </button>
-                                                </mat-chip-option>
-                                            </mat-chip-listbox>
-
-                                        </div>
-                                    </div>
-
-                                    <div *ngIf="element.list">
-                                        <mat-action-row>
-                                            <button [name]="element.position + '_btn'" mat-raised-button color="accent"
-                                                style="margin-bottom: 10px;" (click)="addToGenericExpandable(element)"
-                                                [disabled]="addDisabledToGenericExpandable(element)">
-                                                Add to {{element.title}}
-                                            </button>
-                                            <div fxFlex></div>
-
-                                        </mat-action-row>
                                         <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                                *ngFor="let list_element of element.list_value">
-                                                <mat-card appearance="outlined" class="mat-elevation-z4">
-                                                    <mat-card-content>
-                                                        <mat-list>
-                                                            <div *ngFor="let field of list_element">
-                                                                <mat-list-item
-                                                                    *ngIf="field.value || field.list_value && field.list_value.length > 0">
-                                                                    <div matListItemTitle>{{field.displayName}}:
-                                                                    </div>
-                                                                    <div matListItemLine
-                                                                        *ngIf="field.input_type=='date'">
-                                                                        {{field.list_value}}{{field.value |
-                                                                        date:
-                                                                        "dd. MMM yyyy"}}
-                                                                        {{field.value_unit}}
-                                                                    </div>
-                                                                    <div matListItemLine
-                                                                        *ngIf="field.input_type!='date'">
-                                                                        {{field.list_value}}{{field.value}}
-                                                                        {{field.value_unit}}
-                                                                    </div>
-                                                                </mat-list-item>
-                                                            </div>
-                                                        </mat-list>
-                                                    </mat-card-content>
-                                                    <mat-card-actions align="end">
-                                                        <button mat-icon-button color="accent"
-                                                            (click)="editGenericExpandable(element, list_element)">
-                                                            <mat-icon>edit</mat-icon>
-                                                        </button><button mat-icon-button color="warn"
-                                                            [disabled]="deleteDisabledFromGenericExpandable(list_element)"
-                                                            (click)="deleteFromGenericExpandable(element, list_element)">
-                                                            <mat-icon>delete</mat-icon>
-                                                        </button>
 
-                                                    </mat-card-actions>
-                                                </mat-card>
-                                            </div>
+                                            <ng-container *ngIf="inner_element.input_type == 'short_text'"
+                                                [ngTemplateOutlet]="short_text_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'long_text'"
+                                                [ngTemplateOutlet]="long_text_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'restricted_short_text'"
+                                                [ngTemplateOutlet]="restricted_short_text_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'number'"
+                                                [ngTemplateOutlet]="number_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'date'"
+                                                [ngTemplateOutlet]="date_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'select'"
+                                                [ngTemplateOutlet]="select_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'group_select'"
+                                                [ngTemplateOutlet]="group_select_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container
+                                                *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'"
+                                                [ngTemplateOutlet]="autofill_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+
+                                            <ng-container *ngIf="inner_element.input_type == 'value_unit'"
+                                                [ngTemplateOutlet]="value_unit_template"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type != 'long_text'"
+                                                [ngTemplateOutlet]="std_description"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                            <ng-container *ngIf="inner_element.input_type == 'long_text'"
+                                                [ngTemplateOutlet]="long_text_description"
+                                                [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+
                                         </div>
+                                        <ng-container
+                                            *ngIf="inner_element.list && !['select', 'group_select'].includes(inner_element.input_type) || inner_element.input_type == 'single_autofill'"
+                                            [ngTemplateOutlet]="list_chip_grid_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
                                     </div>
+
+                                    <ng-container *ngIf="element.list" [ngTemplateOutlet]="expandable_list_template"
+                                        [ngTemplateOutletContext]="{element: element}"></ng-container>
+
                                 </div>
                                 <div *ngIf="element.position == 'experimental_setting:experimental_factors'">
                                     <div [innerHTML]="element.desc"></div>
@@ -1258,190 +693,69 @@
         <mat-step label="Technical Details" [color]=" object_errors.technical_details.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <mat-label>
+                <ng-container  [ngTemplateOutlet]="step_header_desc"
+                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.technical_details.desc}"></ng-container>
+
+                <!--<mat-label>
                     <div [innerHTML]="apiService.empty_pgmMask.value.technical_details.desc"></div>
-                </mat-label>
+                </mat-label>-->
                 <div *ngFor="let element of this.apiService.empty_pgmMask.value.technical_details.input_fields">
 
                     <ng-template #justInputBlock>
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'short_text'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
+                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
 
-                        </mat-form-field>
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'long_text'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <textarea attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value"></textarea>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'short_text'"
+                                [ngTemplateOutlet]="short_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field *ngIf="element.input_type == 'restricted_short_text'" color="accent"
-                            appearance="fill" class="full-form" style="margin-bottom: 25px;">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position"
-                                [disabled]="element.input_disabled" matInput [(ngModel)]="element.value"
-                                (keyup)="applyRestrictedShortText($event, element.restriction.regex, element.restriction.max_length, element)"
-                                #input>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'long_text'"
+                                [ngTemplateOutlet]="long_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'number'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
-                                type="number" [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'restricted_short_text'"
+                                [ngTemplateOutlet]="restricted_short_text_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'date'">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput disabled
-                                [(ngModel)]="element.value" [matDatepicker]="picker">
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
+                            <ng-container *ngIf="element.input_type == 'number'" [ngTemplateOutlet]="number_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            <mat-datepicker-toggle [attr.name]="element.position + '_btn'" matSuffix
-                                [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'date'" [ngTemplateOutlet]="date_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'select' && !element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position"
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                                <mat-option [value]="value" *ngFor="let value of element.whitelist">{{value}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'select'" [ngTemplateOutlet]="select_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'group_select' && !element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position"
-                                [disabled]="element.input_disabled" [(ngModel)]="element.value">
-                                <mat-optgroup *ngFor="let group of element.whitelist" [label]="group.title">
-                                    <mat-option *ngFor="let value of group.whitelist"
-                                        [value]="value">{{value}}</mat-option>
-                                </mat-optgroup>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                        </mat-form-field>
+                            <ng-container *ngIf="element.input_type == 'group_select'"
+                                [ngTemplateOutlet]="group_select_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'select' && element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position" multiple
-                                [disabled]="element.input_disabled" [(ngModel)]="element.list_value">
-                                <mat-option [value]="value" *ngFor="let value of element.whitelist">{{value}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                        </mat-form-field>
-
-                        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'group_select' && element.list">
-                            <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                            <mat-select attr.data-type="{{element.input_type}}" [attr.name]="element.position" multiple
-                                [disabled]="element.input_disabled" [(ngModel)]="element.list_value">
-                                <mat-optgroup *ngFor="let group of element.whitelist" [label]="group.title">
-                                    <mat-option *ngFor="let value of group.whitelist"
-                                        [value]="value">{{value}}</mat-option>
-                                </mat-optgroup>
-                            </mat-select>
-                            <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                        </mat-form-field>
+                            <ng-container
+                                *ngIf="element.input_type == 'single_autofill' || element.input_type == 'multi_autofill'"
+                                [ngTemplateOutlet]="autofill_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
 
-                        <div style="margin-bottom: 25px;"
-                            *ngIf="element.input_type == 'single_autofill' || element.input_type == 'multi_autofill'">
+                            <ng-container *ngIf="element.input_type == 'value_unit'"
+                                [ngTemplateOutlet]="value_unit_template"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            <mat-form-field color="accent" appearance="fill" class="full-form"
-                                style="margin-bottom: 25px;">
-                                <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-                                <input (paste)="(false)" attr.data-type="{{element.input_type}}"
-                                    [name]="element.position"
-                                    [disabled]="(element.input_type == 'single_autofill' && element.list_value.length >= 1) || element.input_disabled"
-                                    matInput [matChipInputFor]="chipGrid"
-                                    (keyup)="applySearchFilter(input.value, element.search_info)"
-                                    [matAutocomplete]="auto" #input>
-                                <mat-autocomplete #auto="matAutocomplete"
-                                    (optionSelected)="selectSomeValues($event.option.value, element);input.value=''">
-                                    <mat-option *ngFor="let value of autofill_filter_list" [value]="value">
-                                        {{value}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                                <button [name]="element.position + '_btn'" *ngIf="input.value" color="accent" matSuffix
-                                    mat-icon-button aria-label="Clear" (click)="input.value=''">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                                <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
-                            </mat-form-field>
-                            <mat-chip-grid #chipGrid>
-                                <mat-chip-row *ngFor="let value of element.list_value"
-                                    style="border: 1px; border-color: black;border-style: solid;"
-                                    (removed)="unselectValue(value, element)" [disabled]="element.input_disabled">
-                                    {{value}}
-                                    <button matChipRemove style="color: red;">
-                                        <mat-icon>cancel</mat-icon>
-                                    </button>
-                                </mat-chip-row>
-                            </mat-chip-grid>
+                            <ng-container *ngIf="element.input_type != 'long_text'" [ngTemplateOutlet]="std_description"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
+                            <ng-container *ngIf="element.input_type == 'long_text'"
+                                [ngTemplateOutlet]="long_text_description"
+                                [ngTemplateOutletContext]="{element: element}"></ng-container>
+
 
                         </div>
+                        <ng-container
+                            *ngIf="element.list && !['select', 'group_select'].includes(element.input_type) || element.input_type == 'single_autofill'"
+                            [ngTemplateOutlet]="list_chip_grid_template"
+                            [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                        <div *ngIf="element.input_type == 'value_unit'" style="margin-bottom: 25px;">
-                            <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                <div fxFlex="50%">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                        <mat-label>{{element.displayName}}<sup
-                                                *ngIf="element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{element.input_type}}-number"
-                                            [name]="element.position + ':value'" matInput type="number"
-                                            [(ngModel)]="element.value" [disabled]="element.input_disabled">
-                                        <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="50%">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form">
-                                        <mat-label>Unit</mat-label>
-                                        <mat-select attr.data-type="{{element.input_type}}-select"
-                                            [attr.name]="element.position + ':unit'" [(ngModel)]="element.value_unit"
-                                            [disabled]="element.input_disabled">
-                                            <mat-option [value]="value_unit"
-                                                *ngFor="let value_unit of element.whitelist">
-                                                {{value_unit}}</mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div
-                            *ngIf="element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(element.input_type)">
-                            <button [name]="element.position + '_btn'" mat-raised-button
-                                [disabled]="addDisabledToGenericList(element)" color="accent"
-                                (click)="addToGenericList(element)">Add to
-                                {{element.displayName}}</button>
-                            <mat-chip-listbox style="margin-bottom: 10px;">
-                                <mat-chip-option *ngFor="let list_item of element.list_value"
-                                    style="border: 1px; border-color: black;border-style: solid;height: auto !important"
-                                    (removed)="deleteFromGenericList(element, list_item)">
-                                    {{list_item}}
-                                    <button matChipRemove style="color: red;">
-                                        <mat-icon>cancel</mat-icon>
-                                    </button>
-                                </mat-chip-option>
-                            </mat-chip-listbox>
-                        </div>
                     </ng-template>
+
 
                     <ng-template #expandableBlock>
                         <mat-accordion togglePosition="before">
@@ -1456,274 +770,66 @@
                                 </mat-expansion-panel-header>
 
                                 <div *ngFor="let inner_element of element.input_fields">
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'short_text'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-
-                                    </mat-form-field>
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'long_text'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <textarea attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.value"></textarea>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field *ngIf="inner_element.input_type == 'restricted_short_text'"
-                                        color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" [disabled]="inner_element.input_disabled"
-                                            matInput [(ngModel)]="inner_element.value"
-                                            (keyup)="applyRestrictedShortText($event, inner_element.restriction.regex, inner_element.restriction.max_length, inner_element)"
-                                            #input>
-                                        <mat-hint align="start"
-                                            [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'number'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput type="number"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;" *ngIf="inner_element.input_type == 'date'">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <input attr.data-type="{{inner_element.input_type}}"
-                                            [name]="inner_element.position" matInput disabled
-                                            [(ngModel)]="inner_element.value" [matDatepicker]="picker">
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-
-                                        <mat-datepicker-toggle [attr.name]="inner_element.position + '_btn'" matSuffix
-                                            [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
-                                    </mat-form-field>
-
-
-
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'select' && !inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                            <mat-option [value]="value"
-                                                *ngFor="let value of inner_element.whitelist">{{value}}
-                                            </mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'group_select' && !inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled" [(ngModel)]="inner_element.value">
-                                            <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                [label]="group.title">
-                                                <mat-option *ngFor="let value of group.whitelist"
-                                                    [value]="value">{{value}}</mat-option>
-                                            </mat-optgroup>
-                                        </mat-select>
-                                        <mat-hint align="start"
-                                            [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'select' && inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}"
-                                            [attr.name]="inner_element.position" multiple
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.list_value">
-                                            <mat-option [value]="value"
-                                                *ngFor="let value of inner_element.whitelist">{{value}}
-                                            </mat-option>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                        *ngIf="inner_element.input_type == 'group_select' && inner_element.list">
-                                        <mat-label>{{inner_element.displayName}}<sup
-                                                *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                        <mat-select attr.data-type="{{inner_element.input_type}}" multiple
-                                            [attr.name]="inner_element.position"
-                                            [disabled]="inner_element.input_disabled"
-                                            [(ngModel)]="inner_element.list_value">
-                                            <mat-optgroup *ngFor="let group of inner_element.whitelist"
-                                                [label]="group.title">
-                                                <mat-option *ngFor="let value of group.whitelist"
-                                                    [value]="value">{{value}}</mat-option>
-                                            </mat-optgroup>
-                                        </mat-select>
-                                        <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                    </mat-form-field>
-
-                                    <div style="margin-bottom: 25px;"
-                                        *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'">
-
-                                        <mat-form-field color="accent" appearance="fill" class="full-form"
-                                            style="margin-bottom: 10px;">
-                                            <mat-label>{{inner_element.displayName}}<sup
-                                                    *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                            <input (paste)="(false)" attr.data-type="{{inner_element.input_type}}"
-                                                [name]="inner_element.position"
-                                                [disabled]="(inner_element.input_type == 'single_autofill' && inner_element.list_value.length >= 1) || element.input_disabled"
-                                                matInput [matChipInputFor]="chipGrid"
-                                                (keyup)="applySearchFilter(input.value, inner_element.search_info)"
-                                                [matAutocomplete]="auto" #input>
-                                            <mat-autocomplete #auto="matAutocomplete"
-                                                (optionSelected)="selectSomeValues($event.option.value, inner_element);input.value=''">
-                                                <mat-option *ngFor="let value of autofill_filter_list" [value]="value">
-                                                    {{value}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                            <button [name]="inner_element.position + '_btn'" *ngIf="input.value"
-                                                color="accent" matSuffix mat-icon-button aria-label="Clear"
-                                                (click)="input.value=''">
-                                                <mat-icon>close</mat-icon>
-                                            </button>
-                                            <mat-hint align="start"
-                                                [innerHTML]="inner_element.desc">{{inner_element.desc}}</mat-hint>
-                                        </mat-form-field>
-                                        <mat-chip-grid #chipGrid>
-                                            <mat-chip-row *ngFor="let value of inner_element.list_value"
-                                                style="border: 1px; border-color: black;border-style: solid;"
-                                                (removed)="unselectValue(value, inner_element)"
-                                                [disabled]="inner_element.input_disabled">
-                                                {{value}}
-                                                <button matChipRemove style="color: red;">
-                                                    <mat-icon>cancel</mat-icon>
-                                                </button>
-                                            </mat-chip-row>
-                                        </mat-chip-grid>
-
-                                    </div>
-
-                                    <div *ngIf="inner_element.input_type == 'value_unit'" style="margin-bottom: 25px;">
-                                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                            <div fxFlex="50%">
-                                                <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                    <mat-label>{{inner_element.displayName}}<sup
-                                                            *ngIf="inner_element.mandatory">*</sup></mat-label>
-                                                    <input attr.data-type="{{inner_element.input_type}}-number"
-                                                        [name]="inner_element.position + ':value'" matInput
-                                                        type="number" [(ngModel)]="inner_element.value"
-                                                        [disabled]="inner_element.input_disabled">
-                                                    <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                                </mat-form-field>
-                                            </div>
-                                            <div fxFlex="50%">
-                                                <mat-form-field color="accent" appearance="fill" class="full-form">
-                                                    <mat-label>Unit</mat-label>
-                                                    <mat-select attr.data-type="{{inner_element.input_type}}-select"
-                                                        [attr.name]="inner_element.position + ':unit'"
-                                                        [(ngModel)]="inner_element.value_unit"
-                                                        [disabled]="inner_element.input_disabled">
-                                                        <mat-option [value]="value_unit"
-                                                            *ngFor="let value_unit of inner_element.whitelist">
-                                                            {{value_unit}}</mat-option>
-                                                    </mat-select>
-                                                    <mat-hint align="start" [innerHTML]="inner_element.desc"></mat-hint>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div
-                                        *ngIf="inner_element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select'].includes(inner_element.input_type)">
-                                        <button [name]="inner_element.position + '_btn'" mat-raised-button
-                                            [disabled]="addDisabledToGenericList(inner_element)" color="accent"
-                                            (click)="addToGenericList(inner_element)">Add to
-                                            {{inner_element.displayName}}</button>
-                                        <mat-chip-listbox style="margin-bottom: 10px;">
-                                            <mat-chip-option *ngFor="let list_item of inner_element.list_value"
-                                                style="border: 1px; border-color: black;border-style: solid;height: auto !important"
-                                                (removed)="deleteFromGenericList(inner_element, list_item)">
-                                                {{list_item}}
-                                                <button matChipRemove style="color: red;">
-                                                    <mat-icon>cancel</mat-icon>
-                                                </button>
-                                            </mat-chip-option>
-                                        </mat-chip-listbox>
-                                    </div>
-
-                                </div>
-                                <div *ngIf="element.list">
-                                    <mat-action-row>
-                                        <button [name]="element.position + '_btn'" mat-raised-button color="accent"
-                                            style="margin-bottom: 10px;" (click)="addToGenericExpandable(element)"
-                                            [disabled]="addDisabledToGenericExpandable(element)">
-                                            Add to {{element.title}}
-                                        </button>
-                                        <div fxFlex></div>
-
-                                    </mat-action-row>
                                     <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                            *ngFor="let list_element of element.list_value">
-                                            <mat-card appearance="outlined" class="mat-elevation-z4">
-                                                <mat-card-content>
-                                                    <mat-list>
-                                                        <div *ngFor="let field of list_element">
-                                                            <mat-list-item
-                                                                *ngIf="field.value || field.list && field.list_value.length > 0">
-                                                                <div matListItemTitle>
-                                                                    {{field.displayName}}:
-                                                                </div>
-                                                                <div matListItemLine *ngIf="field.input_type=='date'">
-                                                                    {{field.list_value}}{{field.value | date:
-                                                                    "dd. MMM yyyy"}}
-                                                                    {{field.value_unit}}
-                                                                </div>
-                                                                <div matListItemLine *ngIf="field.input_type!='date'">
-                                                                    {{field.list_value}}{{field.value}}
-                                                                    {{field.value_unit}}
-                                                                </div>
-                                                            </mat-list-item>
-                                                        </div>
-                                                    </mat-list>
-                                                </mat-card-content>
-                                                <mat-card-actions align="end">
-                                                    <button mat-icon-button color="accent"
-                                                        (click)="editGenericExpandable(element, list_element)">
-                                                        <mat-icon>edit</mat-icon>
-                                                    </button><button mat-icon-button color="warn"
-                                                        [disabled]="deleteDisabledFromGenericExpandable(list_element)"
-                                                        (click)="deleteFromGenericExpandable(element, list_element)">
-                                                        <mat-icon>delete</mat-icon>
-                                                    </button>
 
-                                                </mat-card-actions>
-                                            </mat-card>
-                                        </div>
+                                        <ng-container *ngIf="inner_element.input_type == 'short_text'"
+                                            [ngTemplateOutlet]="short_text_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'long_text'"
+                                            [ngTemplateOutlet]="long_text_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'restricted_short_text'"
+                                            [ngTemplateOutlet]="restricted_short_text_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'number'"
+                                            [ngTemplateOutlet]="number_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'date'"
+                                            [ngTemplateOutlet]="date_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'select'"
+                                            [ngTemplateOutlet]="select_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'group_select'"
+                                            [ngTemplateOutlet]="group_select_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container
+                                            *ngIf="inner_element.input_type == 'single_autofill' || inner_element.input_type == 'multi_autofill'"
+                                            [ngTemplateOutlet]="autofill_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+
+                                        <ng-container *ngIf="inner_element.input_type == 'value_unit'"
+                                            [ngTemplateOutlet]="value_unit_template"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type != 'long_text'"
+                                            [ngTemplateOutlet]="std_description"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+                                        <ng-container *ngIf="inner_element.input_type == 'long_text'"
+                                            [ngTemplateOutlet]="long_text_description"
+                                            [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
+
+
                                     </div>
+                                    <ng-container
+                                        *ngIf="inner_element.list && !['select', 'group_select'].includes(inner_element.input_type) || inner_element.input_type == 'single_autofill'"
+                                        [ngTemplateOutlet]="list_chip_grid_template"
+                                        [ngTemplateOutletContext]="{element: inner_element}"></ng-container>
                                 </div>
+
+                                <ng-container *ngIf="element.list" [ngTemplateOutlet]="expandable_list_template"
+                                    [ngTemplateOutletContext]="{element: element}"></ng-container>
+
+
                             </mat-expansion-panel>
                         </mat-accordion>
                     </ng-template>
@@ -1831,6 +937,20 @@
     </mat-stepper>
 </div>
 
+<ng-template #step_header_desc let-desc="desc">
+    <mat-card appearance="outlined" style="margin-bottom: 30px;">
+        <mat-card-header>
+            <mat-card-subtitle>
+                Information:
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div [innerHTML]="desc"></div>
+        </mat-card-content>
+    </mat-card>
+    <mat-divider style="margin-bottom: 30px;"></mat-divider>
+</ng-template>
+
 <ng-template #short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std">
         <mat-form-field color="accent" appearance="fill" class="full-form"
@@ -1846,7 +966,7 @@
 
 <ng-template #long_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.long_text[0]">
-        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;">
+        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <textarea attr.data-type="{{element.input_type}}" [name]="element.position" spellcheck="false" matInput
                 [disabled]="element.input_disabled" [(ngModel)]="element.value"></textarea>
@@ -1858,7 +978,7 @@
 
 <ng-template #restricted_short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std">
-        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;">
+        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input attr.data-type="{{element.input_type}}" [name]="element.position" [disabled]="element.input_disabled"
                 matInput [(ngModel)]="element.value"
@@ -1872,7 +992,7 @@
 
 <ng-template #number_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std">
-        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 25px;">
+        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput type="number"
                 [disabled]="element.input_disabled" [(ngModel)]="element.value">
@@ -1928,14 +1048,13 @@
 </ng-template>
 
 <ng-template #autofill_template let-element="element">
-    <div [fxFlex]="styling_vars.input_types.std" style="margin-bottom: 25px;">
+    <div [fxFlex]="styling_vars.input_types.std" style="margin-bottom: 0px;">
 
-        <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 10px;">
+        <mat-form-field color="accent" appearance="fill" class="full-form" >
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input (paste)="(false)" attr.data-type="{{element.input_type}}" [name]="element.position"
                 [disabled]="(element.input_type == 'single_autofill' && element.list_value.length >= 1) || element.input_disabled"
-                matInput (keyup)="applySearchFilter(input.value, element.search_info)"
-                [matAutocomplete]="auto" #input>
+                matInput (keyup)="applySearchFilter(input.value, element.search_info)" [matAutocomplete]="auto" #input>
             <mat-autocomplete #auto="matAutocomplete"
                 (optionSelected)="selectSomeValues($event.option.value, element);input.value=''">
                 <mat-option *ngFor="let value of autofill_filter_list" [value]="value">
@@ -1946,24 +1065,13 @@
                 aria-label="Clear" (click)="input.value=''">
                 <mat-icon>close</mat-icon>
             </button>
-            <mat-hint align="start" [innerHTML]="element.desc">{{element.desc}}</mat-hint>
         </mat-form-field>
-        <!--<mat-chip-grid #chipGrid>
-            <mat-chip-row *ngFor="let value of element.list_value"
-                style="border: 1px; border-color: black;border-style: solid;" (removed)="unselectValue(value, element)"
-                [disabled]="element.input_disabled">
-                {{value}}
-                <button matChipRemove style="color: red;">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip-row>
-        </mat-chip-grid>-->
 
     </div>
 </ng-template>
 
 <ng-template #value_unit_template let-element="element">
-    <div [fxFlex]="styling_vars.input_types.std" style="margin-bottom: 25px;">
+    <div [fxFlex]="styling_vars.input_types.std" [style.margin-bottom.px]="element.list ? 0 : 25">
         <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
             <div fxFlex="50%">
                 <mat-form-field color="accent" appearance="fill" class="full-form">
@@ -2023,76 +1131,70 @@
 </ng-template>
 
 <ng-template #std_description let-element="element">
-    <div [fxFlex]="styling_vars.input_types.std"
-    style="word-wrap: break-word; white-space: pre-wrap;"
-    [innerHTML]="element.desc">
-</div>
+    <div [fxFlex]="styling_vars.input_types.std" style="word-wrap: break-word; white-space: pre-wrap;"
+        [innerHTML]="element.desc">
+    </div>
 </ng-template>
 
 <ng-template #long_text_description let-element="element">
-    <div [fxFlex]="styling_vars.input_types.long_text[1]"
-                                 [innerHTML]="element.desc"> </div>
-                        
+    <div [fxFlex]="styling_vars.input_types.long_text[1]" [innerHTML]="element.desc"> </div>
+
 </ng-template>
 
 
 <ng-template #expandable_list_template let-element="element">
-<mat-action-row>
-    <button [name]="element.position + '_btn'" mat-raised-button color="accent"
-        style="margin-bottom: 10px;" (click)="addToGenericExpandable(element)"
-        [disabled]="addDisabledToGenericExpandable(element)">
-        Add to {{element.title}}
-    </button>
-    <div fxFlex></div>
+    <mat-action-row>
+        <button [name]="element.position + '_btn'" mat-raised-button color="accent" style="margin-bottom: 10px;"
+            (click)="addToGenericExpandable(element)" [disabled]="addDisabledToGenericExpandable(element)">
+            Add to {{element.title}}
+        </button>
+        <div fxFlex></div>
 
-</mat-action-row>
-<mat-card appearance="outlined" class="mat-elevation-z4">
-    <mat-card-content>
-        <div *ngIf="element.list_value.length == 0"
-            style="text-align: center; color:rgb(112, 112, 112)">No information added for {{element.displayName}}</div>
+    </mat-action-row>
+    <mat-card appearance="outlined" class="mat-elevation-z4">
+        <mat-card-content>
+            <div *ngIf="element.list_value.length == 0" style="text-align: center; color:rgb(112, 112, 112)">No
+                information added for {{element.displayName}}</div>
 
-        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%"
-                *ngFor="let list_element of element.list_value">
-                <mat-card appearance="outlined" class="mat-elevation-z4">
-                    <mat-card-content>
-                        <mat-list>
-                            <div *ngFor="let field of list_element">
-                                <mat-list-item
-                                    *ngIf="field.value || field.list_value && field.list_value.length > 0">
-                                    <div matListItemTitle>
-                                        {{field.displayName}}:
-                                    </div>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
+                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let list_element of element.list_value">
+                    <mat-card appearance="outlined" class="mat-elevation-z4">
+                        <mat-card-content>
+                            <mat-list>
+                                <div *ngFor="let field of list_element">
+                                    <mat-list-item
+                                        *ngIf="field.value || field.list_value && field.list_value.length > 0">
+                                        <div matListItemTitle>
+                                            {{field.displayName}}:
+                                        </div>
 
-                                    <div matListItemLine
-                                        *ngIf="field.input_type=='date'">
-                                        {{field.list_value}}{{field.value | date:
-                                        "dd. MMM yyyy"}}
-                                        {{field.value_unit}}
-                                    </div>
-                                    <div matListItemLine
-                                        *ngIf="field.input_type!='date'">
-                                        {{field.list_value}}{{field.value}}
-                                        {{field.value_unit}}
-                                    </div>
-                                </mat-list-item>
-                            </div>
-                        </mat-list>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-icon-button color="accent"
-                            (click)="editGenericExpandable(element, list_element)">
-                            <mat-icon>edit</mat-icon>
-                        </button><button mat-icon-button color="warn"
-                            [disabled]="deleteDisabledFromGenericExpandable(list_element)"
-                            (click)="deleteFromGenericExpandable(element, list_element)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                                        <div matListItemLine *ngIf="field.input_type=='date'">
+                                            {{field.list_value}}{{field.value | date:
+                                            "dd. MMM yyyy"}}
+                                            {{field.value_unit}}
+                                        </div>
+                                        <div matListItemLine *ngIf="field.input_type!='date'">
+                                            {{field.list_value}}{{field.value}}
+                                            {{field.value_unit}}
+                                        </div>
+                                    </mat-list-item>
+                                </div>
+                            </mat-list>
+                        </mat-card-content>
+                        <mat-card-actions align="end">
+                            <button mat-icon-button color="accent"
+                                (click)="editGenericExpandable(element, list_element)">
+                                <mat-icon>edit</mat-icon>
+                            </button><button mat-icon-button color="warn"
+                                [disabled]="deleteDisabledFromGenericExpandable(list_element)"
+                                (click)="deleteFromGenericExpandable(element, list_element)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
 
-                    </mat-card-actions>
-                </mat-card>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
             </div>
-        </div>
-    </mat-card-content>
-</mat-card>
+        </mat-card-content>
+    </mat-card>
 </ng-template>

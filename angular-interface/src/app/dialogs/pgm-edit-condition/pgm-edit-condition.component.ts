@@ -21,7 +21,8 @@ export class PgmEditConditionComponent implements OnInit {
     filter_list = []
 
 
-
+    styling_vars = {input_types: {std: "50", long_text: ["70", "30"]}}
+    
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private snackBar: MatSnackBar,
@@ -69,7 +70,7 @@ export class PgmEditConditionComponent implements OnInit {
         console.log(element)
       }
 
-      addToGenericListDisabledSingleField(element) {
+      addDisabledToGenericList(element) {
         if (element.value != "" && element.value != null) {
           return false
         } else {

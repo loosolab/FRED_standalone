@@ -182,7 +182,7 @@
                 <div
                   *ngIf="element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select', 'restricted_short_text'].includes(element.input_type)">
                   <button [name]="element.position + '_btn'" mat-raised-button
-                    [disabled]="addToGenericListDisabledSingleField(element)" color="accent"
+                    [disabled]="addDisabledToGenericList(element)" color="accent"
                     (click)="addToGenericListSingleField(element)">Add to
                     {{element.displayName}}</button>
                   <mat-chip-listbox style="margin-bottom: 10px;">
@@ -392,7 +392,7 @@
                       <div
                         *ngIf="inner_element.list && !['select', 'multi_autofill', 'single_autofill', 'group_select', 'restricted_short_text'].includes(inner_element.input_type)">
                         <button [name]="inner_element.position + '_btn'" mat-raised-button
-                          [disabled]="addToGenericListDisabledSingleField(inner_element)" color="accent"
+                          [disabled]="addDisabledToGenericList(inner_element)" color="accent"
                           (click)="addToGenericListSingleField(inner_element)">Add to
                           {{inner_element.displayName}}</button>
                         <mat-chip-listbox style="margin-bottom: 10px;">
@@ -601,3 +601,33 @@
       <button mat-raised-button mat-dialog-close color="accent" [mat-dialog-close]="sample_ls">Save Condition
       </button>
     </div>-->
+
+    <ng-template #input_list_button_template let-element="element">
+      <button mat-icon-button [name]="element.position + '_btn'" [disabled]="addDisabledToGenericList(element)"
+          color="accent" (click)="addToGenericList(element)"><mat-icon>send</mat-icon></button>
+  </ng-template>
+
+    <ng-template #short_text_template let-element="element">
+      <div [fxFlex]="styling_vars.input_types.std">
+          <mat-form-field color="accent" appearance="fill" class="full-form"
+              [style.margin-bottom.px]="element.list ? 0 : 25">
+              <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
+              <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput
+                  [disabled]="element.input_disabled" [(ngModel)]="element.value">
+              <ng-container matSuffix *ngIf="element.list" [ngTemplateOutlet]="input_list_button_template"
+                  [ngTemplateOutletContext]="{element: element}"></ng-container>
+          </mat-form-field>
+      </div>
+  </ng-template>
+  
+  <ng-template #long_text_template let-element="element">
+      <div [fxFlex]="styling_vars.input_types.long_text[0]">
+          <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
+              <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
+              <textarea attr.data-type="{{element.input_type}}" [name]="element.position" spellcheck="false" matInput
+                  [disabled]="element.input_disabled" [(ngModel)]="element.value"></textarea>
+              <ng-container matSuffix *ngIf="element.list" [ngTemplateOutlet]="input_list_button_template"
+                  [ngTemplateOutletContext]="{element: element}"></ng-container>
+          </mat-form-field>
+      </div>
+  </ng-template>
