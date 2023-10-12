@@ -21,7 +21,7 @@ export class PgmEditConditionComponent implements OnInit {
     filter_list = []
 
 
-    styling_vars = {input_types: {std: "50", long_text: ["70", "30"]}}
+    styling_vars = {input_types: {std: ["60", "40"]}}
     
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,11 +42,12 @@ export class PgmEditConditionComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    applyRestrictedShortText(input_event, regex_string, max_length){
+    applyRestrictedShortText(input_event, regex_string, max_length, field){
         const input = input_event.target.value;
         const regex = new RegExp(regex_string, "g")
         const sanitizedInput = input.replace(regex, '').slice(0,max_length);
         input_event.target.value = sanitizedInput;
+        field.value = sanitizedInput
       }
 
     applySearchFilter(search_str: string, search_info: any) {
@@ -64,7 +65,7 @@ export class PgmEditConditionComponent implements OnInit {
         console.log("selected element", element)
     }
 
-    addToGenericListSingleField(element) {
+    addToGenericList(element) {
         element.list_value.push(JSON.parse(JSON.stringify(element.value)))
         element.value = ""
         console.log(element)
@@ -79,7 +80,7 @@ export class PgmEditConditionComponent implements OnInit {
       }
 
 
-      deleteFromGenericListSingleField(element, list_item) {
+      deleteFromGenericList(element, list_item) {
         element.list_value.splice(element.list_value.indexOf(list_item), 1)
         console.log(element)
       }
@@ -154,7 +155,7 @@ export class PgmEditConditionComponent implements OnInit {
                 input_fields_disabled.push(input_field.input_disabled)
             })
             if (input_fields_disabled.includes(true)) {
-                this.addToGenericList(input_element)
+                this.addToGenericExpandable(input_element)
             }
         })
     }
@@ -183,7 +184,7 @@ export class PgmEditConditionComponent implements OnInit {
         })
     }
     
-    addToGenericList(element) {
+    addToGenericExpandable(element) {
         console.log(element)
         var used_unique_values = []
         var unique_field: any
@@ -230,17 +231,17 @@ export class PgmEditConditionComponent implements OnInit {
 
 
     }
-    deleteFromGenericList(element, list_item) {
+    deleteFromGenericExpandable(element, list_item) {
         element.list_value.splice(element.list_value.indexOf(list_item), 1)
         console.log(element)
     }
 
-    editGenericList(element, list_item) {
+    editGenericExpandable(element, list_item) {
         element.input_fields = JSON.parse(JSON.stringify(list_item))
         element.list_value.splice(element.list_value.indexOf(list_item), 1)
     }
 
-    deleteFromGenericListDisabled(element) {
+    deleteDisabledFromGenericExpandable(element) {
         var input_disabled_ls = []
         element.forEach(element => {
             input_disabled_ls.push(element.input_disabled)
@@ -252,7 +253,7 @@ export class PgmEditConditionComponent implements OnInit {
         }
     }
 
-    addGenericDisabled(element) {
+    addDisabledToGenericExpandable(element) {
         var filled_out_ls = []
         element.input_fields.forEach(field => {
             if (field.mandatory) {
