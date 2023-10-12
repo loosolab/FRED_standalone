@@ -499,11 +499,12 @@
                                                 </mat-card-content>
                                                 <mat-divider></mat-divider>
                                                 <mat-card-actions align="end">
-                                                    <button mat-icon-button
+                                                    <button mat-icon-button #tooltip="matTooltip"
+                                                    matTooltip="Add and Edit Samples" matTooltipPosition="above"
                                                         [attr.name]="condition.correct_value + '_btn'"
                                                         (click)="editCondition(condition, organism_name)"
                                                         color="accent">
-                                                        <mat-icon>edit</mat-icon>
+                                                        <mat-icon>add</mat-icon>
                                                     </button>
 
                                                 </mat-card-actions>
