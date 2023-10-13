@@ -249,7 +249,7 @@
 
                         <div *ngIf="element.input_type =='organism_name'">
                             <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                                <div fxFlex="90%" fxFlex.xs="100%">
+                                <div fxFlex="40%" fxFlex.xs="100%">
                                     <mat-form-field color="accent" appearance="fill" class="full-form"
                                         style="margin-bottom: 10px;">
                                         <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup>
@@ -261,10 +261,6 @@
                                                 {{value}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-                                        <mat-hint align="start" *ngIf="element.error" style="color: #da3030">
-                                            {{element.error_text}}
-                                        </mat-hint>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="5%" fxFlex.xs="100%">
@@ -283,6 +279,9 @@
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </div>
+                                <div fxFlex="50%" style="word-wrap: break-word; white-space: pre-wrap;"
+        [innerHTML]="element.desc">
+    </div>
                             </div>
                         </div>
 
