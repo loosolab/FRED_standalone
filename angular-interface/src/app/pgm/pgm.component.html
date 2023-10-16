@@ -289,7 +289,7 @@
 
                     <ng-template #expandableBlock>
                         <mat-accordion [attr.name]="element.position + '_acc'">
-                            <mat-expansion-panel style="margin-bottom: 15px;">
+                            <mat-expansion-panel style="margin-bottom: 15px;" [expanded]="openSpecificExpandables(element.position)">
                                 <mat-expansion-panel-header [attr.name]="element.position + '_exp'">
                                     <mat-panel-title>
                                         {{element.title}}<sup *ngIf="element.mandatory">*</sup>
