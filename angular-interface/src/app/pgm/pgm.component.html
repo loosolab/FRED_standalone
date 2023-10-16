@@ -288,7 +288,7 @@
                     </ng-template>
 
                     <ng-template #expandableBlock>
-                        <mat-accordion [attr.name]="element.position + '_acc'">
+                        <mat-accordion togglePosition="before" [attr.name]="element.position + '_acc'">
                             <mat-expansion-panel style="margin-bottom: 15px;" [expanded]="openSpecificExpandables(element.position)">
                                 <mat-expansion-panel-header [attr.name]="element.position + '_exp'">
                                     <mat-panel-title>
@@ -461,7 +461,8 @@
                                             </mat-action-row>
                                         </mat-expansion-panel>
                                     </mat-accordion>
-
+                                    <mat-card appearance="outlined" style="margin-bottom: 10px;">
+                                        <mat-card-content>
 
                                             <div fxLayout="row wrap" fxLayoutGap="16px grid">
                                                 
@@ -491,15 +492,22 @@
 
                                             <mat-divider style="margin-bottom: 15px"></mat-divider>
 
-                                            <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'" style="margin-bottom: 20px;">
-                                                <mat-chip-option [attr.name]="chip_cond.correct_value"
-                                                    style="height: auto !important"
-                                                    (selectionChange)="chipSelectionChange($event, chip_cond)"
-                                                    *ngFor="let chip_cond of displayedChips"
-                                                    [selected]="chip_cond.selected">
-                                                    <div [innerHTML]="chip_cond.title"></div>
-                                                </mat-chip-option>
-                                            </mat-chip-listbox>                                                 
+                                            
+                                                    <div *ngIf="displayedChips.length == 0" style="text-align: center; color:rgb(112, 112, 112)">
+                                                        No matching conditions found
+                                                    </div>
+                                                    <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'" style="margin-bottom: 15px;">
+                                                        <mat-chip-option [attr.name]="chip_cond.correct_value"
+                                                            style="height: auto !important"
+                                                            (selectionChange)="chipSelectionChange($event, chip_cond)"
+                                                            *ngFor="let chip_cond of displayedChips"
+                                                            [selected]="chip_cond.selected">
+                                                            <div [innerHTML]="chip_cond.title"></div>
+                                                        </mat-chip-option>
+                                                    </mat-chip-listbox>  
+                                                </mat-card-content>
+                                            </mat-card>
+                                                                                           
                                                                                            
                                         </mat-card-content>
                                         <mat-action-row>
@@ -595,7 +603,7 @@
                                             </div>
                                         </mat-list>
                                         <div *ngFor="let category of setting">
-                                            <mat-accordion
+                                            <mat-accordion togglePosition="before"
                                                 *ngIf="category.position == 'experimental_setting:conditions'">
                                                 <mat-expansion-panel>
                                                     <mat-expansion-panel-header>
