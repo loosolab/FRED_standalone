@@ -295,7 +295,7 @@
                                         {{element.title}}<sup *ngIf="element.mandatory">*</sup>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <!--<div [innerHTML]="element.desc"></div>-->
+                                        <div [innerHTML]="element.desc"></div>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div
@@ -364,13 +364,17 @@
 
                                 </div>
                                 <div *ngIf="element.position == 'experimental_setting:experimental_factors'">
-                                    <div [innerHTML]="element.desc"></div>
-                                    <button style="margin-bottom: 10px;" name="Edit Factors and generate Conditions"
-                                        mat-raised-button color="accent" (click)="openFactorsDialogAllowed()">Edit
+                                    <button style="margin-bottom: 10px;" class="full-form"
+                                        name="Edit Factors and generate Conditions" mat-raised-button
+                                        color="accent" (click)="openFactorsDialogAllowed()">Edit
                                         Factors and generate Conditions</button>
+                                    <mat-card appearance="outlined">
+                                        <mat-card-content>
+
+                                        
                                     <mat-accordion togglePosition="before">
-                                        <mat-expansion-panel [disabled]="!filterPanelAllowed"
-                                            [expanded]="filterPanelOpenState">
+                                        <mat-expansion-panel [disabled]="!filterPanelAllowed"  style="margin-bottom: 10px"
+                                            >
                                             <mat-expansion-panel-header>
                                                 <mat-panel-title>
                                                     Condition Filter
@@ -423,11 +427,12 @@
 
                                                 <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
 
-                                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                                        style="margin-bottom: 10px;">
+                                                    <mat-form-field color="accent" appearance="fill"
+                                                        class="full-form" style="margin-bottom: 5px;">
                                                         <mat-label>{{search_index +1}}. Factor
                                                             Filter:</mat-label>
-                                                        <mat-select [(ngModel)]="filter_object.selected_filter_factor"
+                                                        <mat-select
+                                                            [(ngModel)]="filter_object.selected_filter_factor"
                                                             (selectionChange)="filterChipConditions()">
                                                             <mat-option [value]="filter_factor"
                                                                 *ngFor="let filter_factor of factors">{{filter_factor.factor}}
@@ -435,8 +440,8 @@
                                                         </mat-select></mat-form-field>
                                                 </div>
                                                 <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-                                                    <mat-form-field color="accent" appearance="fill" class="full-form"
-                                                        style="margin-bottom: 10px;">
+                                                    <mat-form-field color="accent" appearance="fill"
+                                                        class="full-form" style="margin-bottom: 5px;">
                                                         <mat-label>{{search_index +1}}. Factor-Value
                                                             Filter:</mat-label>
                                                         <mat-select multiple
@@ -450,34 +455,43 @@
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                           <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                                                        
-                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                                            style="align-items: center; display: flex">
-                                                            <mat-checkbox style="margin-bottom: 10px;"
-                                                                [(ngModel)]="filterSelectedChips"
-                                                                (change)="filterSeleced()">Show only Selected Conditions
-                                                            </mat-checkbox>
-                                                        </div>
-                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                                            style="align-items: center; display: flex">
+                                            <mat-action-row>
+                                                <button mat-raised-button color="warn"
+                                                    (click)="resetFilterChipConds()">Reset Filter</button>
+                                            </mat-action-row>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
 
-                                                            <mat-checkbox style="margin-bottom: 10px;"
-                                                                [(ngModel)]="filterUnselectedChips"
-                                                                (change)="filterUnseleced()">Show only Unselected
-                                                                Conditions</mat-checkbox>
-                                                        </div>
-                                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-                                                            <mat-paginator #condition_paginator
-                                                                style="margin-bottom: 10px;"
-                                                                [length]="chip_conditions.length"
-                                                                [pageSizeOptions]="[10, 25, 50]"
-                                                                (page)="onPageChange($event)"></mat-paginator>
-                                                        </div>
-                                                    </div>
+
+                                            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                                                
+                                                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                    style="align-items: center; display: flex">
+                                                    <mat-checkbox style="margin-bottom: 10px"
+                                                        [(ngModel)]="filterSelectedChips"
+                                                        (change)="filterSeleced()">Show only Selected Conditions
+                                                    </mat-checkbox>
+                                                </div>
+                                                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                    style="align-items: center; display: flex">
+
+                                                    <mat-checkbox style="margin-bottom: 10px;"
+                                                        [(ngModel)]="filterUnselectedChips"
+                                                        (change)="filterUnseleced()">Show only Unselected
+                                                        Conditions</mat-checkbox>
+                                                </div>
+                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
+                                                    <mat-paginator #condition_paginator
+                                                        style="margin-bottom: 10px;"
+                                                        [length]="chip_conditions.length"
+                                                        [pageSizeOptions]="[10, 25, 50]"
+                                                        (page)="onPageChange($event)"></mat-paginator>
+                                                </div>
+                                            </div>
+
                                             <mat-divider style="margin-bottom: 15px"></mat-divider>
 
-                                            <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'">
+                                            <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'" style="margin-bottom: 20px;">
                                                 <mat-chip-option [attr.name]="chip_cond.correct_value"
                                                     style="height: auto !important"
                                                     (selectionChange)="chipSelectionChange($event, chip_cond)"
@@ -485,20 +499,22 @@
                                                     [selected]="chip_cond.selected">
                                                     <div [innerHTML]="chip_cond.title"></div>
                                                 </mat-chip-option>
-                                            </mat-chip-listbox>
-
-                                            <mat-action-row>
-                                                <button mat-raised-button color="accent"
-                                                    (click)="selectAllChipConds()">Select All</button>
-                                                <button mat-raised-button color="warn"
-                                                    (click)="unselectAllChipConds()">Unselect All</button>
-                                                <div fxFlex></div>
-                                                <button mat-raised-button color="warn"
-                                                    (click)="resetFilterChipConds()">Reset Filter</button>
+                                            </mat-chip-listbox>                                                 
+                                                                                           
+                                        </mat-card-content>
+                                        <mat-action-row>
+                                            <button mat-raised-button color="accent"
+                                                (click)="selectAllChipConds()">Select All</button>
+                                            <button mat-raised-button color="warn"
+                                                (click)="unselectAllChipConds()">Unselect All</button>
+                                            <div fxFlex></div>
                                             </mat-action-row>
-                                        </mat-expansion-panel>
-                                    </mat-accordion>
-
+                                    </mat-card>
+                                    <!--<mat-list>
+                                    <mat-list-item *ngFor="let factor of factors">
+                                        {{factor.factor}}
+                                    </mat-list-item>
+                                </mat-list>-->
                                 </div>
                                 <div *ngIf="element.position == 'experimental_setting:conditions'">
 
