@@ -48,9 +48,9 @@ export class ApiService {
    * @param factors - list of factors that are needed by the API
    * @returns a promise that resolves with an array containing the validated metadata
    */
-  validateObject(data, factors) {
+  validateObject(data, factors, finish?) {
     return new Promise((resolve => {
-      var post_obj = { object: data, factors: factors }
+      var post_obj = { object: data, factors: factors, finish: finish }
       console.log("Object to validate", post_obj)
       this.http.post(this.apiURL + "/validatePgm", post_obj).pipe().subscribe((res: any) => {
         console.log("validated object", res)

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../services/api.service';
@@ -10,6 +10,7 @@ import { PgmAlertsComponent } from '../dialogs/pgm-alerts/pgm-alerts.component';
 import { PgmEditFactorsComponent } from '../dialogs/pgm-edit-factors/pgm-edit-factors.component';
 import { PgmEditConditionComponent } from '../dialogs/pgm-edit-condition/pgm-edit-condition.component';
 import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
   styleUrls: ['./pgm.component.scss']
 })
 export class PgmComponent implements OnInit {
-
+  @ViewChild('condition_paginator') condition_paginator: MatPaginator
   @HostListener("window:beforeunload")
   canDeactivate(): boolean | Observable<boolean> {
     return this.inputSaved;
@@ -47,7 +48,7 @@ export class PgmComponent implements OnInit {
   waiting_for_data = true
   condition_filter_str = ""
   filterPanelOpenState = false
-  chip_conditions: any
+  chip_conditions = []
   filterUnselectedChips = false
   filterSelectedChips = false
   filterPanelAllowed = false
@@ -64,6 +65,7 @@ export class PgmComponent implements OnInit {
 
   autofill_filter_list = []
 
+  displayedChips = this.chip_conditions.slice(0, 10);
   styling_vars = { input_types: { std: "50", long_text: ["70", "30"] } }
 
   constructor(
@@ -141,7 +143,7 @@ export class PgmComponent implements OnInit {
         loadingRef.close()
       })
     } else if (withSummary) {
-      Promise.all([this.apiService.validateObject(this.apiService.empty_pgmMask.value, this.all_factors), this.apiService.validateObjectWithSummary(this.apiService.empty_pgmMask.value, this.all_factors)]).then((all_res: Array<any>) => {
+      Promise.all([this.apiService.validateObject(this.apiService.empty_pgmMask.value, this.all_factors, true), this.apiService.validateObjectWithSummary(this.apiService.empty_pgmMask.value, this.all_factors)]).then((all_res: Array<any>) => {
         console.log("All Promise", all_res)
         var error_warning_res = all_res[0]
         var summary_res = all_res[1]
@@ -357,6 +359,7 @@ export class PgmComponent implements OnInit {
         this.chip_conditions = []
         this.filterPanelAllowed = false
         this.filterPanelOpenState = false
+        this.displayedChips = this.chip_conditions.slice(0, 10);
         this.update_selected_conditions()
         this.resetFilterChipConds()
         this.apiService.empty_pgmMask.value.experimental_setting.input_fields = JSON.parse(JSON.stringify(this.original_exp_setting))
@@ -451,7 +454,14 @@ export class PgmComponent implements OnInit {
     )
     console.log("after filter", filter_data)
     this.chip_conditions = filter_data
+    this.onPageChange(this.condition_paginator)
 
+  }
+
+  onPageChange(event: any) {
+    const startIndex = event.pageIndex * event.pageSize;
+    const endIndex = startIndex + event.pageSize;
+    this.displayedChips = this.chip_conditions.slice(startIndex, endIndex);
   }
   openFactorsDialogAllowed() {
     if (this.organism_name) {

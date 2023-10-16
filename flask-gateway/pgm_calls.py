@@ -58,7 +58,7 @@ def genConditions(data):
     return new_data
 
 def validateMetadataObject(data):
-    new_data = metadata_organizer.validate_object(data["object"])
+    new_data = metadata_organizer.validate_object(data["object"], data["finish"])
     return new_data
 
 def validateMetadataObjectWithSummary(data):

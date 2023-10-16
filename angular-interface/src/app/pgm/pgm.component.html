@@ -379,17 +379,34 @@
                                                     Filter and select conditions of the experiment.
                                                 </mat-panel-description>
                                             </mat-expansion-panel-header>
-                                            Each condition represents a unique combination of factors that was
-                                            analysed in a sample.
-                                            This filter serves to select suitable experimental conditions.<br>
-                                            "Keyword search" uses free text to search for the name of
-                                            conditions, while "Factor" and "Factor-Value" filters are used to
-                                            search for an
-                                            experimental factor inside of a condition. All filters are connected
-                                            with AND.<br>
-                                            Conditions can also be selected by clicking the respective tile at
-                                            the bottom. This will add these conditions to the expandable menu
-                                            below.
+                                            <mat-card appearance="outlined" style="margin-bottom: 30px;">
+                                                <mat-card-header>
+                                                    <mat-card-subtitle>
+                                                        Information:
+                                                    </mat-card-subtitle>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                    Each condition represents a unique combination of factors
+                                                    that was
+                                                    analysed in a sample.
+                                                    This filter serves to select suitable experimental
+                                                    conditions.<br>
+                                                    "Keyword search" uses free text to search for the name of
+                                                    conditions, while "Factor" and "Factor-Value" filters are
+                                                    used to
+                                                    search for an
+                                                    experimental factor inside of a condition. All filters are
+                                                    connected
+                                                    with AND.<br>
+                                                    Conditions can also be selected by clicking the respective
+                                                    tile at
+                                                    the bottom. This will add these conditions to the expandable
+                                                    menu
+                                                    below.
+                                                </mat-card-content>
+                                            </mat-card>
+                                            <mat-divider style="margin-bottom: 30px;"></mat-divider>
+
                                             <mat-form-field color="accent" appearance="fill" class="full-form"
                                                 style="margin-bottom: 10px;">
                                                 <mat-label>Keyword search:</mat-label>
@@ -433,26 +450,38 @@
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                            <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-                                                    <mat-checkbox [(ngModel)]="filterSelectedChips"
-                                                        (change)="filterSeleced()">Show only Selected Conditions
-                                                    </mat-checkbox>
-                                                </div>
-                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
+                                           <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                                                        
+                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                            style="align-items: center; display: flex">
+                                                            <mat-checkbox style="margin-bottom: 10px;"
+                                                                [(ngModel)]="filterSelectedChips"
+                                                                (change)="filterSeleced()">Show only Selected Conditions
+                                                            </mat-checkbox>
+                                                        </div>
+                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                            style="align-items: center; display: flex">
 
-                                                    <mat-checkbox [(ngModel)]="filterUnselectedChips"
-                                                        (change)="filterUnseleced()">Show only Unselected
-                                                        Conditions</mat-checkbox>
-                                                </div>
-                                            </div>
+                                                            <mat-checkbox style="margin-bottom: 10px;"
+                                                                [(ngModel)]="filterUnselectedChips"
+                                                                (change)="filterUnseleced()">Show only Unselected
+                                                                Conditions</mat-checkbox>
+                                                        </div>
+                                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
+                                                            <mat-paginator #condition_paginator
+                                                                style="margin-bottom: 10px;"
+                                                                [length]="chip_conditions.length"
+                                                                [pageSizeOptions]="[10, 25, 50]"
+                                                                (page)="onPageChange($event)"></mat-paginator>
+                                                        </div>
+                                                    </div>
                                             <mat-divider style="margin-bottom: 15px"></mat-divider>
 
                                             <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'">
                                                 <mat-chip-option [attr.name]="chip_cond.correct_value"
                                                     style="height: auto !important"
                                                     (selectionChange)="chipSelectionChange($event, chip_cond)"
-                                                    *ngFor="let chip_cond of chip_conditions"
+                                                    *ngFor="let chip_cond of displayedChips"
                                                     [selected]="chip_cond.selected">
                                                     <div [innerHTML]="chip_cond.title"></div>
                                                 </mat-chip-option>
