@@ -554,7 +554,7 @@ export class PgmComponent implements OnInit {
     const dialogRef = this.dialog.open(PgmEditConditionComponent, {
       hasBackdrop: true,
       disableClose: true,
-      width: "70%",
+      width: "80%",
       data: { condition: condition, whitelist: this.condition_whitelists[organism_name] }
     })
     dialogRef.afterClosed().subscribe(result => {

@@ -182,10 +182,10 @@
                       </div>
                       <div *ngIf="sample_input.title && sample_input.list">
                         <div *ngIf="sample_input.list_value.length > 0">
-                          <mat-card appearance="outlined">
+                          <mat-card appearance="outlined" style="margin-bottom: 10px;">
                             <mat-card-header>
                               <mat-card-subtitle>
-                                {{sample_input.title}}:
+                                <b>{{sample_input.title}}:</b>
                               </mat-card-subtitle>
                             </mat-card-header>
                          <mat-card-content>

@@ -17,7 +17,16 @@
   
       </mat-select>
     </mat-form-field>
-  
+    <mat-card appearance="outlined" style="margin-bottom: 30px;">
+      <mat-card-header>
+          <mat-card-subtitle>
+              Information:
+          </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="selected_factor" [innerHTML]="data.values[selected_factor].desc"></div>
+        <div *ngIf="!selected_factor">Please select a factor.</div>
+      </mat-card-content></mat-card>
     <!--if factor says select  if data.values[selected_factor].input_type == 'select'-->
     <div *ngIf="selected_factor">
       <mat-form-field color="accent" appearance="fill" class="full-form"
@@ -26,7 +35,6 @@
         <mat-select attr.data-type="{{data.values[selected_factor].input_type}}" [attr.name]="'factor:' + selected_factor" [(ngModel)]="selected_value" multiple>
           <mat-option [value]="value" *ngFor="let value of data.values[selected_factor].whitelist">{{value}}</mat-option>
         </mat-select>
-        <mat-hint align="start" [innerHTML]="data.values[selected_factor].desc"></mat-hint>
       </mat-form-field>
       <mat-form-field color="accent" appearance="fill" class="full-form"
         *ngIf="data.values[selected_factor].input_type == 'group_select'">
@@ -36,7 +44,6 @@
             <mat-option *ngFor="let value of group.whitelist" [value]="value">{{value}}</mat-option>
           </mat-optgroup>
         </mat-select>
-        <mat-hint align="start" [innerHTML]="data.values[selected_factor].desc"></mat-hint>
       </mat-form-field>
   
       <div *ngIf="data.values[selected_factor].input_type == 'multi_autofill'">
@@ -56,8 +63,6 @@
             (click)="input.value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-hint align="start"
-          [innerHTML]="data.values[selected_factor].desc"></mat-hint>
         </mat-form-field>
         <mat-chip-grid #chipGrid>
           <mat-chip-row *ngFor="let value of selected_value" style="border: 1px; border-color: black;border-style: solid;"
@@ -84,7 +89,6 @@
             (click)="input.value=''">
             <mat-icon>close</mat-icon>
           </button>
-          <mat-hint align="start" [innerHTML]="data.values[selected_factor].desc"></mat-hint>
         </mat-form-field>
   
         <mat-chip-grid #chipGrid>

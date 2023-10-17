@@ -551,12 +551,24 @@
                                                 </mat-card-content>
                                                 <mat-divider></mat-divider>
                                                 <mat-card-actions align="end">
-                                                    <button mat-icon-button #tooltip="matTooltip"
-                                                    matTooltip="Add and Edit Samples" matTooltipPosition="above"
+                                                    <button mat-fab *ngIf="condition.list_value.length > 0" extended #tooltip="matTooltip"
+                                                        matTooltip="Add and Edit Samples"
+                                                        matTooltipPosition="above"
                                                         [attr.name]="condition.correct_value + '_btn'"
                                                         (click)="editCondition(condition, organism_name)"
                                                         color="accent">
                                                         <mat-icon>add</mat-icon>
+                                                        More Samples
+                                                    </button>
+                                                    <button mat-fab *ngIf="condition.list_value.length == 0" extended #tooltip="matTooltip"
+                                                        matTooltip="Add and Edit Samples"
+                                                        matTooltipPosition="above"
+                                                        [attr.name]="condition.correct_value + '_btn'"
+                                                        (click)="editCondition(condition, organism_name)"
+                                                        color="warn">
+                                                        Missing Samples
+                                                        <mat-icon>add</mat-icon>
+                                                        
                                                     </button>
 
                                                 </mat-card-actions>
@@ -573,7 +585,7 @@
                 </div>
             </div>
 
-            <button name="Save Experimental Setting" mat-raised-button color="accent"
+            <button name="Save Experimental Setting" class="full-form" mat-raised-button color="accent"
                 style="margin-top: 10px; margin-bottom: 10px" (click)="addExperimentalSettingDialogs()"
                 [disabled]="addExperimentalSettingDisabled()">Save Experimental
                 Setting</button>
@@ -587,7 +599,7 @@
 
 
                         <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                            <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="33%"
+                            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%"
                                 *ngFor="let setting of apiService.empty_pgmMask.value.experimental_setting.list_value">
                                 <mat-card appearance="outlined">
                                     <mat-card-content>
