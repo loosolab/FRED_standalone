@@ -492,6 +492,7 @@ export class PgmComponent implements OnInit {
             data: {
               factors: data_res.factor,
               values: data_res.values,
+              desc: data_res.desc
             }
             //organism_name: this.apiService.empty_pgmMask.value.experimental_setting.input_fields.filter(e => e.position == "experimental_setting:organism")[0].value
 

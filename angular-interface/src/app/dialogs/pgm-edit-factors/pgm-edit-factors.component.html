@@ -7,7 +7,10 @@
   </h1>
   
   <div mat-dialog-content>
-  
+    <ng-container 
+    [ngTemplateOutlet]="global_desc_template"
+                [ngTemplateOutletContext]="{info_element: {desc: data.desc, title: 'Information'}}"></ng-container>
+
     <mat-form-field color="accent" appearance="fill" class="full-form">
       <mat-label>Choose a factor</mat-label>
       <mat-select [attr.name]="'factor'" [(ngModel)]="selected_factor" (selectionChange)="nestedFactorSelect()">
@@ -17,17 +20,10 @@
   
       </mat-select>
     </mat-form-field>
-    <mat-card appearance="outlined" style="margin-bottom: 30px;">
-      <mat-card-header>
-          <mat-card-subtitle>
-              Information:
-          </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div *ngIf="selected_factor" [innerHTML]="data.values[selected_factor].desc"></div>
-        <div *ngIf="!selected_factor">Please select a factor.</div>
-      </mat-card-content></mat-card>
-    <!--if factor says select  if data.values[selected_factor].input_type == 'select'-->
+    <ng-container *ngIf="selected_factor"
+    [ngTemplateOutlet]="global_desc_template"
+                [ngTemplateOutletContext]="{info_element: {desc: data.values[selected_factor].desc, title: 'Factor Information'}}"></ng-container>
+<!--if factor says select  if data.values[selected_factor].input_type == 'select'-->
     <div *ngIf="selected_factor">
       <mat-form-field color="accent" appearance="fill" class="full-form"
         *ngIf="data.values[selected_factor].input_type == 'select'">
@@ -282,3 +278,14 @@
     <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
   </div>
   
+  <ng-template #global_desc_template let-info_element="info_element">
+    <mat-card appearance="outlined" style="margin-bottom: 30px;">
+      <mat-card-header>
+          <mat-card-subtitle>
+              {{info_element.title}}:
+          </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div  [innerHTML]="info_element.desc"></div>
+      </mat-card-content></mat-card>
+  </ng-template>
