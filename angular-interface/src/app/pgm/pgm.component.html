@@ -232,7 +232,7 @@
                                 [ngTemplateOutlet]="value_unit_template"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            <ng-container *ngIf="element.input_type != 'long_text'" [ngTemplateOutlet]="std_description"
+                            <ng-container *ngIf="element.input_type != 'long_text' && element.input_type != 'organism_name'" [ngTemplateOutlet]="std_description"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
                             <ng-container *ngIf="element.input_type == 'long_text'"
