@@ -36,10 +36,8 @@ export class PgmComponent implements OnInit {
   owner_exists = false;
   copyValue = ""
   object_summary: any
-  object_errors = { project: [], experimental_setting: [], technical_details: [] }
-  summed_errors = 0
-  object_warnings = { project: [], experimental_setting: [], technical_details: [] }
-  summed_warnings = 0
+  object_errors = { project: [], experimental_setting: [], technical_details: [], summed: 0 }
+  object_warnings = { project: [], experimental_setting: [], technical_details: [], summed: 0 }
   organism_name = ""
   condition_whitelists = {}
   organism_was_selected = false
@@ -135,9 +133,9 @@ export class PgmComponent implements OnInit {
     if (!withSummary) {
       this.apiService.validateObject(this.apiService.empty_pgmMask.value, this.all_factors).then((res: any) => {
         this.object_errors = res.errors
-        this.summed_errors = this.object_errors.project.length + this.object_errors.experimental_setting.length + this.object_errors.technical_details.length
+        this.object_errors.summed = this.object_errors.project.length + this.object_errors.experimental_setting.length + this.object_errors.technical_details.length
         this.object_warnings = res.warnings
-        this.summed_warnings = this.object_warnings.project.length + this.object_warnings.experimental_setting.length + this.object_warnings.technical_details.length
+        this.object_warnings.summed = this.object_warnings.project.length + this.object_warnings.experimental_setting.length + this.object_warnings.technical_details.length
         this.was_validated = true
         this.loading_validation = false
         loadingRef.close()
@@ -149,9 +147,9 @@ export class PgmComponent implements OnInit {
         var summary_res = all_res[1]
         this.object_summary = summary_res
         this.object_errors = error_warning_res.errors
-        this.summed_errors = this.object_errors.project.length + this.object_errors.experimental_setting.length + this.object_errors.technical_details.length
+        this.object_errors.summed = this.object_errors.project.length + this.object_errors.experimental_setting.length + this.object_errors.technical_details.length
         this.object_warnings = error_warning_res.warnings
-        this.summed_warnings = this.object_warnings.project.length + this.object_warnings.experimental_setting.length + this.object_warnings.technical_details.length
+        this.object_warnings.summed = this.object_warnings.project.length + this.object_warnings.experimental_setting.length + this.object_warnings.technical_details.length
         this.was_validated = true
         this.loading_validation = false
         loadingRef.close()
@@ -666,7 +664,7 @@ export class PgmComponent implements OnInit {
   }
 
   finishDisabled() {
-    if (this.was_validated && this.summed_errors == 0) {
+    if (this.was_validated && this.object_errors.summed == 0) {
       return false
     } else {
       return true

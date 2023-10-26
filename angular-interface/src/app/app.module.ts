@@ -29,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -88,7 +89,8 @@ import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
     MatStepperModule,
     MatDividerModule,
     MatChipsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatBadgeModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: "de-DE" }

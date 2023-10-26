@@ -952,9 +952,21 @@
         </mat-step>
 
         <mat-step label="Finish" color="accent">
+            <mat-card appearance="outlined" style="margin-bottom: 30px;">
 
-            <!--<button mat-raised-button color="primary" style="margin-bottom: 10px"
-                    [disabled]="!requiredFieldFilledOut()" (click)=validateObject()>Validate full Metadata</button>-->
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        Information:
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    In this last step you can check all the information you entered in the previous steps. If there are
+                    any errors or warnings due to invalid entries, they will be displayed on this page for your
+                    attention and action. If everything is in order, you can click the "Finish" button to complete the
+                    process and download the associated files for your records.
+                </mat-card-content>
+            </mat-card>
+            <mat-divider style="margin-bottom: 30px;"></mat-divider>
             <div fxLayout="row wrap" fxLayoutGap="16px grid">
                 <div fxFlex="15%" fxFlex.xs="100%">
                     <button name="Finish and save" mat-raised-button color="accent" style="margin-top: 10px"
@@ -962,60 +974,13 @@
                         and save</button>
                 </div>
                 <div fxFlex="85%" fxFlex.xs="100%">
-                    <mat-accordion togglePosition="before">
-                        <mat-expansion-panel *ngIf="summed_errors > 0">
-                            <mat-expansion-panel-header>
-                                Errors
-                            </mat-expansion-panel-header>
-                            <mat-list>
-                                <div *ngIf="object_errors.project.length > 0">
-                                    <mat-list-item>Details about the Project Errors:</mat-list-item>
-                                    <mat-list-item *ngFor="let error of object_errors.project">
-                                        - {{error}}
-                                    </mat-list-item>
-                                </div>
-                                <div *ngIf="object_errors.experimental_setting.length > 0">
-                                    <mat-list-item>Details about the Experimental Setting
-                                        Errors:</mat-list-item>
-                                    <mat-list-item *ngFor="let error of object_errors.experimental_setting">
-                                        - {{error}}
-                                    </mat-list-item>
-                                </div>
-                                <div *ngIf="object_errors.technical_details.length > 0">
-                                    <mat-list-item>Technical Details Errors:</mat-list-item>
-                                    <mat-list-item *ngFor="let error of object_errors.technical_details">
-                                        - {{error}}
-                                    </mat-list-item>
-                                </div>
-                            </mat-list>
-                        </mat-expansion-panel>
-                        <mat-expansion-panel *ngIf="summed_warnings > 0">
-                            <mat-expansion-panel-header>
-                                Warnings
-                            </mat-expansion-panel-header>
-                            <mat-list>
-                                <div *ngIf="object_warnings.project.length > 0">
-                                    <mat-list-item>Details about the Project Warnings:</mat-list-item>
-                                    <mat-list-item *ngFor="let warning of object_warnings.project">
-                                        - {{warning}}
-                                    </mat-list-item>
-                                </div>
-                                <div *ngIf="object_warnings.experimental_setting.length > 0">
-                                    <mat-list-item>Details about the Experimental Setting
-                                        Warnings:</mat-list-item>
-                                    <mat-list-item *ngFor="let warning of object_warnings.experimental_setting">
-                                        - {{warning}}
-                                    </mat-list-item>
-                                </div>
-                                <div *ngIf="object_warnings.technical_details.length > 0">
-                                    <mat-list-item>Technical Details Warnings:</mat-list-item>
-                                    <mat-list-item *ngFor="let warning of object_warnings.technical_details">
-                                        - {{warning}}
-                                    </mat-list-item>
-                                </div>
-                            </mat-list>
-                        </mat-expansion-panel>
+                    <ng-container *ngIf="object_errors.summed >= 0" [ngTemplateOutlet]="error_warning_expandables"
+                        [ngTemplateOutletContext]="{element: {object: object_errors, title: 'Errors'}}"></ng-container>
+                    <ng-container *ngIf="object_warnings.summed >= 0" [ngTemplateOutlet]="error_warning_expandables"
+                        [ngTemplateOutletContext]="{element: {object: object_warnings, title: 'Warnings'}}"></ng-container>
 
+                    <mat-accordion togglePosition="before">
+                        
                         <mat-expansion-panel *ngIf="object_summary">
                             <mat-expansion-panel-header>
                                 Summary
@@ -1311,4 +1276,68 @@
             </div>
         </mat-card-content>
     </mat-card>
+</ng-template>
+
+<ng-template #error_warn_list let-element="element">
+
+    <mat-list>
+        <mat-list-item>
+            <div matListItemTitle>
+                {{element.title}}
+            </div>
+        </mat-list-item>
+        <ng-container *ngFor="let single of element.wanings_errors" [ngTemplateOutlet]="error_warn_list_item"
+            [ngTemplateOutletContext]="{element: single}"></ng-container>
+
+    </mat-list>
+</ng-template>
+<ng-template #error_warn_list_item let-element="element">
+    <mat-list-item style="height: initial !important;">
+        <span matListItemIcon><mat-icon color="warn">cancel</mat-icon></span>
+        <div matListItemTitle style="color: red;">TEMPLATE Error Title</div>
+        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px">Some error message
+        </div>
+        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px">field pos</div>
+    </mat-list-item>
+
+</ng-template>
+
+<ng-template #error_warning_expandables let-element="element">
+    <mat-accordion togglePosition="before">
+        <mat-expansion-panel [matBadge]="element.object.summed" matBadgePosition="before" matBadgeColor="warn">
+            <mat-expansion-panel-header>
+                {{element.title}}
+            </mat-expansion-panel-header>
+
+            <ng-container *ngIf="element.object.project.length > 0" [ngTemplateOutlet]="error_warn_list"
+                [ngTemplateOutletContext]="{element: {title: 'TEMPLATEDetails about Project', wanings_errors: element.object.project}}"></ng-container>
+            <ng-container *ngIf="element.object.experimental_setting.length > 0" [ngTemplateOutlet]="error_warn_list"
+                [ngTemplateOutletContext]="{element: {title: 'TEMPLATEDetails about  the Experimental Setting', wanings_errors: element.object.experimental_setting}}"></ng-container>
+            <ng-container *ngIf="element.object.technical_details.length > 0" [ngTemplateOutlet]="error_warn_list"
+                [ngTemplateOutletContext]="{element: {title: 'TEMPLATETechnical Details', wanings_errors: element.object.technical_details}}"></ng-container>
+
+
+            <mat-list>
+                <div *ngIf="element.object.project.length > 0">
+                    <mat-list-item>Details about the Project Errors:</mat-list-item>
+                    <mat-list-item *ngFor="let error of element.object.project">
+                        - {{error}}
+                    </mat-list-item>
+                </div>
+                <div *ngIf="element.object.experimental_setting.length > 0">
+                    <mat-list-item>Details about the Experimental Setting
+                        Errors:</mat-list-item>
+                    <mat-list-item *ngFor="let error of element.object.experimental_setting">
+                        - {{error}}
+                    </mat-list-item>
+                </div>
+                <div *ngIf="element.object.technical_details.length > 0">
+                    <mat-list-item>Technical Details Errors:</mat-list-item>
+                    <mat-list-item *ngFor="let error of object_errors.technical_details">
+                        - {{error}}
+                    </mat-list-item>
+                </div>
+            </mat-list>
+        </mat-expansion-panel>
+    </mat-accordion>
 </ng-template>
