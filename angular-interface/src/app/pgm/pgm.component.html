@@ -27,10 +27,10 @@
         <mat-step label="Details about Project" [color]=" object_errors.project.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <ng-container  [ngTemplateOutlet]="step_header_desc"
-                                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.project.desc}"></ng-container>
-                
-                
+                <ng-container [ngTemplateOutlet]="step_header_desc"
+                    [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.project.desc}"></ng-container>
+
+
                 <div *ngFor="let element of this.apiService.empty_pgmMask.value.project.input_fields">
 
                     <ng-template #justInputBlock>
@@ -180,8 +180,8 @@
             [color]=" object_errors.experimental_setting.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <ng-container  [ngTemplateOutlet]="step_header_desc"
-                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.experimental_setting.desc}"></ng-container>
+                <ng-container [ngTemplateOutlet]="step_header_desc"
+                    [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.experimental_setting.desc}"></ng-container>
 
                 <!--<mat-label>
                     <div [innerHTML]="apiService.empty_pgmMask.value.experimental_setting.desc"></div>
@@ -232,7 +232,9 @@
                                 [ngTemplateOutlet]="value_unit_template"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
-                            <ng-container *ngIf="element.input_type != 'long_text' && element.input_type != 'organism_name'" [ngTemplateOutlet]="std_description"
+                            <ng-container
+                                *ngIf="element.input_type != 'long_text' && element.input_type != 'organism_name'"
+                                [ngTemplateOutlet]="std_description"
                                 [ngTemplateOutletContext]="{element: element}"></ng-container>
 
                             <ng-container *ngIf="element.input_type == 'long_text'"
@@ -280,8 +282,8 @@
                                     </button>
                                 </div>
                                 <div fxFlex="50%" style="word-wrap: break-word; white-space: pre-wrap;"
-        [innerHTML]="element.desc">
-    </div>
+                                    [innerHTML]="element.desc">
+                                </div>
                             </div>
                         </div>
 
@@ -289,7 +291,8 @@
 
                     <ng-template #expandableBlock>
                         <mat-accordion togglePosition="before" [attr.name]="element.position + '_acc'">
-                            <mat-expansion-panel style="margin-bottom: 15px;" [expanded]="openSpecificExpandables(element.position)">
+                            <mat-expansion-panel style="margin-bottom: 15px;"
+                                [expanded]="openSpecificExpandables(element.position)">
                                 <mat-expansion-panel-header [attr.name]="element.position + '_exp'">
                                     <mat-panel-title>
                                         {{element.title}}<sup *ngIf="element.mandatory">*</sup>
@@ -365,138 +368,140 @@
                                 </div>
                                 <div *ngIf="element.position == 'experimental_setting:experimental_factors'">
                                     <button style="margin-bottom: 10px;" class="full-form"
-                                        name="Edit Factors and generate Conditions" mat-raised-button
-                                        color="accent" (click)="openFactorsDialogAllowed()">Edit
+                                        name="Edit Factors and generate Conditions" mat-raised-button color="accent"
+                                        (click)="openFactorsDialogAllowed()">Edit
                                         Factors and generate Conditions</button>
                                     <mat-card appearance="outlined">
                                         <mat-card-content>
 
-                                        
-                                    <mat-accordion togglePosition="before">
-                                        <mat-expansion-panel [disabled]="!filterPanelAllowed"  style="margin-bottom: 10px"
-                                            >
-                                            <mat-expansion-panel-header>
-                                                <mat-panel-title>
-                                                    Condition Filter
-                                                </mat-panel-title>
-                                                <mat-panel-description>
-                                                    Filter and select conditions of the experiment.
-                                                </mat-panel-description>
-                                            </mat-expansion-panel-header>
-                                            <mat-card appearance="outlined" style="margin-bottom: 30px;">
-                                                <mat-card-header>
-                                                    <mat-card-subtitle>
-                                                        Information:
-                                                    </mat-card-subtitle>
-                                                </mat-card-header>
-                                                <mat-card-content>
-                                                    Each condition represents a unique combination of factors
-                                                    that was
-                                                    analysed in a sample.
-                                                    This filter serves to select suitable experimental
-                                                    conditions.<br>
-                                                    "Keyword search" uses free text to search for the name of
-                                                    conditions, while "Factor" and "Factor-Value" filters are
-                                                    used to
-                                                    search for an
-                                                    experimental factor inside of a condition. All filters are
-                                                    connected
-                                                    with AND.<br>
-                                                    Conditions can also be selected by clicking the respective
-                                                    tile at
-                                                    the bottom. This will add these conditions to the expandable
-                                                    menu
-                                                    below.
-                                                </mat-card-content>
-                                            </mat-card>
-                                            <mat-divider style="margin-bottom: 30px;"></mat-divider>
 
-                                            <mat-form-field color="accent" appearance="fill" class="full-form"
-                                                style="margin-bottom: 10px;">
-                                                <mat-label>Keyword search:</mat-label>
-                                                <input matInput [(ngModel)]="condition_filter_str"
-                                                    (keyup)="filterChipConditions()">
-                                                <button *ngIf="condition_filter_str" matSuffix mat-icon-button
-                                                    aria-label="Clear" (click)="condition_filter_str=''"
-                                                    (click)="filterChipConditions()">
-                                                    <mat-icon>close</mat-icon>
-                                                </button>
-                                            </mat-form-field>
-                                            <div fxLayout="row wrap" fxLayoutGap="16px grid"
-                                                *ngFor="let filter_object of selected_filter_factor_object; let search_index = index">
+                                            <mat-accordion togglePosition="before">
+                                                <mat-expansion-panel [disabled]="!filterPanelAllowed"
+                                                    style="margin-bottom: 10px">
+                                                    <mat-expansion-panel-header>
+                                                        <mat-panel-title>
+                                                            Condition Filter
+                                                        </mat-panel-title>
+                                                        <mat-panel-description>
+                                                            Filter and select conditions of the experiment.
+                                                        </mat-panel-description>
+                                                    </mat-expansion-panel-header>
+                                                    <mat-card appearance="outlined" style="margin-bottom: 30px;">
+                                                        <mat-card-header>
+                                                            <mat-card-subtitle>
+                                                                Information:
+                                                            </mat-card-subtitle>
+                                                        </mat-card-header>
+                                                        <mat-card-content>
+                                                            Each condition represents a unique combination of factors
+                                                            that was
+                                                            analysed in a sample.
+                                                            This filter serves to select suitable experimental
+                                                            conditions.<br>
+                                                            "Keyword search" uses free text to search for the name of
+                                                            conditions, while "Factor" and "Factor-Value" filters are
+                                                            used to
+                                                            search for an
+                                                            experimental factor inside of a condition. All filters are
+                                                            connected
+                                                            with AND.<br>
+                                                            Conditions can also be selected by clicking the respective
+                                                            tile at
+                                                            the bottom. This will add these conditions to the expandable
+                                                            menu
+                                                            below.
+                                                        </mat-card-content>
+                                                    </mat-card>
+                                                    <mat-divider style="margin-bottom: 30px;"></mat-divider>
 
-                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-
-                                                    <mat-form-field color="accent" appearance="fill"
-                                                        class="full-form" style="margin-bottom: 5px;">
-                                                        <mat-label>{{search_index +1}}. Factor
-                                                            Filter:</mat-label>
-                                                        <mat-select
-                                                            [(ngModel)]="filter_object.selected_filter_factor"
-                                                            (selectionChange)="filterChipConditions()">
-                                                            <mat-option [value]="filter_factor"
-                                                                *ngFor="let filter_factor of factors">{{filter_factor.factor}}
-                                                            </mat-option>
-                                                        </mat-select></mat-form-field>
-                                                </div>
-                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-                                                    <mat-form-field color="accent" appearance="fill"
-                                                        class="full-form" style="margin-bottom: 5px;">
-                                                        <mat-label>{{search_index +1}}. Factor-Value
-                                                            Filter:</mat-label>
-                                                        <mat-select multiple
-                                                            [(ngModel)]="filter_object.selected_filter_factor_values"
-                                                            (selectionChange)="filterChipConditions()">
-                                                            <mat-option [value]="filter_factor_values"
-                                                                *ngFor="let filter_factor_values of getFilterFactorValues(filter_object)">{{filter_factor_values}}
-                                                            </mat-option>
-                                                        </mat-select>
-
+                                                    <mat-form-field color="accent" appearance="fill" class="full-form"
+                                                        style="margin-bottom: 10px;">
+                                                        <mat-label>Keyword search:</mat-label>
+                                                        <input matInput [(ngModel)]="condition_filter_str"
+                                                            (keyup)="filterChipConditions()">
+                                                        <button *ngIf="condition_filter_str" matSuffix mat-icon-button
+                                                            aria-label="Clear" (click)="condition_filter_str=''"
+                                                            (click)="filterChipConditions()">
+                                                            <mat-icon>close</mat-icon>
+                                                        </button>
                                                     </mat-form-field>
-                                                </div>
-                                            </div>
-                                            <mat-action-row>
-                                                <button mat-raised-button color="warn"
-                                                    (click)="resetFilterChipConds()">Reset Filter</button>
-                                            </mat-action-row>
-                                        </mat-expansion-panel>
-                                    </mat-accordion>
-                                    <mat-card appearance="outlined" style="margin-bottom: 10px;">
-                                        <mat-card-content>
+                                                    <div fxLayout="row wrap" fxLayoutGap="16px grid"
+                                                        *ngFor="let filter_object of selected_filter_factor_object; let search_index = index">
 
-                                            <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                                                
-                                                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                                    style="align-items: center; display: flex">
-                                                    <mat-checkbox style="margin-bottom: 10px"
-                                                        [(ngModel)]="filterSelectedChips"
-                                                        (change)="filterSeleced()">Show only Selected Conditions
-                                                    </mat-checkbox>
-                                                </div>
-                                                <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
-                                                    style="align-items: center; display: flex">
+                                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
 
-                                                    <mat-checkbox style="margin-bottom: 10px;"
-                                                        [(ngModel)]="filterUnselectedChips"
-                                                        (change)="filterUnseleced()">Show only Unselected
-                                                        Conditions</mat-checkbox>
-                                                </div>
-                                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-                                                    <mat-paginator #condition_paginator
-                                                        style="margin-bottom: 10px;"
-                                                        [length]="chip_conditions.length"
-                                                        [pageSizeOptions]="[10, 25, 50]"
-                                                        (page)="onPageChange($event)"></mat-paginator>
-                                                </div>
-                                            </div>
+                                                            <mat-form-field color="accent" appearance="fill"
+                                                                class="full-form" style="margin-bottom: 5px;">
+                                                                <mat-label>{{search_index +1}}. Factor
+                                                                    Filter:</mat-label>
+                                                                <mat-select
+                                                                    [(ngModel)]="filter_object.selected_filter_factor"
+                                                                    (selectionChange)="filterChipConditions()">
+                                                                    <mat-option [value]="filter_factor"
+                                                                        *ngFor="let filter_factor of factors">{{filter_factor.factor}}
+                                                                    </mat-option>
+                                                                </mat-select></mat-form-field>
+                                                        </div>
+                                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
+                                                            <mat-form-field color="accent" appearance="fill"
+                                                                class="full-form" style="margin-bottom: 5px;">
+                                                                <mat-label>{{search_index +1}}. Factor-Value
+                                                                    Filter:</mat-label>
+                                                                <mat-select multiple
+                                                                    [(ngModel)]="filter_object.selected_filter_factor_values"
+                                                                    (selectionChange)="filterChipConditions()">
+                                                                    <mat-option [value]="filter_factor_values"
+                                                                        *ngFor="let filter_factor_values of getFilterFactorValues(filter_object)">{{filter_factor_values}}
+                                                                    </mat-option>
+                                                                </mat-select>
 
-                                            <mat-divider style="margin-bottom: 15px"></mat-divider>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                    <mat-action-row>
+                                                        <button mat-raised-button color="warn"
+                                                            (click)="resetFilterChipConds()">Reset Filter</button>
+                                                    </mat-action-row>
+                                                </mat-expansion-panel>
+                                            </mat-accordion>
+                                            <mat-card appearance="outlined" style="margin-bottom: 10px;">
+                                                <mat-card-content>
 
-                                            
-                                                    <div *ngIf="displayedChips.length == 0" style="text-align: center; color:rgb(112, 112, 112)">
+                                                    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+
+                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                            style="align-items: center; display: flex">
+                                                            <mat-checkbox style="margin-bottom: 10px"
+                                                                [(ngModel)]="filterSelectedChips"
+                                                                (change)="filterSeleced()">Show only Selected Conditions
+                                                            </mat-checkbox>
+                                                        </div>
+                                                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%"
+                                                            style="align-items: center; display: flex">
+
+                                                            <mat-checkbox style="margin-bottom: 10px;"
+                                                                [(ngModel)]="filterUnselectedChips"
+                                                                (change)="filterUnseleced()">Show only Unselected
+                                                                Conditions</mat-checkbox>
+                                                        </div>
+                                                        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
+                                                            <mat-paginator #condition_paginator
+                                                                style="margin-bottom: 10px;"
+                                                                [length]="chip_conditions.length"
+                                                                [pageSizeOptions]="[10, 25, 50]"
+                                                                (page)="onPageChange($event)"></mat-paginator>
+                                                        </div>
+                                                    </div>
+
+                                                    <mat-divider style="margin-bottom: 15px"></mat-divider>
+
+
+                                                    <div *ngIf="displayedChips.length == 0"
+                                                        style="text-align: center; color:rgb(112, 112, 112)">
                                                         No matching conditions found
                                                     </div>
-                                                    <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'" style="margin-bottom: 15px;">
+                                                    <mat-chip-listbox multiple selectable [attr.name]="'cond_chip'"
+                                                        style="margin-bottom: 15px;">
                                                         <mat-chip-option [attr.name]="chip_cond.correct_value"
                                                             style="height: auto !important"
                                                             (selectionChange)="chipSelectionChange($event, chip_cond)"
@@ -504,11 +509,11 @@
                                                             [selected]="chip_cond.selected">
                                                             <div [innerHTML]="chip_cond.title"></div>
                                                         </mat-chip-option>
-                                                    </mat-chip-listbox>  
+                                                    </mat-chip-listbox>
                                                 </mat-card-content>
                                             </mat-card>
-                                                                                           
-                                                                                           
+
+
                                         </mat-card-content>
                                         <mat-action-row>
                                             <button mat-raised-button color="accent"
@@ -516,7 +521,7 @@
                                             <button mat-raised-button color="warn"
                                                 (click)="unselectAllChipConds()">Unselect All</button>
                                             <div fxFlex></div>
-                                            </mat-action-row>
+                                        </mat-action-row>
                                     </mat-card>
                                     <!--<mat-list>
                                     <mat-list-item *ngFor="let factor of factors">
@@ -551,8 +556,8 @@
                                                 </mat-card-content>
                                                 <mat-divider></mat-divider>
                                                 <mat-card-actions align="end">
-                                                    <button mat-fab *ngIf="condition.list_value.length > 0" extended #tooltip="matTooltip"
-                                                        matTooltip="Add and Edit Samples"
+                                                    <button mat-fab *ngIf="condition.list_value.length > 0" extended
+                                                        #tooltip="matTooltip" matTooltip="Add and Edit Samples"
                                                         matTooltipPosition="above"
                                                         [attr.name]="condition.correct_value + '_btn'"
                                                         (click)="editCondition(condition, organism_name)"
@@ -560,15 +565,14 @@
                                                         <mat-icon>add</mat-icon>
                                                         More Samples
                                                     </button>
-                                                    <button mat-fab *ngIf="condition.list_value.length == 0" extended #tooltip="matTooltip"
-                                                        matTooltip="Add and Edit Samples"
+                                                    <button mat-fab *ngIf="condition.list_value.length == 0" extended
+                                                        #tooltip="matTooltip" matTooltip="Add and Edit Samples"
                                                         matTooltipPosition="above"
                                                         [attr.name]="condition.correct_value + '_btn'"
-                                                        (click)="editCondition(condition, organism_name)"
-                                                        color="warn">
+                                                        (click)="editCondition(condition, organism_name)" color="warn">
                                                         Missing Samples
                                                         <mat-icon>add</mat-icon>
-                                                        
+
                                                     </button>
 
                                                 </mat-card-actions>
@@ -589,162 +593,198 @@
                 style="margin-top: 10px; margin-bottom: 10px" (click)="addExperimentalSettingDialogs()"
                 [disabled]="addExperimentalSettingDisabled()">Save Experimental
                 Setting</button>
-            <div *ngIf="apiService.empty_pgmMask.value.experimental_setting.list_value.length > 0">
-                <mat-accordion togglePosition="before">
-                    <mat-expansion-panel style="margin-bottom: 15px;">
-                        <mat-expansion-panel-header>
-                            Settings
-                        </mat-expansion-panel-header>
+
+            <mat-accordion togglePosition="before">
+                <mat-expansion-panel style="margin-bottom: 15px;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Experimental Settings*
+                        </mat-panel-title>
+
+                        <mat-panel-description>
+                            This section shows the all your added experimental settings.
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
 
 
+                    <mat-card appearance="outlined" style="margin-bottom: 40px;">
+                        <mat-card-header>
+                            <mat-card-subtitle>
+                                Experimental Settings:
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div *ngIf="apiService.empty_pgmMask.value.experimental_setting.list_value.length == 0"
+                                style="text-align: center; color:rgb(112, 112, 112)">
+                                No Experimental Settings added.</div>
 
-                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-                            <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%"
-                                *ngFor="let setting of apiService.empty_pgmMask.value.experimental_setting.list_value">
-                                <mat-card appearance="outlined">
-                                    <mat-card-content>
-                                        <mat-list>
+                            <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
+                                <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="50%"
+                                    *ngFor="let setting of apiService.empty_pgmMask.value.experimental_setting.list_value">
+                                    <mat-card appearance="outlined">
+                                        <mat-card-content>
+                                            <mat-list>
+                                                <div *ngFor="let category of setting">
+
+                                                    <mat-list-item
+                                                        *ngIf="category.position == 'experimental_setting:organism' || category.position == 'experimental_setting:setting_id'">
+                                                        <div matListItemTitle><b>{{category.displayName}}</b></div>
+                                                        <div matListItemLine>{{category.value}}</div>
+                                                    </mat-list-item>
+
+                                                </div>
+                                            </mat-list>
                                             <div *ngFor="let category of setting">
-
-                                                <mat-list-item
-                                                    *ngIf="category.position == 'experimental_setting:organism' || category.position == 'experimental_setting:setting_id'">
-                                                    <div matListItemTitle><b>{{category.displayName}}</b></div>
-                                                    <div matListItemLine>{{category.value}}</div>
-                                                </mat-list-item>
-
-                                            </div>
-                                        </mat-list>
-                                        <div *ngFor="let category of setting">
-                                            <mat-accordion togglePosition="before"
-                                                *ngIf="category.position == 'experimental_setting:conditions'">
-                                                <mat-expansion-panel>
-                                                    <mat-expansion-panel-header>
-                                                        <b>{{category.title}}</b>
-                                                    </mat-expansion-panel-header>
-                                                    <mat-card style="margin-bottom: 10px;" appearance="outlined"
-                                                        *ngFor="let condition of category.list_value">
-                                                        <mat-card-header>
-                                                            <mat-card-title
-                                                                [innerHTML]="condition.title"></mat-card-title>
-                                                        </mat-card-header>
-                                                        <mat-card-content>
-                                                            <div *ngFor="let sample of condition.list_value">
-                                                                <mat-accordion togglePosition="before">
-                                                                    <mat-expansion-panel>
-                                                                        <mat-expansion-panel-header>
-                                                                            <div *ngFor="let sample_input of sample">
+                                                <mat-accordion togglePosition="before"
+                                                    *ngIf="category.position == 'experimental_setting:conditions'">
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <b>{{category.title}}</b>
+                                                        </mat-expansion-panel-header>
+                                                        <mat-card style="margin-bottom: 10px;" appearance="outlined"
+                                                            *ngFor="let condition of category.list_value">
+                                                            <mat-card-header>
+                                                                <mat-card-title
+                                                                    [innerHTML]="condition.title"></mat-card-title>
+                                                            </mat-card-header>
+                                                            <mat-card-content>
+                                                                <div *ngFor="let sample of condition.list_value">
+                                                                    <mat-accordion togglePosition="before">
+                                                                        <mat-expansion-panel>
+                                                                            <mat-expansion-panel-header>
                                                                                 <div
-                                                                                    *ngIf="sample_input.position == 'experimental_setting:conditions:biological_replicates:samples:sample_name'">
-                                                                                    <b>Details:
-                                                                                        {{sample_input.value}}</b>
-                                                                                </div>
-                                                                            </div>
-                                                                        </mat-expansion-panel-header>
-                                                                        <mat-list>
-                                                                            <div *ngFor="let sample_input of sample">
-                                                                                <div
-                                                                                    *ngIf="sample_input.position != 'experimental_setting:conditions:biological_replicates:samples:sample_name'">
-                                                                                    <mat-list-item
-                                                                                        *ngIf="sample_input.value || !sample_input.title && sample_input.list && sample_input.list_value.length > 0">
-                                                                                        <div matListItemTitle>
-                                                                                            {{sample_input.displayName}}:
-                                                                                        </div>
-                                                                                        <div matListItemLine
-                                                                                            *ngIf="sample_input.input_type=='date'">
-                                                                                            {{sample_input.value
-                                                                                            |
-                                                                                            date: "dd. MMM
-                                                                                            yyyy"}}
-                                                                                        </div>
-                                                                                        <div matListItemLine
-                                                                                            *ngIf="sample_input.input_type!='date'">
-                                                                                            {{sample_input.list_value}}{{sample_input.value}}{{sample_input.value_unit}}
-                                                                                        </div>
-                                                                                    </mat-list-item>
-                                                                                </div>
-                                                                                <div
-                                                                                    *ngIf="sample_input.title && sample_input.list">
+                                                                                    *ngFor="let sample_input of sample">
                                                                                     <div
-                                                                                        *ngIf="sample_input.list_value.length > 0">
-                                                                                        <mat-label><b>{{sample_input.title}}</b></mat-label>
-                                                                                        <div fxLayout="row wrap"
-                                                                                            fxLayoutGap="16px grid"
-                                                                                            fxLayoutAlign="strech">
-                                                                                            <div fxFlex="50%"
-                                                                                                fxFlex.xs="100%"
-                                                                                                fxFlex.sm="33%"
-                                                                                                *ngFor="let list_element of sample_input.list_value">
-                                                                                                <mat-card
-                                                                                                    appearance="outlined">
-                                                                                                    <mat-card-content>
-                                                                                                        <mat-list>
-                                                                                                            <div
-                                                                                                                *ngFor="let list_input of list_element">
-                                                                                                                <mat-list-item
-                                                                                                                    *ngIf="list_input.value || list_input.list && list_input.list_value.length > 0">
-                                                                                                                    <div
-                                                                                                                        matListItemTitle>
-                                                                                                                        {{list_input.displayName}}:
-                                                                                                                    </div>
-                                                                                                                    <div matListItemLine
-                                                                                                                        *ngIf="list_input.input_type=='date'">
-                                                                                                                        {{list_input.value
-                                                                                                                        |
-                                                                                                                        date:
-                                                                                                                        "dd.
-                                                                                                                        MMM
-                                                                                                                        yyyy"}}
-                                                                                                                    </div>
-                                                                                                                    <div matListItemLine
-                                                                                                                        *ngIf="list_input.input_type!='date'">
-                                                                                                                        {{list_input.list_value}}{{list_input.value}}{{list_input.value_unit}}
-                                                                                                                    </div>
-                                                                                                                </mat-list-item>
-                                                                                                            </div>
-                                                                                                        </mat-list>
-                                                                                                    </mat-card-content>
-                                                                                                </mat-card>
+                                                                                        *ngIf="sample_input.position == 'experimental_setting:conditions:biological_replicates:samples:sample_name'">
+                                                                                        <b>Details:
+                                                                                            {{sample_input.value}}</b>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </mat-expansion-panel-header>
+                                                                            <mat-list>
+                                                                                <div
+                                                                                    *ngFor="let sample_input of sample">
+                                                                                    <div
+                                                                                        *ngIf="sample_input.position != 'experimental_setting:conditions:biological_replicates:samples:sample_name'">
+                                                                                        <mat-list-item
+                                                                                            *ngIf="sample_input.value || !sample_input.title && sample_input.list && sample_input.list_value.length > 0">
+                                                                                            <div matListItemTitle>
+                                                                                                {{sample_input.displayName}}:
                                                                                             </div>
+                                                                                            <div matListItemLine
+                                                                                                *ngIf="sample_input.input_type=='date'">
+                                                                                                {{sample_input.value
+                                                                                                |
+                                                                                                date: "dd. MMM
+                                                                                                yyyy"}}
+                                                                                            </div>
+                                                                                            <div matListItemLine
+                                                                                                *ngIf="sample_input.input_type!='date'">
+                                                                                                {{sample_input.list_value}}{{sample_input.value}}{{sample_input.value_unit}}
+                                                                                            </div>
+                                                                                        </mat-list-item>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        *ngIf="sample_input.title && sample_input.list">
+                                                                                        <div
+                                                                                            *ngIf="sample_input.list_value.length > 0">
+                                                                                            <mat-card
+                                                                                                appearance="outlined"
+                                                                                                style="margin-bottom: 10px;">
+                                                                                                <mat-card-header>
+                                                                                                    <mat-card-subtitle>
+                                                                                                        <b>{{sample_input.title}}:</b>
+                                                                                                    </mat-card-subtitle>
+                                                                                                </mat-card-header>
+                                                                                                <mat-card-content>
+
+                                                                                                    <div fxLayout="row wrap"
+                                                                                                        fxLayoutGap="16px grid"
+                                                                                                        fxLayoutAlign="strech">
+                                                                                                        <div fxFlex="50%"
+                                                                                                            *ngFor="let list_element of sample_input.list_value">
+                                                                                                            <mat-card
+                                                                                                                appearance="outlined">
+                                                                                                                <mat-card-content>
+                                                                                                                    <mat-list>
+                                                                                                                        <div
+                                                                                                                            *ngFor="let list_input of list_element">
+                                                                                                                            <mat-list-item
+                                                                                                                                *ngIf="list_input.value || list_input.list && list_input.list_value.length > 0">
+                                                                                                                                <div
+                                                                                                                                    matListItemTitle>
+                                                                                                                                    {{list_input.displayName}}:
+                                                                                                                                </div>
+                                                                                                                                <div matListItemLine
+                                                                                                                                    *ngIf="list_input.input_type=='date'">
+                                                                                                                                    {{list_input.value
+                                                                                                                                    |
+                                                                                                                                    date:
+                                                                                                                                    "dd.
+                                                                                                                                    MMM
+                                                                                                                                    yyyy"}}
+                                                                                                                                </div>
+                                                                                                                                <div matListItemLine
+                                                                                                                                    *ngIf="list_input.input_type!='date'">
+                                                                                                                                    {{list_input.list_value}}{{list_input.value}}{{list_input.value_unit}}
+                                                                                                                                </div>
+                                                                                                                            </mat-list-item>
+                                                                                                                        </div>
+                                                                                                                    </mat-list>
+                                                                                                                </mat-card-content>
+                                                                                                            </mat-card>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </mat-card-content>
+
+                                                                                            </mat-card>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </mat-list>
-                                                                    </mat-expansion-panel>
-                                                                </mat-accordion>
-                                                            </div>
-                                                        </mat-card-content>
-
-                                                        <mat-divider style="margin-top: 10px;"></mat-divider>
-                                                        <mat-card-actions align="end">
-                                                            <button mat-icon-button #tooltip="matTooltip"
-                                                                matTooltip="Edit Samples" matTooltipPosition="below"
-                                                                (click)="editFinishedCondition(condition, setting)"
-                                                                color="accent">
-                                                                <mat-icon>edit</mat-icon>
-                                                            </button>
-                                                        </mat-card-actions>
-                                                    </mat-card>
-                                                </mat-expansion-panel>
-                                            </mat-accordion>
+                                                                            </mat-list>
+                                                                        </mat-expansion-panel>
+                                                                    </mat-accordion>
+                                                                </div>
+                                                            </mat-card-content>
 
 
-                                        </div>
+                                                            <mat-divider style="margin-top: 10px;"></mat-divider>
+                                                            <mat-card-actions align="end">
+                                                                <button mat-icon-button #tooltip="matTooltip"
+                                                                    matTooltip="Edit Samples" matTooltipPosition="below"
+                                                                    (click)="editFinishedCondition(condition, setting)"
+                                                                    color="accent">
+                                                                    <mat-icon>edit</mat-icon>
+                                                                </button>
+                                                            </mat-card-actions>
+                                                        </mat-card>
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
 
-                                    </mat-card-content>
-                                    <mat-card-actions align="end">
-                                        <button mat-icon-button (click)="removeExperimentalSetting(setting)"
-                                            color="warn">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                    </mat-card-actions>
-                                </mat-card>
+
+                                            </div>
+
+
+
+                                        </mat-card-content>
+                                        <mat-card-actions align="end">
+                                            <button mat-icon-button (click)="removeExperimentalSetting(setting)"
+                                                color="warn">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </mat-card-actions>
+                                    </mat-card>
+                                </div>
                             </div>
-                        </div>
+                        </mat-card-content>
+                    </mat-card>
 
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </div>
+
+
+
+
+                </mat-expansion-panel>
+            </mat-accordion>
 
 
             <div>
@@ -758,8 +798,8 @@
         <mat-step label="Technical Details" [color]=" object_errors.technical_details.length > 0 ? 'warn': 'accent'">
 
             <div [@.disabled]="disableAnimation">
-                <ng-container  [ngTemplateOutlet]="step_header_desc"
-                [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.technical_details.desc}"></ng-container>
+                <ng-container [ngTemplateOutlet]="step_header_desc"
+                    [ngTemplateOutletContext]="{desc: apiService.empty_pgmMask.value.technical_details.desc}"></ng-container>
 
                 <!--<mat-label>
                     <div [innerHTML]="apiService.empty_pgmMask.value.technical_details.desc"></div>
@@ -1031,7 +1071,8 @@
 
 <ng-template #long_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.long_text[0]">
-        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
+        <mat-form-field color="accent" appearance="fill" class="full-form"
+            [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <textarea attr.data-type="{{element.input_type}}" [name]="element.position" spellcheck="false" matInput
                 [disabled]="element.input_disabled" [(ngModel)]="element.value"></textarea>
@@ -1043,7 +1084,8 @@
 
 <ng-template #restricted_short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std">
-        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
+        <mat-form-field color="accent" appearance="fill" class="full-form"
+            [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input attr.data-type="{{element.input_type}}" [name]="element.position" [disabled]="element.input_disabled"
                 matInput [(ngModel)]="element.value"
@@ -1057,7 +1099,8 @@
 
 <ng-template #number_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std">
-        <mat-form-field color="accent" appearance="fill" class="full-form" [style.margin-bottom.px]="element.list ? 0 : 25">
+        <mat-form-field color="accent" appearance="fill" class="full-form"
+            [style.margin-bottom.px]="element.list ? 0 : 25">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input attr.data-type="{{element.input_type}}" [name]="element.position" matInput type="number"
                 [disabled]="element.input_disabled" [(ngModel)]="element.value">
@@ -1115,7 +1158,7 @@
 <ng-template #autofill_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std" style="margin-bottom: 0px;">
 
-        <mat-form-field color="accent" appearance="fill" class="full-form" >
+        <mat-form-field color="accent" appearance="fill" class="full-form">
             <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
             <input (paste)="(false)" attr.data-type="{{element.input_type}}" [name]="element.position"
                 [disabled]="(element.input_type == 'single_autofill' && element.list_value.length >= 1) || element.input_disabled"
@@ -1209,8 +1252,9 @@
 
 <ng-template #expandable_list_template let-element="element">
     <mat-action-row>
-        <button class="full-form" [name]="element.position + '_btn'" mat-raised-button color="accent" style="margin-bottom: 10px;"
-            (click)="addToGenericExpandable(element)" [disabled]="addDisabledToGenericExpandable(element)">
+        <button class="full-form" [name]="element.position + '_btn'" mat-raised-button color="accent"
+            style="margin-bottom: 10px;" (click)="addToGenericExpandable(element)"
+            [disabled]="addDisabledToGenericExpandable(element)">
             Add to {{element.title}}
         </button>
         <div fxFlex></div>
@@ -1219,9 +1263,9 @@
     <mat-card appearance="outlined" class="mat-elevation-z4">
         <mat-card-header>
             <mat-card-subtitle>
-              {{element.title}}:
+                {{element.title}}:
             </mat-card-subtitle>
-          </mat-card-header>
+        </mat-card-header>
         <mat-card-content>
             <div *ngIf="element.list_value.length == 0" style="text-align: center; color:rgb(112, 112, 112)">No
                 information added for {{element.title}}</div>
