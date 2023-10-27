@@ -974,9 +974,9 @@
                         and save</button>
                 </div>
                 <div fxFlex="85%" fxFlex.xs="100%">
-                    <ng-container *ngIf="object_errors.summed >= 0" [ngTemplateOutlet]="error_warning_expandables"
+                    <ng-container *ngIf="object_errors.summed > 0" [ngTemplateOutlet]="error_warning_expandables"
                         [ngTemplateOutletContext]="{element: {object: object_errors, title: 'Errors'}}"></ng-container>
-                    <ng-container *ngIf="object_warnings.summed >= 0" [ngTemplateOutlet]="error_warning_expandables"
+                    <ng-container *ngIf="object_warnings.summed > 0" [ngTemplateOutlet]="error_warning_expandables"
                         [ngTemplateOutletContext]="{element: {object: object_warnings, title: 'Warnings'}}"></ng-container>
 
                     <mat-accordion togglePosition="before">
@@ -1279,25 +1279,29 @@
 </ng-template>
 
 <ng-template #error_warn_list let-element="element">
-
-    <mat-list>
-        <mat-list-item>
-            <div matListItemTitle>
-                {{element.title}}
-            </div>
-        </mat-list-item>
-        <ng-container *ngFor="let single of element.wanings_errors" [ngTemplateOutlet]="error_warn_list_item"
-            [ngTemplateOutletContext]="{element: single}"></ng-container>
-
-    </mat-list>
+    <mat-card appearance="outlined" style="margin-bottom: 10px;">
+        <mat-card-header>
+            <mat-card-subtitle>
+                {{element.title}}:
+            </mat-card-subtitle>
+            
+        </mat-card-header>
+        <mat-card-content>
+                <mat-list>
+                    <ng-container *ngFor="let single of element.wanings_errors" [ngTemplateOutlet]="error_warn_list_item"
+                        [ngTemplateOutletContext]="{element: single}"></ng-container>
+                </mat-list>
+            </mat-card-content>
+    </mat-card>
 </ng-template>
+
 <ng-template #error_warn_list_item let-element="element">
     <mat-list-item style="height: initial !important;">
         <span matListItemIcon><mat-icon color="warn">cancel</mat-icon></span>
-        <div matListItemTitle style="color: red;">TEMPLATE Error Title</div>
-        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px">Some error message
+        <div matListItemTitle style="color: red;" [innerHTML]="element.title"></div>
+        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px" [innerHTML]="element.message">Some error message
         </div>
-        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px">field pos</div>
+        <div matListItemLine style="word-wrap: break-word; white-space: pre-wrap; font-size: 12px" [innerHTML]="element.position"></div>
     </mat-list-item>
 
 </ng-template>
@@ -1310,11 +1314,11 @@
             </mat-expansion-panel-header>
 
             <ng-container *ngIf="element.object.project.length > 0" [ngTemplateOutlet]="error_warn_list"
-                [ngTemplateOutletContext]="{element: {title: 'TEMPLATEDetails about Project', wanings_errors: element.object.project}}"></ng-container>
+                [ngTemplateOutletContext]="{element: {title: 'Details about Project', wanings_errors: element.object.project}}"></ng-container>
             <ng-container *ngIf="element.object.experimental_setting.length > 0" [ngTemplateOutlet]="error_warn_list"
-                [ngTemplateOutletContext]="{element: {title: 'TEMPLATEDetails about  the Experimental Setting', wanings_errors: element.object.experimental_setting}}"></ng-container>
+                [ngTemplateOutletContext]="{element: {title: 'Details about  the Experimental Setting', wanings_errors: element.object.experimental_setting}}"></ng-container>
             <ng-container *ngIf="element.object.technical_details.length > 0" [ngTemplateOutlet]="error_warn_list"
-                [ngTemplateOutletContext]="{element: {title: 'TEMPLATETechnical Details', wanings_errors: element.object.technical_details}}"></ng-container>
+                [ngTemplateOutletContext]="{element: {title: 'Technical Details', wanings_errors: element.object.technical_details}}"></ng-container>
 
 
             <mat-list>
