@@ -1320,28 +1320,6 @@
             <ng-container *ngIf="element.object.technical_details.length > 0" [ngTemplateOutlet]="error_warn_list"
                 [ngTemplateOutletContext]="{element: {title: 'Technical Details', wanings_errors: element.object.technical_details}}"></ng-container>
 
-
-            <mat-list>
-                <div *ngIf="element.object.project.length > 0">
-                    <mat-list-item>Details about the Project Errors:</mat-list-item>
-                    <mat-list-item *ngFor="let error of element.object.project">
-                        - {{error}}
-                    </mat-list-item>
-                </div>
-                <div *ngIf="element.object.experimental_setting.length > 0">
-                    <mat-list-item>Details about the Experimental Setting
-                        Errors:</mat-list-item>
-                    <mat-list-item *ngFor="let error of element.object.experimental_setting">
-                        - {{error}}
-                    </mat-list-item>
-                </div>
-                <div *ngIf="element.object.technical_details.length > 0">
-                    <mat-list-item>Technical Details Errors:</mat-list-item>
-                    <mat-list-item *ngFor="let error of object_errors.technical_details">
-                        - {{error}}
-                    </mat-list-item>
-                </div>
-            </mat-list>
         </mat-expansion-panel>
     </mat-accordion>
 </ng-template>
