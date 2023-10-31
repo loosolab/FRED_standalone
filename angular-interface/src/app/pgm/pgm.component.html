@@ -393,23 +393,23 @@
                                                             </mat-card-subtitle>
                                                         </mat-card-header>
                                                         <mat-card-content>
-                                                            Each condition represents a unique combination of factors
-                                                            that was
-                                                            analysed in a sample.
-                                                            This filter serves to select suitable experimental
-                                                            conditions.<br>
-                                                            "Keyword search" uses free text to search for the name of
-                                                            conditions, while "Factor" and "Factor-Value" filters are
-                                                            used to
-                                                            search for an
-                                                            experimental factor inside of a condition. All filters are
-                                                            connected
-                                                            with AND.<br>
-                                                            Conditions can also be selected by clicking the respective
-                                                            tile at
-                                                            the bottom. This will add these conditions to the expandable
-                                                            menu
-                                                            below.
+                                                            Each unique combination of previously selected
+                                                                    factors is a potential condition of interest and
+                                                                    listed here. This filter serves to select
+                                                                    experimental conditions investigated in this
+                                                                    setting. Conditions can be pre-filtered using the
+                                                                    following methods (connected via logical 'AND'
+                                                                    operator):<br>
+                                                                    1. 'Keyword search': general free text to search for
+                                                                    the name of conditions,<br>
+                                                                    2. 'Factor' / 'Factor-Value': search for exact
+                                                                    values inside a factor.<br>
+                                                                    <br>
+                                                                    Pre-filtered conditions can then be selected via
+                                                                    buttons '(Un)Select All' or by clicking the
+                                                                    respective tile in the lower end of this box.
+                                                                    Selected conditions are added to the expandable menu
+                                                                    of Samples” below the condition box.
                                                         </mat-card-content>
                                                     </mat-card>
                                                     <mat-divider style="margin-bottom: 30px;"></mat-divider>
@@ -1187,7 +1187,7 @@
         </mat-card-header>
         <mat-card-content>
             <div *ngIf="element.list_value.length == 0" style="text-align: center; color:rgb(112, 112, 112)">
-                No information added for {{element.displayName}}</div>
+                Not available</div>
             <mat-chip-listbox>
                 <mat-chip-option *ngFor="let list_item of element.list_value"
                     style="border: 1px; border-color: black;border-style: solid;height: auto !important"

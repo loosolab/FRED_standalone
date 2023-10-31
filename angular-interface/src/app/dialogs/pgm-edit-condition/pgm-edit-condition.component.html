@@ -237,7 +237,6 @@
                       <mat-label>Technical Replicates</mat-label>
                       <input attr.data-type="{{sample_input.input_type}}" [name]="sample_input.position" matInput
                         type="number" min="1" [(ngModel)]="technical_replicates_input.value">
-                      <mat-hint align="start">Number of replicates</mat-hint>
                     </mat-form-field>
 
                   </div>
@@ -486,7 +485,7 @@
       </mat-card-header>
       <mat-card-content>
         <div *ngIf="element.list_value.length == 0" style="text-align: center; color:rgb(112, 112, 112)">
-          No information added for {{element.displayName}}</div>
+          Not available</div>
         <mat-chip-listbox>
           <mat-chip-option *ngFor="let list_item of element.list_value"
             style="border: 1px; border-color: black;border-style: solid;height: auto !important"
