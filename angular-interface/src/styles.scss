@@ -22,7 +22,7 @@ $angular-default-theme: mat.define-light-theme(
   (
     color: (
       primary: mat.define-palette(mat.$grey-palette,900),
-      accent: mat.define-palette(mat.$purple-palette, A700),
+      accent: mat.define-palette(mat.$cyan-palette, A400),
       warn:  mat.define-palette(mat.$red-palette),
     ),
   )
@@ -33,12 +33,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .active-nav-button {
     color: #000000 !important; /* Note: You could also use a custom theme */
-    background-color: #b205f7 !important;
+    background-color: #00E5FF !important;
   }
 
 .loading-wrapper {
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: calc(100vh - 20px);
   }
@@ -58,24 +58,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .list-style-type-circle {
     list-style-type: disc;
   }
-  
+
   .list-style-none {
     list-style: none;
   }
-  
+
   .table_style_condition_title{
     border-collapse: collapse;
   }
-  
+
   .tr_style_condition_title{
     border-bottom: 1pt solid black;
   }
-  
+
   .td_style_condition_title_factor{
     border-right: 1pt solid black;
     padding: 5px;
   }
-  
+
   .td_style_condition_title_value{
     padding: 5px;
   }
