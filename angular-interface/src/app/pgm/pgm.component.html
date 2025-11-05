@@ -33,60 +33,7 @@
 
                 <div *ngFor="let element of this.apiService.empty_pgmMask.value.project.input_fields">
 
-                    <ng-template #justInputBlock>
-                        <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
-
-                            <ng-container *ngIf="element.input_type == 'short_text'"
-                                [ngTemplateOutlet]="short_text_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'long_text'"
-                                [ngTemplateOutlet]="long_text_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'restricted_short_text'"
-                                [ngTemplateOutlet]="restricted_short_text_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'number'" [ngTemplateOutlet]="number_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'date'" [ngTemplateOutlet]="date_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'select'" [ngTemplateOutlet]="select_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'group_select'"
-                                [ngTemplateOutlet]="group_select_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container
-                                *ngIf="element.input_type == 'single_autofill' || element.input_type == 'multi_autofill'"
-                                [ngTemplateOutlet]="autofill_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-
-                            <ng-container *ngIf="element.input_type == 'value_unit'"
-                                [ngTemplateOutlet]="value_unit_template"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type != 'long_text'" [ngTemplateOutlet]="std_description"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-                            <ng-container *ngIf="element.input_type == 'long_text'"
-                                [ngTemplateOutlet]="long_text_description"
-                                [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-
-                        </div>
-                        <ng-container
-                            *ngIf="element.list && !['select', 'group_select'].includes(element.input_type) || element.input_type == 'single_autofill'"
-                            [ngTemplateOutlet]="list_chip_grid_template"
-                            [ngTemplateOutletContext]="{element: element}"></ng-container>
-
-
-                    </ng-template>
+                    
 
                     <ng-template #expandableBlock>
                         <mat-accordion togglePosition="before">

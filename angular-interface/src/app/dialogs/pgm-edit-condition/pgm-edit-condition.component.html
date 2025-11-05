@@ -286,10 +286,7 @@
       </button>
     </div>-->
 
-  <ng-template #input_list_button_template let-element="element">
-    <button mat-icon-button [name]="element.position + '_btn'" [disabled]="addDisabledToGenericList(element)"
-      color="accent" (click)="addToGenericList(element)"><mat-icon>send</mat-icon></button>
-  </ng-template>
+
 
   <ng-template #short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
