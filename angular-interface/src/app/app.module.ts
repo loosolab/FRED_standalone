@@ -33,7 +33,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PgmComponent } from './pgm/pgm.component';
 import { LoadingComponent } from './dialogs/loading/loading.component';
 import { PgmAlertsComponent } from './dialogs/pgm-alerts/pgm-alerts.component';
@@ -45,56 +45,49 @@ import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
 
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    PgmComponent,
-    LoadingComponent,
-    PgmAlertsComponent,
-    PgmEditFactorsComponent,
-    PgmEditConditionComponent,
-    PgmHelpComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FlexLayoutModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-
-    //Mat Imports
-    FlexLayoutModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatInputModule,
-    FormsModule,
-    MatListModule,
-    MatIconModule,
-    MatRippleModule,
-    HttpClientModule,
-    MatTableModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
-    MatStepperModule,
-    MatDividerModule,
-    MatChipsModule,
-    MatPaginatorModule,
-    MatBadgeModule
-  ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: "de-DE" }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        PgmComponent,
+        LoadingComponent,
+        PgmAlertsComponent,
+        PgmEditFactorsComponent,
+        PgmEditConditionComponent,
+        PgmHelpComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FlexLayoutModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        //Mat Imports
+        FlexLayoutModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatInputModule,
+        FormsModule,
+        MatListModule,
+        MatIconModule,
+        MatRippleModule,
+        MatTableModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatExpansionModule,
+        MatStepperModule,
+        MatDividerModule,
+        MatChipsModule,
+        MatPaginatorModule,
+        MatBadgeModule], providers: [
+        { provide: MAT_DATE_LOCALE, useValue: "de-DE" },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
