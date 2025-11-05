@@ -40,10 +40,7 @@
 @if (!waiting_for_data) {
   <div>
     <mat-stepper (selectionChange)="selectionChange($event)">
-      <mat-step
-        label="Details about Project"
-        [color]="object_errors.project.length > 0 ? 'warn' : 'accent'"
-      >
+      <mat-step label="Details about Project">
         <div [@.disabled]="disableAnimation">
           <ng-container
             [ngTemplateOutlet]="step_header_desc"
@@ -702,12 +699,7 @@
           </button>
         </div>
       </mat-step>
-      <mat-step
-        label="Details about Experimental Setting"
-        [color]="
-          object_errors.experimental_setting.length > 0 ? 'warn' : 'accent'
-        "
-      >
+      <mat-step label="Details about Experimental Setting">
         <div [@.disabled]="disableAnimation">
           <ng-container
             [ngTemplateOutlet]="step_header_desc"
@@ -1791,10 +1783,7 @@
           </button>
         </div>
       </mat-step>
-      <mat-step
-        label="Technical Details"
-        [color]="object_errors.technical_details.length > 0 ? 'warn' : 'accent'"
-      >
+      <mat-step label="Technical Details">
         <div [@.disabled]="disableAnimation">
           <ng-container
             [ngTemplateOutlet]="step_header_desc"

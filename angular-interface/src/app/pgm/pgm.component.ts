@@ -918,4 +918,55 @@ export class PgmComponent implements OnInit {
     }
     return expaned;
   }
+
+  resetAllVars() {
+    this.inputSaved = false;
+    // this.save_path = '';
+    this.conditions = [];
+    this.selected_conditions = [];
+    this.factors = [];
+    this.all_factors = [];
+    this.owner_exists = false;
+    this.object_errors = {
+      project: [],
+      experimental_setting: [],
+      technical_details: [],
+      summed: 0,
+    };
+    this.object_warnings = {
+      project: [],
+      experimental_setting: [],
+      technical_details: [],
+      summed: 0,
+    };
+    this.organism_name = '';
+    this.condition_whitelists = {};
+    this.organism_was_selected = false;
+    this.was_validated = false;
+    this.loading_validation = true;
+    this.condition_filter_str = '';
+    this.chip_conditions = [];
+    this.filterUnselectedChips = false;
+    this.filterSelectedChips = false;
+    this.filterPanelAllowed = false;
+    this.selected_filter_factor_object = [
+      {
+        selected_filter_factor: {},
+        selected_filter_factor_values: [],
+      },
+      {
+        selected_filter_factor: {},
+        selected_filter_factor_values: [],
+      },
+    ];
+
+    // this.edit_state = {};
+    // this.list_index = {};
+
+    // this.search_results_user_search = [];
+    this.autofill_filter_list = [];
+
+    this.displayedChips = this.chip_conditions.slice(0, 10);
+    // this.enter_mode = 0;
+  }
 }
