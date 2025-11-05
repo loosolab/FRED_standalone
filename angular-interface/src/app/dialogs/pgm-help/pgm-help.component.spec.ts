@@ -8,9 +8,8 @@ describe('PgmHelpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PgmHelpComponent ]
-    })
-    .compileComponents();
+      declarations: [PgmHelpComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PgmHelpComponent);
     component = fixture.componentInstance;

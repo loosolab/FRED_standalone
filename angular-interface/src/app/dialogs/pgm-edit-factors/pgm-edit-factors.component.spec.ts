@@ -8,9 +8,8 @@ describe('PgmEditFactorsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PgmEditFactorsComponent ]
-    })
-    .compileComponents();
+      declarations: [PgmEditFactorsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PgmEditFactorsComponent);
     component = fixture.componentInstance;

@@ -19,7 +19,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -29,11 +29,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatBadgeModule} from '@angular/material/badge';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { PgmComponent } from './pgm/pgm.component';
 import { LoadingComponent } from './dialogs/loading/loading.component';
 import { PgmAlertsComponent } from './dialogs/pgm-alerts/pgm-alerts.component';
@@ -41,52 +43,54 @@ import { PgmEditFactorsComponent } from './dialogs/pgm-edit-factors/pgm-edit-fac
 import { PgmEditConditionComponent } from './dialogs/pgm-edit-condition/pgm-edit-condition.component';
 import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
 
-
-
-
-
-@NgModule({ declarations: [
-        AppComponent,
-        HomeComponent,
-        PgmComponent,
-        LoadingComponent,
-        PgmAlertsComponent,
-        PgmEditFactorsComponent,
-        PgmEditConditionComponent,
-        PgmHelpComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRoutingModule,
-        FlexLayoutModule,
-        BrowserAnimationsModule,
-        //Mat Imports
-        FlexLayoutModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatInputModule,
-        FormsModule,
-        MatListModule,
-        MatIconModule,
-        MatRippleModule,
-        MatTableModule,
-        MatSnackBarModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatProgressSpinnerModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        MatExpansionModule,
-        MatStepperModule,
-        MatDividerModule,
-        MatChipsModule,
-        MatPaginatorModule,
-        MatBadgeModule], providers: [
-        { provide: MAT_DATE_LOCALE, useValue: "de-DE" },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
-export class AppModule { }
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    PgmComponent,
+    LoadingComponent,
+    PgmAlertsComponent,
+    PgmEditFactorsComponent,
+    PgmEditConditionComponent,
+    PgmHelpComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule,
+    //Mat Imports
+    FlexLayoutModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule,
+    FormsModule,
+    MatListModule,
+    MatIconModule,
+    MatRippleModule,
+    MatTableModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatStepperModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatPaginatorModule,
+    MatBadgeModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
+})
+export class AppModule {}

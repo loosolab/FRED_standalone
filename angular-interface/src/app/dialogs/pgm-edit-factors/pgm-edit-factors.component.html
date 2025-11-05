@@ -1,92 +1,155 @@
 <h1 mat-dialog-title color="accent">
-  <button mat-mini-fab mat-dialog-close #tooltip="matTooltip" matTooltip="Close" matTooltipPosition="below"
-    color="accent">
+  <button
+    mat-mini-fab
+    mat-dialog-close
+    #tooltip="matTooltip"
+    matTooltip="Close"
+    matTooltipPosition="below"
+    color="accent"
+  >
     <mat-icon>close</mat-icon>
   </button>
   Add new Factor:
 </h1>
 
 <div mat-dialog-content>
-  <ng-container [ngTemplateOutlet]="global_desc_template"
-  [ngTemplateOutletContext]="{info_element: {desc: data.desc, title: 'Information'}}"></ng-container>
+  <ng-container
+    [ngTemplateOutlet]="global_desc_template"
+    [ngTemplateOutletContext]="{
+      info_element: { desc: data.desc, title: 'Information' },
+    }"
+  ></ng-container>
 
   <mat-form-field color="accent" appearance="fill" class="full-form">
     <mat-label>Choose a factor</mat-label>
-    <mat-select [attr.name]="'factor'" [(ngModel)]="selected_factor" (selectionChange)="nestedFactorSelect()">
+    <mat-select
+      [attr.name]="'factor'"
+      [(ngModel)]="selected_factor"
+      (selectionChange)="nestedFactorSelect()"
+    >
       @for (factor_group of data.factors; track factor_group) {
         <mat-optgroup [label]="factor_group.title">
           @for (factor of factor_group.whitelist; track factor) {
-            <mat-option [value]="factor">{{factor}}</mat-option>
+            <mat-option [value]="factor">{{ factor }}</mat-option>
           }
         </mat-optgroup>
       }
-
     </mat-select>
   </mat-form-field>
   @if (selected_factor) {
-    <ng-container [ngTemplateOutlet]="global_desc_template"
-    [ngTemplateOutletContext]="{info_element: {desc: data.values[selected_factor].desc, title: 'Factor Information'}}"></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="global_desc_template"
+      [ngTemplateOutletContext]="{
+        info_element: {
+          desc: data.values[selected_factor].desc,
+          title: 'Factor Information',
+        },
+      }"
+    ></ng-container>
   }
   <!--if factor says select  if data.values[selected_factor].input_type == 'select'-->
   @if (selected_factor) {
     <div>
-      @if (data.values[selected_factor].input_type == 'select') {
-        <mat-form-field color="accent" appearance="fill" class="full-form"
+      @if (data.values[selected_factor].input_type == "select") {
+        <mat-form-field color="accent" appearance="fill" class="full-form">
+          <mat-label
+            >Choose values for
+            {{ data.values[selected_factor].displayName }}</mat-label
           >
-          <mat-label>Choose values for {{data.values[selected_factor].displayName}}</mat-label>
-          <mat-select attr.data-type="{{data.values[selected_factor].input_type}}" [attr.name]="'factor:' + selected_factor"
-            [(ngModel)]="selected_value" multiple>
-            @for (value of data.values[selected_factor].whitelist; track value) {
-              <mat-option [value]="value">{{value}}</mat-option>
+          <mat-select
+            attr.data-type="{{ data.values[selected_factor].input_type }}"
+            [attr.name]="'factor:' + selected_factor"
+            [(ngModel)]="selected_value"
+            multiple
+          >
+            @for (
+              value of data.values[selected_factor].whitelist;
+              track value
+            ) {
+              <mat-option [value]="value">{{ value }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
       }
-      @if (data.values[selected_factor].input_type == 'group_select') {
-        <mat-form-field color="accent" appearance="fill" class="full-form"
+      @if (data.values[selected_factor].input_type == "group_select") {
+        <mat-form-field color="accent" appearance="fill" class="full-form">
+          <mat-label
+            >Choose values for
+            {{ data.values[selected_factor].displayName }}</mat-label
           >
-          <mat-label>Choose values for {{data.values[selected_factor].displayName}}</mat-label>
-          <mat-select attr.data-type="{{data.values[selected_factor].input_type}}" [attr.name]="'factor:' + selected_factor"
-            [(ngModel)]="selected_value" multiple>
-            @for (group of data.values[selected_factor].whitelist; track group) {
+          <mat-select
+            attr.data-type="{{ data.values[selected_factor].input_type }}"
+            [attr.name]="'factor:' + selected_factor"
+            [(ngModel)]="selected_value"
+            multiple
+          >
+            @for (
+              group of data.values[selected_factor].whitelist;
+              track group
+            ) {
               <mat-optgroup [label]="group.title">
                 @for (value of group.whitelist; track value) {
-                  <mat-option [value]="value">{{value}}</mat-option>
+                  <mat-option [value]="value">{{ value }}</mat-option>
                 }
               </mat-optgroup>
             }
           </mat-select>
         </mat-form-field>
       }
-      @if (data.values[selected_factor].input_type == 'multi_autofill') {
+      @if (data.values[selected_factor].input_type == "multi_autofill") {
         <div>
           <mat-form-field color="accent" appearance="fill" class="full-form">
-            <mat-label>Choose values for {{data.values[selected_factor].displayName}}</mat-label>
-            <input (paste)="(false)" attr.data-type="{{data.values[selected_factor].input_type}}"
-              [name]="'factor:' + selected_factor" matInput [matChipInputFor]="chipGrid"
-              (keyup)="applySearchFilter(input.value, data.values[selected_factor].search_info)" [matAutocomplete]="auto"
-              #input>
-            <mat-autocomplete #auto="matAutocomplete"
-              (optionSelected)="selectSomeValues($event.option.value);input.value=''">
+            <mat-label
+              >Choose values for
+              {{ data.values[selected_factor].displayName }}</mat-label
+            >
+            <input
+              (paste)="(false)"
+              attr.data-type="{{ data.values[selected_factor].input_type }}"
+              [name]="'factor:' + selected_factor"
+              matInput
+              [matChipInputFor]="chipGrid"
+              (keyup)="
+                applySearchFilter(
+                  input.value,
+                  data.values[selected_factor].search_info
+                )
+              "
+              [matAutocomplete]="auto"
+              #input
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="
+                selectSomeValues($event.option.value); input.value = ''
+              "
+            >
               @for (value of filter_list; track value) {
                 <mat-option [value]="value">
-                  {{value}}
+                  {{ value }}
                 </mat-option>
               }
             </mat-autocomplete>
             @if (input.value) {
-              <button color="accent" matSuffix mat-icon-button aria-label="Clear"
-                (click)="input.value=''">
+              <button
+                color="accent"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="input.value = ''"
+              >
                 <mat-icon>close</mat-icon>
               </button>
             }
           </mat-form-field>
           <mat-chip-grid #chipGrid>
             @for (value of selected_value; track value) {
-              <mat-chip-row style="border: 1px; border-color: black;border-style: solid;"
-                (removed)="unselectValue(value)">
-                {{value}}
-                <button matChipRemove style="color: red;">
+              <mat-chip-row
+                style="border: 1px; border-color: black; border-style: solid"
+                (removed)="unselectValue(value)"
+              >
+                {{ value }}
+                <button matChipRemove style="color: red">
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip-row>
@@ -94,23 +157,51 @@
           </mat-chip-grid>
         </div>
       }
-      @if (data.values[selected_factor].input_type == 'restricted_short_text') {
+      @if (data.values[selected_factor].input_type == "restricted_short_text") {
         <div>
-          <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 10px;">
-            <mat-label>{{data.values[selected_factor].displayName}}</mat-label>
-            <input attr.data-type="{{data.values[selected_factor].input_type}}" [name]="'factor:' + selected_factor"
-              matInput [matChipInputFor]="chipGrid"
-              (keyup)="applyRestrictedShortText($event, data.values[selected_factor].restriction.regex, data.values[selected_factor].restriction.max_length)"
-              #input>
+          <mat-form-field
+            color="accent"
+            appearance="fill"
+            class="full-form"
+            style="margin-bottom: 10px"
+          >
+            <mat-label>{{
+              data.values[selected_factor].displayName
+            }}</mat-label>
+            <input
+              attr.data-type="{{ data.values[selected_factor].input_type }}"
+              [name]="'factor:' + selected_factor"
+              matInput
+              [matChipInputFor]="chipGrid"
+              (keyup)="
+                applyRestrictedShortText(
+                  $event,
+                  data.values[selected_factor].restriction.regex,
+                  data.values[selected_factor].restriction.max_length
+                )
+              "
+              #input
+            />
             @if (input.value) {
-              <button [name]="'factor:' + selected_factor + '_btn'" color="accent" matSuffix
-                mat-icon-button aria-label="Clear" (click)="selectSomeValues(input.value);input.value=''">
+              <button
+                [name]="'factor:' + selected_factor + '_btn'"
+                color="accent"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="selectSomeValues(input.value); input.value = ''"
+              >
                 <mat-icon>send</mat-icon>
               </button>
             }
             @if (input.value) {
-              <button color="accent" matSuffix mat-icon-button aria-label="Clear"
-                (click)="input.value=''">
+              <button
+                color="accent"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="input.value = ''"
+              >
                 <mat-icon>close</mat-icon>
               </button>
             }
@@ -118,9 +209,11 @@
           <mat-chip-grid #chipGrid>
             @for (value of this.selected_value; track value) {
               <mat-chip-row
-                style="border: 1px; border-color: black;border-style: solid;" (removed)="unselectValue(value)">
-                {{value}}
-                <button matChipRemove style="color: red;">
+                style="border: 1px; border-color: black; border-style: solid"
+                (removed)="unselectValue(value)"
+              >
+                {{ value }}
+                <button matChipRemove style="color: red">
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip-row>
@@ -128,25 +221,52 @@
           </mat-chip-grid>
         </div>
       }
-      @if (data.values[selected_factor].input_type == 'value_unit') {
+      @if (data.values[selected_factor].input_type == "value_unit") {
         <div>
-          <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
+          <div
+            fxLayout="row wrap"
+            fxLayoutGap="16px grid"
+            fxLayoutAlign="strech"
+          >
             <div fxFlex="50%">
-              <mat-form-field color="accent" appearance="fill" class="full-form">
+              <mat-form-field
+                color="accent"
+                appearance="fill"
+                class="full-form"
+              >
                 <mat-label>Choose values</mat-label>
-                <input attr.data-type="{{data.values[selected_factor].input_type}}-number"
-                  [name]="'factor:' + selected_factor + ':value'" matInput [(ngModel)]="selected_value_unit.value">
-                <mat-hint align="start">Enter values separated by comma.</mat-hint>
+                <input
+                  attr.data-type="{{
+                    data.values[selected_factor].input_type
+                  }}-number"
+                  [name]="'factor:' + selected_factor + ':value'"
+                  matInput
+                  [(ngModel)]="selected_value_unit.value"
+                />
+                <mat-hint align="start"
+                  >Enter values separated by comma.</mat-hint
+                >
               </mat-form-field>
             </div>
             <div fxFlex="50%">
-              <mat-form-field color="accent" appearance="fill" class="full-form">
+              <mat-form-field
+                color="accent"
+                appearance="fill"
+                class="full-form"
+              >
                 <mat-label>Choose a unit</mat-label>
-                <mat-select attr.data-type="{{data.values[selected_factor].input_type}}-select"
-                  [attr.name]="'factor:' + selected_factor + ':unit'" [(ngModel)]="selected_value_unit.unit">
-                  @for (value of data.values[selected_factor].whitelist; track value) {
-                    <mat-option [value]="value">{{value}}
-                    </mat-option>
+                <mat-select
+                  attr.data-type="{{
+                    data.values[selected_factor].input_type
+                  }}-select"
+                  [attr.name]="'factor:' + selected_factor + ':unit'"
+                  [(ngModel)]="selected_value_unit.unit"
+                >
+                  @for (
+                    value of data.values[selected_factor].whitelist;
+                    track value
+                  ) {
+                    <mat-option [value]="value">{{ value }} </mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -154,37 +274,63 @@
           </div>
         </div>
       }
-      @if (data.values[selected_factor].input_type == 'nested') {
+      @if (data.values[selected_factor].input_type == "nested") {
         <div>
           @for (field of data.values[selected_factor].whitelist; track field) {
             <div>
-              @if (field.input_type == 'select') {
-                <mat-form-field color="accent" appearance="fill" class="full-form">
-                  <mat-label>{{field.displayName}}@if (field.required) {
-                    <sup>*</sup>
-                  }</mat-label>
-                  <mat-select attr.data-type="{{field.input_type}}"
-                    [attr.name]="'factor:' + selected_factor + ':' + field.position" [(ngModel)]="field.value" multiple
-                    (selectionChange)="nestedValuesSelect(field)">
+              @if (field.input_type == "select") {
+                <mat-form-field
+                  color="accent"
+                  appearance="fill"
+                  class="full-form"
+                >
+                  <mat-label
+                    >{{ field.displayName }}
+                    @if (field.required) {
+                      <sup>*</sup>
+                    }
+                  </mat-label>
+                  <mat-select
+                    attr.data-type="{{ field.input_type }}"
+                    [attr.name]="
+                      'factor:' + selected_factor + ':' + field.position
+                    "
+                    [(ngModel)]="field.value"
+                    multiple
+                    (selectionChange)="nestedValuesSelect(field)"
+                  >
                     @for (value of field.whitelist; track value) {
-                      <mat-option [value]="value">{{value}}</mat-option>
+                      <mat-option [value]="value">{{ value }}</mat-option>
                     }
                   </mat-select>
                   <mat-hint align="start" [innerHTML]="field.desc"></mat-hint>
                 </mat-form-field>
               }
-              @if (field.input_type == 'group_select') {
-                <mat-form-field color="accent" appearance="fill" class="full-form">
-                  <mat-label>{{field.displayName}}@if (field.required) {
-                    <sup>*</sup>
-                  }</mat-label>
-                  <mat-select attr.data-type="{{field.input_type}}"
-                    [attr.name]="'factor:' + selected_factor + ':' + field.position" [(ngModel)]="field.value" multiple
-                    (selectionChange)="nestedValuesSelect(field)">
+              @if (field.input_type == "group_select") {
+                <mat-form-field
+                  color="accent"
+                  appearance="fill"
+                  class="full-form"
+                >
+                  <mat-label
+                    >{{ field.displayName }}
+                    @if (field.required) {
+                      <sup>*</sup>
+                    }
+                  </mat-label>
+                  <mat-select
+                    attr.data-type="{{ field.input_type }}"
+                    [attr.name]="
+                      'factor:' + selected_factor + ':' + field.position
+                    "
+                    [(ngModel)]="field.value"
+                    multiple
+                    (selectionChange)="nestedValuesSelect(field)"
+                  >
                     @for (group of field.whitelist; track group) {
                       <mat-optgroup [label]="group.title">
                         @for (value of group.whitelist; track value) {
-                          <mat-option [value]="value">{{value}}</mat-option>
+                          <mat-option [value]="value">{{ value }}</mat-option>
                         }
                       </mat-optgroup>
                     }
@@ -192,38 +338,78 @@
                   <mat-hint align="start" [innerHTML]="field.desc"></mat-hint>
                 </mat-form-field>
               }
-              @if (field.input_type == 'multi_autofill') {
+              @if (field.input_type == "multi_autofill") {
                 <div>
-                  <mat-form-field color="accent" appearance="fill" class="full-form">
-                    <mat-label>Choose values for {{field.displayName}}@if (field.required) {
-                      <sup>*</sup>
-                    }</mat-label>
-                    <input (paste)="(false)" attr.data-type="{{field.input_type}}"
-                      [name]="'factor:' + selected_factor + ':' + field.position" matInput [matChipInputFor]="chipGrid"
-                      (keyup)="applyNestedSearchFilter(input.value, field.search_info, field)" [matAutocomplete]="auto" #input>
-                    <mat-autocomplete #auto="matAutocomplete"
-                      (optionSelected)="nestedValuesSelect(field, $event.option.value);input.value=''">
+                  <mat-form-field
+                    color="accent"
+                    appearance="fill"
+                    class="full-form"
+                  >
+                    <mat-label
+                      >Choose values for {{ field.displayName }}
+                      @if (field.required) {
+                        <sup>*</sup>
+                      }
+                    </mat-label>
+                    <input
+                      (paste)="(false)"
+                      attr.data-type="{{ field.input_type }}"
+                      [name]="
+                        'factor:' + selected_factor + ':' + field.position
+                      "
+                      matInput
+                      [matChipInputFor]="chipGrid"
+                      (keyup)="
+                        applyNestedSearchFilter(
+                          input.value,
+                          field.search_info,
+                          field
+                        )
+                      "
+                      [matAutocomplete]="auto"
+                      #input
+                    />
+                    <mat-autocomplete
+                      #auto="matAutocomplete"
+                      (optionSelected)="
+                        nestedValuesSelect(field, $event.option.value);
+                        input.value = ''
+                      "
+                    >
                       @for (value of filter_list; track value) {
                         <mat-option [value]="value">
-                          {{value}}
+                          {{ value }}
                         </mat-option>
                       }
                     </mat-autocomplete>
                     @if (input.value) {
-                      <button color="accent" matSuffix mat-icon-button aria-label="Clear"
-                        (click)="input.value=''">
+                      <button
+                        color="accent"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="input.value = ''"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     }
                     <mat-hint align="start" [innerHTML]="field.desc"></mat-hint>
                   </mat-form-field>
                   <mat-chip-grid #chipGrid>
-                    @for (value of this.selected_value_nested[field.position]; track value) {
+                    @for (
+                      value of this.selected_value_nested[field.position];
+                      track value
+                    ) {
                       <mat-chip-row
-                        style="border: 1px; border-color: black;border-style: solid;"
-                        (removed)="unselectNestedValue(value, field.position)">
-                        {{value}}
-                        <button matChipRemove style="color: red;">
+                        style="
+                          border: 1px;
+                          border-color: black;
+                          border-style: solid;
+                        "
+                        (removed)="unselectNestedValue(value, field.position)"
+                      >
+                        {{ value }}
+                        <button matChipRemove style="color: red">
                           <mat-icon>cancel</mat-icon>
                         </button>
                       </mat-chip-row>
@@ -231,37 +417,85 @@
                   </mat-chip-grid>
                 </div>
               }
-              @if (field.input_type == 'restricted_short_text') {
+              @if (field.input_type == "restricted_short_text") {
                 <div>
-                  <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 10px;">
-                    <mat-label>{{field.displayName}}@if (field.required) {
-                      <sup>*</sup>
-                    }</mat-label>
-                    <input attr.data-type="{{field.input_type}}" [name]="'factor:' + selected_factor + ':' + field.position"
-                      matInput [matChipInputFor]="chipGrid"
-                      (keyup)="applyRestrictedShortText($event, field.restriction.regex, field.restriction.max_length)" #input>
+                  <mat-form-field
+                    color="accent"
+                    appearance="fill"
+                    class="full-form"
+                    style="margin-bottom: 10px"
+                  >
+                    <mat-label
+                      >{{ field.displayName }}
+                      @if (field.required) {
+                        <sup>*</sup>
+                      }
+                    </mat-label>
+                    <input
+                      attr.data-type="{{ field.input_type }}"
+                      [name]="
+                        'factor:' + selected_factor + ':' + field.position
+                      "
+                      matInput
+                      [matChipInputFor]="chipGrid"
+                      (keyup)="
+                        applyRestrictedShortText(
+                          $event,
+                          field.restriction.regex,
+                          field.restriction.max_length
+                        )
+                      "
+                      #input
+                    />
                     @if (input.value) {
-                      <button [name]="'factor:' + selected_factor + ':' + field.position + '_btn'"
-                        color="accent" matSuffix mat-icon-button aria-label="Clear"
-                        (click)="nestedValuesSelect(field, input.value);input.value=''">
+                      <button
+                        [name]="
+                          'factor:' +
+                          selected_factor +
+                          ':' +
+                          field.position +
+                          '_btn'
+                        "
+                        color="accent"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="
+                          nestedValuesSelect(field, input.value);
+                          input.value = ''
+                        "
+                      >
                         <mat-icon>send</mat-icon>
                       </button>
                     }
                     @if (input.value) {
-                      <button color="accent" matSuffix mat-icon-button aria-label="Clear"
-                        (click)="input.value=''">
+                      <button
+                        color="accent"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="input.value = ''"
+                      >
                         <mat-icon>close</mat-icon>
                       </button>
                     }
                     <mat-hint align="start" [innerHTML]="field.desc"></mat-hint>
                   </mat-form-field>
                   <mat-chip-grid #chipGrid>
-                    @for (value of this.selected_value_nested[field.position]; track value) {
+                    @for (
+                      value of this.selected_value_nested[field.position];
+                      track value
+                    ) {
                       <mat-chip-row
-                        style="border: 1px; border-color: black;border-style: solid;"
-                        (removed)="unselectNestedValue(value, field.position)">
-                        {{value}}
-                        <button matChipRemove style="color: red;">
+                        style="
+                          border: 1px;
+                          border-color: black;
+                          border-style: solid;
+                        "
+                        (removed)="unselectNestedValue(value, field.position)"
+                      >
+                        {{ value }}
+                        <button matChipRemove style="color: red">
                           <mat-icon>cancel</mat-icon>
                         </button>
                       </mat-chip-row>
@@ -269,28 +503,65 @@
                   </mat-chip-grid>
                 </div>
               }
-              @if (field.input_type == 'value_unit') {
+              @if (field.input_type == "value_unit") {
                 <div>
-                  <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
+                  <div
+                    fxLayout="row wrap"
+                    fxLayoutGap="16px grid"
+                    fxLayoutAlign="strech"
+                  >
                     <div fxFlex="50%">
-                      <mat-form-field color="accent" appearance="fill" class="full-form">
-                        <mat-label>{{field.displayName}}@if (field.required) {
-                          <sup>*</sup>
-                        }</mat-label>
-                        <input attr.data-type="{{field.input_type}}-number"
-                          [name]="'factor:' + selected_factor + ':' + field.position + ':value'" matInput
-                          [(ngModel)]="field.value" (selectionChange)="nestedValuesSelect(field)">
-                        <mat-hint align="start">Enter values separated by comma.</mat-hint>
+                      <mat-form-field
+                        color="accent"
+                        appearance="fill"
+                        class="full-form"
+                      >
+                        <mat-label
+                          >{{ field.displayName }}
+                          @if (field.required) {
+                            <sup>*</sup>
+                          }
+                        </mat-label>
+                        <input
+                          attr.data-type="{{ field.input_type }}-number"
+                          [name]="
+                            'factor:' +
+                            selected_factor +
+                            ':' +
+                            field.position +
+                            ':value'
+                          "
+                          matInput
+                          [(ngModel)]="field.value"
+                          (selectionChange)="nestedValuesSelect(field)"
+                        />
+                        <mat-hint align="start"
+                          >Enter values separated by comma.</mat-hint
+                        >
                       </mat-form-field>
                     </div>
                     <div fxFlex="50%">
-                      <mat-form-field color="accent" appearance="fill" class="full-form">
+                      <mat-form-field
+                        color="accent"
+                        appearance="fill"
+                        class="full-form"
+                      >
                         <mat-label>Choose a unit</mat-label>
-                        <mat-select attr.data-type="{{field.input_type}}-select"
-                          [attr.name]="'factor:' + selected_factor + ':' + field.position + ':unit'" [(ngModel)]="field.unit"
-                          (selectionChange)="nestedValuesSelect(field)">
+                        <mat-select
+                          attr.data-type="{{ field.input_type }}-select"
+                          [attr.name]="
+                            'factor:' +
+                            selected_factor +
+                            ':' +
+                            field.position +
+                            ':unit'
+                          "
+                          [(ngModel)]="field.unit"
+                          (selectionChange)="nestedValuesSelect(field)"
+                        >
                           @for (value of field.whitelist; track value) {
-                            <mat-option [value]="value">{{value}}
+                            <mat-option [value]="value"
+                              >{{ value }}
                             </mat-option>
                           }
                         </mat-select>
@@ -305,72 +576,100 @@
       }
     </div>
   }
-  <button name="Save Factor" class="full-form" style="margin-bottom: 10px; margin-top: 15px;"
-  [disabled]="addFactorDisabled()" mat-raised-button color="accent" (click)="addFactor()">Save Factor</button>
+  <button
+    name="Save Factor"
+    class="full-form"
+    style="margin-bottom: 10px; margin-top: 15px"
+    [disabled]="addFactorDisabled()"
+    mat-raised-button
+    color="accent"
+    (click)="addFactor()"
+  >
+    Save Factor
+  </button>
 
-  <table mat-table style="margin-bottom: 10px" [dataSource]="factor_table" class="mat-elevation-z4">
-
+  <table
+    mat-table
+    style="margin-bottom: 10px"
+    [dataSource]="factor_table"
+    class="mat-elevation-z4"
+  >
     <ng-container matColumnDef="factor">
-      <th mat-header-cell *matHeaderCellDef> Factor </th>
-      <td mat-cell *matCellDef="let element"> {{element.factor}} </td>
+      <th mat-header-cell *matHeaderCellDef>Factor</th>
+      <td mat-cell *matCellDef="let element">{{ element.factor }}</td>
     </ng-container>
     <ng-container matColumnDef="value">
-      <th mat-header-cell *matHeaderCellDef> Values </th>
+      <th mat-header-cell *matHeaderCellDef>Values</th>
       <td mat-cell *matCellDef="let element">
-        @if (this.data.values[element.factor].input_type == 'nested') {
+        @if (this.data.values[element.factor].input_type == "nested") {
           <div>
             @for (nested_input of displayNested(element); track nested_input) {
               <div>
-                {{nested_input.name}}: {{nested_input.value}}
-                <br>
-                </div>
-              }
-            </div>
-          }
-          @if (this.data.values[element.factor].input_type != 'nested') {
-            <div>
-              {{element.values}}
-            </div>
-          }
-        </td>
-      </ng-container>
+                {{ nested_input.name }}: {{ nested_input.value }}
+                <br />
+              </div>
+            }
+          </div>
+        }
+        @if (this.data.values[element.factor].input_type != "nested") {
+          <div>
+            {{ element.values }}
+          </div>
+        }
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button #tooltip="matTooltip" matTooltip="Edit Factor" matTooltipPosition="above" color="accent"
-            (click)="editFactor(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button #tooltip="matTooltip" matTooltip="Remove Factor" matTooltipPosition="above" color="warn"
-            (click)="removeFactor(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          #tooltip="matTooltip"
+          matTooltip="Edit Factor"
+          matTooltipPosition="above"
+          color="accent"
+          (click)="editFactor(element)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          #tooltip="matTooltip"
+          matTooltip="Remove Factor"
+          matTooltipPosition="above"
+          color="warn"
+          (click)="removeFactor(element)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-        </td>
-      </ng-container>
+    <tr mat-header-row *matHeaderRowDef="factorColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: factorColumns"></tr>
+  </table>
+</div>
 
-      <tr mat-header-row *matHeaderRowDef="factorColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: factorColumns;"></tr>
-    </table>
-  </div>
+<div mat-dialog-actions align="end">
+  <button
+    name="Generate all factor Combinations"
+    mat-raised-button
+    mat-dialog-close
+    color="accent"
+    [disabled]="generateConditionsDisabled()"
+    [mat-dialog-close]="{ factor_list: factorList }"
+  >
+    Generate all factor Combinations
+  </button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+</div>
 
-  <div mat-dialog-actions align="end">
-    <button name="Generate all factor Combinations" mat-raised-button mat-dialog-close color="accent"
-      [disabled]="generateConditionsDisabled()" [mat-dialog-close]="{factor_list: factorList}">Generate all factor
-      Combinations
-    </button>
-    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
-  </div>
-
-  <ng-template #global_desc_template let-info_element="info_element">
-    <mat-card appearance="outlined" style="margin-bottom: 30px;">
-      <mat-card-header>
-        <mat-card-subtitle>
-          {{info_element.title}}:
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div [innerHTML]="info_element.desc"></div>
-      </mat-card-content></mat-card>
-    </ng-template>
+<ng-template #global_desc_template let-info_element="info_element">
+  <mat-card appearance="outlined" style="margin-bottom: 30px">
+    <mat-card-header>
+      <mat-card-subtitle> {{ info_element.title }}: </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div [innerHTML]="info_element.desc"></div> </mat-card-content
+  ></mat-card>
+</ng-template>

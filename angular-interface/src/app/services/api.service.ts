@@ -2,44 +2,46 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  private apiURL: String
-  public empty_pgmMask = new BehaviorSubject(null)
+  private apiURL: String;
+  public empty_pgmMask = new BehaviorSubject(null);
 
-
-  constructor(
-    private http: HttpClient
-  ) { 
-    this.apiURL = "http://localhost:5000"
+  constructor(private http: HttpClient) {
+    this.apiURL = 'http://localhost:5000';
   }
 
   testRequest() {
-    return new Promise(resolve => {
-      this.http.get(this.apiURL + "/test").pipe().subscribe((data: any) => {
-        console.log(data)
-        resolve("")
-      })
-    })
+    return new Promise((resolve) => {
+      this.http
+        .get(this.apiURL + '/test')
+        .pipe()
+        .subscribe((data: any) => {
+          console.log(data);
+          resolve('');
+        });
+    });
   }
 
   /**
    * Returns a promise that is resolved when the input mask for the Metadata Generator is received from the API
    * Updates the value of the Project Generator Metadata behavior subject.
-   * 
+   *
    * @returns a promise with resloves when the input mask is received
    */
   getPgmMask() {
-    return new Promise((resolve => {
-      this.http.get(this.apiURL + "/getPgmMask").pipe().subscribe((res: any) => {
-        console.log(res)
-        this.empty_pgmMask.next(res)
-        resolve("")
-      })
-    }))
+    return new Promise((resolve) => {
+      this.http
+        .get(this.apiURL + '/getPgmMask')
+        .pipe()
+        .subscribe((res: any) => {
+          console.log(res);
+          this.empty_pgmMask.next(res);
+          resolve('');
+        });
+    });
   }
 
   /**
@@ -49,82 +51,101 @@ export class ApiService {
    * @returns a promise that resolves with an array containing the validated metadata
    */
   validateObject(data, factors, finish?) {
-    return new Promise((resolve => {
-      var post_obj = { object: data, factors: factors, finish: finish }
-      console.log("Object to validate", post_obj)
-      this.http.post(this.apiURL + "/validatePgm", post_obj).pipe().subscribe((res: any) => {
-        console.log("validated object", res)
-        console.log("validated object", res.object)
-        this.empty_pgmMask.next(res.object)
-        var new_res = res
-        delete new_res["object"]
-        console.log("only validate", new_res)
-        console.log("Validation Step finished.")
-        resolve(new_res)
-      })
-    }))
+    return new Promise((resolve) => {
+      var post_obj = { object: data, factors: factors, finish: finish };
+      console.log('Object to validate', post_obj);
+      this.http
+        .post(this.apiURL + '/validatePgm', post_obj)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('validated object', res);
+          console.log('validated object', res.object);
+          this.empty_pgmMask.next(res.object);
+          var new_res = res;
+          delete new_res['object'];
+          console.log('only validate', new_res);
+          console.log('Validation Step finished.');
+          resolve(new_res);
+        });
+    });
   }
 
-   /**
+  /**
    * Returns a promise that resolves with an object, containing an array with the validated metadata object and a summary in html
    * @param data - the metadata object to be validated
    * @param factors - list of factors that are needed by the API
    * @returns a promise that resolves with an object, containing an array with the validated metadata and a summary in html
    */
-   validateObjectWithSummary(data, factors) {
-    return new Promise((resolve => {
-      var post_obj = { object: data, factors: factors }
-      this.http.post(this.apiURL + "/validatePgmWithSummary", post_obj).pipe().subscribe((res: any) => {
-        console.log("validated object", res)
+  validateObjectWithSummary(data, factors) {
+    return new Promise((resolve) => {
+      var post_obj = { object: data, factors: factors };
+      this.http
+        .post(this.apiURL + '/validatePgmWithSummary', post_obj)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('validated object', res);
 
-        console.log("with summary", res)
-        resolve(res)
-      })
-    }))
+          console.log('with summary', res);
+          resolve(res);
+        });
+    });
   }
 
   searchWhitelistElements(search_string, result_count, search_object) {
     return new Promise((resolve) => {
-      var post_obj = { search_string: search_string, result_count: result_count, search_object: search_object }
-      this.http.post(this.apiURL + "/searchWhitelist", post_obj).pipe().subscribe((res: any) => {
-        console.log("Search res: ", res)
-        resolve(res.search_results)
-      })
-    })
+      var post_obj = {
+        search_string: search_string,
+        result_count: result_count,
+        search_object: search_object,
+      };
+      this.http
+        .post(this.apiURL + '/searchWhitelist', post_obj)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('Search res: ', res);
+          resolve(res.search_results);
+        });
+    });
   }
 
   /**
    * Returns a promise that resolves with an object containing all necessary information about the experimental factors for an organism
-   * 
+   *
    * @param organism_name - the name of an organism to get specific factors
    * @returns a promise that resolves with an object containing the experimental factors
    */
   getFactors(organism_name) {
-    return new Promise((resolve => {
-      var post_obj = { organism_name: organism_name }
-      console.log("get Factors", post_obj)
-      this.http.post(this.apiURL + "/getFactors", post_obj).pipe().subscribe((res: any) => {
-        console.log("factor res", res)
-        console.log("Loading Factors completed.")
-        resolve(res)
-      })
-    }))
+    return new Promise((resolve) => {
+      var post_obj = { organism_name: organism_name };
+      console.log('get Factors', post_obj);
+      this.http
+        .post(this.apiURL + '/getFactors', post_obj)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('factor res', res);
+          console.log('Loading Factors completed.');
+          resolve(res);
+        });
+    });
   }
 
   /**
    * Returns a promise that resolves with an array containing all conditions generated by the API
-   * 
+   *
    * @param data - the data needed to generate the conditions
    * @returns a promise that resolves with an array containing all conditions
    */
   getConditions(data) {
-    return new Promise((resolve => {
-      this.http.post(this.apiURL + "/genConditions", data).pipe().subscribe((res: any) => {
-        console.log("condition api res ", res)
-        console.log("Generating Conditions finished.")
-        resolve(res)
-      })
-    }))
+    return new Promise((resolve) => {
+      this.http
+        .post(this.apiURL + '/genConditions', data)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('condition api res ', res);
+          console.log('Generating Conditions finished.');
+          resolve(res);
+        });
+    });
   }
 
   /**
@@ -137,45 +158,57 @@ export class ApiService {
   finishMetadata(data, factors) {
     return new Promise((resolve) => {
       let post_obj: any;
-      
-        post_obj = {
-          object: data,
-          factors: factors
-        };
-      
-      this.http.post(this.apiURL + '/finishPgm', post_obj)
+
+      post_obj = {
+        object: data,
+        factors: factors,
+      };
+
+      this.http
+        .post(this.apiURL + '/finishPgm', post_obj)
         .subscribe(async (res: any) => {
           console.log('path', res);
-          
-            for (const filename of res.filenames) {
-              console.log('my filename', filename);
-              const data = await this.http.get(this.apiURL + '/getPgmFiles', { params: { filename: filename }, responseType: 'blob' }).toPromise();
-              this.safeContentToFile(data, filename);
-              console.log('Metadata was generated successfully.');
-            }
-            resolve('');
-          
 
+          for (const filename of res.filenames) {
+            console.log('my filename', filename);
+            const data = await this.http
+              .get(this.apiURL + '/getPgmFiles', {
+                params: { filename: filename },
+                responseType: 'blob',
+              })
+              .toPromise();
+            this.safeContentToFile(data, filename);
+            console.log('Metadata was generated successfully.');
+          }
+          resolve('');
         });
     });
   }
 
   downloadFileList(file_string) {
-    return new Promise((resolve => {
-      var post_obj = { file_string: file_string }
-      this.http.post(this.apiURL + "/createFilelist", post_obj).pipe().subscribe((res: any) => {
-        var filename = res.filename
-        this.http.get(this.apiURL + "/getPgmFiles", { params: { filename: filename }, responseType: 'blob' }).pipe().subscribe(data => {
-          this.safeContentToFile(data, filename)
-          resolve("")
-        })
-
-      })
-    }))
+    return new Promise((resolve) => {
+      var post_obj = { file_string: file_string };
+      this.http
+        .post(this.apiURL + '/createFilelist', post_obj)
+        .pipe()
+        .subscribe((res: any) => {
+          var filename = res.filename;
+          this.http
+            .get(this.apiURL + '/getPgmFiles', {
+              params: { filename: filename },
+              responseType: 'blob',
+            })
+            .pipe()
+            .subscribe((data) => {
+              this.safeContentToFile(data, filename);
+              resolve('');
+            });
+        });
+    });
   }
 
   safeContentToFile(data, filename) {
-    console.log("filename in safe", filename)
+    console.log('filename in safe', filename);
     const blob = new Blob([data], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');

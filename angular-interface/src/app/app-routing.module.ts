@@ -4,15 +4,15 @@ import { HomeComponent } from './home/home.component';
 import { PgmComponent } from './pgm/pgm.component';
 
 const routes: Routes = [
-  {path: "home", component: HomeComponent},
-  {path: "pgm", component: PgmComponent},
+  { path: 'home', component: HomeComponent },
+  { path: 'pgm', component: PgmComponent },
 
-  {path: "", redirectTo: "home", pathMatch: "full"},
-  {path: "**", redirectTo: "home"}
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

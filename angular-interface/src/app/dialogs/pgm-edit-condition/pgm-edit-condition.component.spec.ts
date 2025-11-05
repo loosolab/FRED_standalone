@@ -8,9 +8,8 @@ describe('PgmEditConditionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PgmEditConditionComponent ]
-    })
-    .compileComponents();
+      declarations: [PgmEditConditionComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PgmEditConditionComponent);
     component = fixture.componentInstance;
