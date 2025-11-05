@@ -59,7 +59,6 @@ import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
         AppRoutingModule,
         FlexLayoutModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         //Mat Imports
         FlexLayoutModule,
         MatCardModule,
