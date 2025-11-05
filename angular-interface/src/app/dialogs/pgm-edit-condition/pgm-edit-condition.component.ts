@@ -8,7 +8,8 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
     selector: 'app-pgm-edit-condition',
     templateUrl: './pgm-edit-condition.component.html',
-    styleUrls: ['./pgm-edit-condition.component.scss']
+    styleUrls: ['./pgm-edit-condition.component.scss'],
+    standalone: false
 })
 export class PgmEditConditionComponent implements OnInit {
 

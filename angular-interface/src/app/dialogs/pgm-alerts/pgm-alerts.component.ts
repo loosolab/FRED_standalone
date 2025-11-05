@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-pgm-alerts',
-  templateUrl: './pgm-alerts.component.html',
-  styleUrls: ['./pgm-alerts.component.scss']
+    selector: 'app-pgm-alerts',
+    templateUrl: './pgm-alerts.component.html',
+    styleUrls: ['./pgm-alerts.component.scss'],
+    standalone: false
 })
 export class PgmAlertsComponent implements OnInit {
 

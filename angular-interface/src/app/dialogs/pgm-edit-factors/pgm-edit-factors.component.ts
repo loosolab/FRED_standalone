@@ -5,9 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-pgm-edit-factors',
-  templateUrl: './pgm-edit-factors.component.html',
-  styleUrls: ['./pgm-edit-factors.component.scss']
+    selector: 'app-pgm-edit-factors',
+    templateUrl: './pgm-edit-factors.component.html',
+    styleUrls: ['./pgm-edit-factors.component.scss'],
+    standalone: false
 })
 export class PgmEditFactorsComponent implements OnInit {
 

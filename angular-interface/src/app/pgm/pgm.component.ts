@@ -14,9 +14,10 @@ import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
-  selector: 'app-pgm',
-  templateUrl: './pgm.component.html',
-  styleUrls: ['./pgm.component.scss']
+    selector: 'app-pgm',
+    templateUrl: './pgm.component.html',
+    styleUrls: ['./pgm.component.scss'],
+    standalone: false
 })
 export class PgmComponent implements OnInit {
   @ViewChild('condition_paginator') condition_paginator: MatPaginator

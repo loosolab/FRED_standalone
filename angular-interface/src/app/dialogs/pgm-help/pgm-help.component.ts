@@ -4,9 +4,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
-  selector: 'app-pgm-help',
-  templateUrl: './pgm-help.component.html',
-  styleUrls: ['./pgm-help.component.scss']
+    selector: 'app-pgm-help',
+    templateUrl: './pgm-help.component.html',
+    styleUrls: ['./pgm-help.component.scss'],
+    standalone: false
 })
 export class PgmHelpComponent implements OnInit {
   sanitizedUrl:any
