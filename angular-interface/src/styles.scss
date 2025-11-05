@@ -1,14 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -18,16 +10,16 @@
 //$my-accent: mat.define-palette(mat.$green-palette, A400);
 //$my-warn: mat.define-palette(mat.$red-palette);
 // Define a new color for warning
-$angular-default-theme: mat.m2-define-light-theme(
+$theme: mat.define-theme(
   (
     color: (
-      primary: mat.m2-define-palette(mat.$m2-grey-palette, 900),
-      accent: mat.m2-define-palette(mat.$m2-cyan-palette, A400),
-      warn: mat.m2-define-palette(mat.$m2-red-palette),
+      theme-type: light,
+      primary: mat.$chartreuse-palette,
+      tertiary: mat.$magenta-palette,
     ),
   )
 );
-@include mat.all-component-themes($angular-default-theme);
+@include mat.all-component-themes($theme);
 html,
 body {
   height: 100%;
@@ -38,8 +30,45 @@ body {
 }
 
 .active-nav-button {
-  color: #000000 !important; /* Note: You could also use a custom theme */
-  background-color: #00e5ff !important;
+  color: mat.get-theme-color($theme, on-primary-fixed) !important;
+  background-color: mat.get-theme-color($theme, primary-fixed) !important;
+}
+
+.icon-button-primary {
+  @include mat.icon-color($theme, $color-variant: primary);
+}
+
+.icon-tertiary {
+  @include mat.icon-color($theme, $color-variant: tertiary);
+}
+.icon-warn {
+  @include mat.icon-color($theme, $color-variant: error);
+}
+
+.button-tertiary {
+  @include mat.button-color($theme, $color-variant: tertiary);
+}
+.button-warn {
+  @include mat.button-color($theme, $color-variant: error);
+}
+
+.fab-button-warn {
+  color: mat.get-theme-color($theme, on-error-container) !important;
+  background-color: mat.get-theme-color($theme, error-container) !important;
+}
+.progress-bar-warn {
+  @include mat.progress-bar-color($theme, $color-variant: error);
+}
+.success {
+  color: #1ec907;
+}
+.warning-snackbar {
+  background: #da5a5a;
+  color: #000000;
+}
+.success-snackbar {
+  background: #383838;
+  color: #ffffff;
 }
 
 .loading-wrapper {
@@ -64,7 +93,19 @@ body {
 .list-style-type-circle {
   list-style-type: disc;
 }
-
+.header-toolbar {
+  background-color: mat.get-theme-color($theme, secondary, 10) !important;
+}
+.pgm_desc_table {
+  table-layout: fixed;
+  td {
+    vertical-align: top;
+    padding: 0 5px 0 5px;
+  }
+  tr {
+    vertical-align: top;
+  }
+}
 .list-style-none {
   list-style: none;
 }

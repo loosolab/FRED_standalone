@@ -1,11 +1,10 @@
-<h1 mat-dialog-title color="accent">
+<h1 mat-dialog-title>
   <button
     mat-mini-fab
     mat-dialog-close
     #tooltip="matTooltip"
     matTooltip="Close"
     matTooltipPosition="below"
-    color="accent"
   >
     <mat-icon>close</mat-icon>
   </button>
@@ -466,7 +465,7 @@
                 <button
                   name="Delete Sample"
                   mat-icon-button
-                  color="warn"
+                  class="icon-warn"
                   (click)="removeSample(sample)"
                   #tooltip="matTooltip"
                   matTooltip="delete Sample"
@@ -477,7 +476,7 @@
                 <button
                   name="Edit Sample"
                   mat-icon-button
-                  color="accent"
+                  class="icon-tertiary"
                   (click)="editSample(sample)"
                   #tooltip="matTooltip"
                   matTooltip="edit Sample"
@@ -488,7 +487,7 @@
                 <button
                   name="Copy Sample"
                   mat-icon-button
-                  color="accent"
+                  class="icon-tertiary"
                   (click)="inputFromSample(sample)"
                   #tooltip="matTooltip"
                   matTooltip="copy Sample"
@@ -499,7 +498,7 @@
                 <button
                   name="Copy and Paste Sample"
                   mat-icon-button
-                  color="accent"
+                  class="icon-tertiary"
                   (click)="copyAndPasteSample(sample)"
                   #tooltip="matTooltip"
                   matTooltip="copy and paste Sample"
@@ -515,7 +514,6 @@
           <button
             name="Save Sample"
             mat-raised-button
-            color="accent"
             [disabled]="addSampleDisabled()"
             (click)="addSample()"
             style="margin-right: 10px"
@@ -526,7 +524,6 @@
             name="Save Condition"
             mat-raised-button
             mat-dialog-close
-            color="accent"
             [mat-dialog-close]="sample_ls"
           >
             Save Condition
@@ -543,15 +540,14 @@
     </div>
   </div>
   <!--<div mat-dialog-actions align="end">
-<button mat-raised-button color="accent" (click)="addSample()">Save Sample</button>
-<button mat-raised-button mat-dialog-close color="accent" [mat-dialog-close]="sample_ls">Save Condition
+<button mat-raised-button  (click)="addSample()">Save Sample</button>
+<button mat-raised-button mat-dialog-close  [mat-dialog-close]="sample_ls">Save Condition
 </button>
 </div>-->
 
   <ng-template #short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -583,7 +579,6 @@
   <ng-template #long_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -616,7 +611,6 @@
   <ng-template #number_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -648,7 +642,6 @@
   <ng-template #restricted_short_text_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -686,40 +679,6 @@
     </div>
   </ng-template>
 
-  <!--<ng-template #restricted_short_text_template let-element="element">
-<div [fxFlex]="styling_vars.input_types.std">
-  <mat-form-field color="accent" appearance="fill" class="full-form" style="margin-bottom: 10px;">
-    <mat-label>{{element.displayName}}<sup *ngIf="element.mandatory">*</sup></mat-label>
-    <input attr.data-type="{{element.input_type}}" [name]="element.position"
-      [disabled]="(element.list_value.length >= 1 && !element.list) || element.input_disabled" matInput
-      [matChipInputFor]="chipGrid"
-      (keyup)="applyRestrictedShortText($event, element.restriction.regex, element.restriction.max_length)" #input>
-    <button [name]="element.position + '_btn'" *ngIf="input.value" color="accent" matSuffix mat-icon-button
-      aria-label="Clear" (click)="selectSomeValues(input.value, element);input.value=''">
-      <mat-icon>send</mat-icon>
-    </button>
-    <button *ngIf="input.value" color="accent" matSuffix mat-icon-button aria-label="Clear"
-      (click)="input.value=''">
-      <mat-icon>close</mat-icon>
-    </button>
-    <mat-hint align="start" [innerHTML]="element.desc"></mat-hint>
-  </mat-form-field>
-
-  <mat-chip-grid #chipGrid>
-    <mat-chip-row *ngFor="let value of element.list_value"
-      style="border: 1px; border-color: black;border-style: solid;" (removed)="unselectValue(value, element)"
-      [disabled]="element.input_disabled">
-      {{value}}
-      <button matChipRemove style="color: red;">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip-row>
-  </mat-chip-grid>
-</div>
-
-
-</ng-template>-->
-
   <ng-template #date_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
@@ -747,11 +706,7 @@
           matSuffix
           [for]="picker"
         ></mat-datepicker-toggle>
-        <mat-datepicker
-          color="accent"
-          #picker
-          disabled="false"
-        ></mat-datepicker>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
       </mat-form-field>
     </div>
   </ng-template>
@@ -759,7 +714,6 @@
   <ng-template #select_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         style="margin-bottom: 25px"
@@ -794,7 +748,6 @@
   <ng-template #group_select_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]">
       <mat-form-field
-        color="accent"
         appearance="fill"
         class="full-form"
         style="margin-bottom: 25px"
@@ -832,7 +785,7 @@
 
   <ng-template #autofill_template let-element="element">
     <div [fxFlex]="styling_vars.input_types.std[0]" style="margin-bottom: 0px">
-      <mat-form-field color="accent" appearance="fill" class="full-form">
+      <mat-form-field appearance="fill" class="full-form">
         <mat-label
           >{{ element.displayName }}
           @if (element.mandatory) {
@@ -868,7 +821,6 @@
         @if (input.value) {
           <button
             [name]="element.position + '_btn'"
-            color="accent"
             matSuffix
             mat-icon-button
             aria-label="Clear"
@@ -888,7 +840,7 @@
     >
       <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
         <div fxFlex="50%">
-          <mat-form-field color="accent" appearance="fill" class="full-form">
+          <mat-form-field appearance="fill" class="full-form">
             <mat-label
               >{{ element.displayName }}
               @if (element.mandatory) {
@@ -906,7 +858,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%">
-          <mat-form-field color="accent" appearance="fill" class="full-form">
+          <mat-form-field appearance="fill" class="full-form">
             <mat-label>Unit</mat-label>
             <mat-select
               attr.data-type="{{ element.input_type }}-select"
@@ -932,7 +884,7 @@
       mat-icon-button
       [name]="element.position + '_btn'"
       [disabled]="addDisabledToGenericList(element)"
-      color="accent"
+      class="icon-tertiary"
       (click)="addToGenericList(element)"
     >
       <mat-icon>send</mat-icon>
@@ -993,7 +945,6 @@
         class="full-form"
         [name]="element.position + '_btn'"
         mat-raised-button
-        color="accent"
         style="margin-bottom: 10px"
         (click)="addToGenericExpandable(element)"
         [disabled]="addDisabledToGenericExpandable(element)"
@@ -1049,13 +1000,13 @@
                 <mat-card-actions align="end">
                   <button
                     mat-icon-button
-                    color="accent"
+                    class="icon-tertiary"
                     (click)="editGenericExpandable(element, list_element)"
                   >
                     <mat-icon>edit</mat-icon></button
                   ><button
                     mat-icon-button
-                    color="warn"
+                    class="icon-warn"
                     [disabled]="
                       deleteDisabledFromGenericExpandable(list_element)
                     "

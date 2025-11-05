@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/services/api.service';
+import { SnackbarMessageComponent } from '../snackbar-message/snackbar-message.component';
 
 @Component({
   selector: 'app-pgm-edit-factors',
@@ -20,14 +21,17 @@ export class PgmEditFactorsComponent implements OnInit {
   selected_value_nested = {};
   gene_list = [];
 
+  displayArrayNested: any = {};
+
   original_data: any;
 
   filter_list: any[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar,
+
     private apiService: ApiService,
+    private snackBar: MatSnackBar,
   ) {
     console.log(this.data);
     this.factorColumns = ['factor', 'value', 'actions'];
@@ -56,7 +60,7 @@ export class PgmEditFactorsComponent implements OnInit {
     if (!this.selected_value.includes(value)) {
       this.selected_value.push(value);
     } else {
-      this.openSnackBar('Value already added.');
+      this.openSnackBar('', 'Value already added.', '', undefined, 4000);
     }
 
     this.filter_list = [];
@@ -125,7 +129,12 @@ export class PgmEditFactorsComponent implements OnInit {
   }
 
   addFactor() {
-    console.log(this.selected_factor, this.selected_value);
+    console.log(
+      'add now',
+      this.selected_factor,
+      this.selected_value,
+      this.selected_value_nested,
+    );
     if (this.data.values[this.selected_factor].input_type == 'value_unit') {
       var value_list = this.selected_value_unit.value.split(',');
       value_list = value_list.filter((v) => v != '');
@@ -167,11 +176,15 @@ export class PgmEditFactorsComponent implements OnInit {
       this.selected_factor = undefined;
       this.data = JSON.parse(JSON.stringify(this.original_data));
       console.log(this.factorList);
-
+      this.updateNestedDisplays();
       this.updateTableData();
     } else {
       this.openSnackBar(
+        '',
         'Factor already added. If you want to edit the Factor, delete the one in the Table below.',
+        '',
+        undefined,
+        4000,
       );
     }
   }
@@ -194,18 +207,22 @@ export class PgmEditFactorsComponent implements OnInit {
       var value_list = element.value.split(',');
       value_list = value_list.filter((v) => v != '');
       this.selected_value_nested[element.position] = value_list
-        .filter((v) => !isNaN(Number(v)))
-        .map((v) => v + element.unit);
-      console.log('Nested Value Select', element);
+        .filter((v) => !isNaN(Number(v)) && element.unit !== null)
+        .map((v) => v + element.unit); //if unit != null
+      console.log('Nested Value Select', this.selected_value_nested);
     } else if (element.input_type == 'multi_autofill') {
       this.selected_value_nested[element.position].push(input_value);
       this.filter_list = [];
       console.log(this.selected_value_nested);
     } else if (element.input_type == 'restricted_short_text') {
-      if (!this.selected_value_nested[element.position].includes(input_value)) {
+      console.log('my res short text', input_value);
+      if (
+        input_value &&
+        !this.selected_value_nested[element.position].includes(input_value)
+      ) {
         this.selected_value_nested[element.position].push(input_value);
       } else {
-        this.openSnackBar('Value already added.');
+        this.openSnackBar('', 'Value already added.', '', undefined, 4000);
       }
     }
     //Fill out global nested value Object
@@ -269,13 +286,6 @@ export class PgmEditFactorsComponent implements OnInit {
     this.factor_table = new MatTableDataSource(this.factorList);
   }
 
-  openSnackBar(message) {
-    this.snackBar.open(message, '', {
-      duration: 3000,
-      panelClass: ['warning-snackbar'],
-    });
-  }
-
   generateConditionsDisabled() {
     if (this.factorList.length > 0) {
       return false;
@@ -291,16 +301,16 @@ export class PgmEditFactorsComponent implements OnInit {
       // Second group: matches the unit, which starts with one or more letters,
       // followed by zero or more letters and numbers, and potentially multiple
       // slashes and additional letters and numbers.
-      const regex = /(\d+(?:\.\d+)?)([a-zA-Z]+[a-zA-Z0-9]*(?:\/[a-zA-Z0-9]+)*)/;
+      const regex = /^[0-9]+(.[0-9]+)?/;
 
       const values = element.values.map((value) => {
         const match = value.match(regex);
-        return match[1];
+        return match[0];
       });
 
       const unit = element.values.map((value) => {
         const match = value.match(regex);
-        return match[2];
+        return value.replace(match[0], '');
       })[0];
       console.log(values, unit);
       this.selected_value_unit.value = values.join(',');
@@ -330,21 +340,23 @@ export class PgmEditFactorsComponent implements OnInit {
         ) {
           input_field.value = element.values[0][input_field.position];
         } else if (input_field.input_type == 'value_unit') {
-          var number_pattern = /[0-9]*\.?[0-9]/g;
-          var str_pattern = /[a-zA-Z]/g;
+          var number_pattern = /^[0-9]+(.[0-9]+)?/;
           var value_ls = [];
           var unit = '';
           element.values[0][input_field.position].forEach((value_unit) => {
-            var value = value_unit.match(number_pattern).toString();
+            var value = value_unit.match(number_pattern)[0];
             value_ls.push(value);
-            unit = value_unit.match(str_pattern).join('');
+            unit = value_unit.replace(value, '');
           });
           console.log(value_ls, unit);
           input_field.value = value_ls.join(',');
           input_field.unit = unit;
         }
 
-        if (input_field.input_type == 'multi_autofill') {
+        if (
+          input_field.input_type == 'multi_autofill' ||
+          input_field.input_type == 'restricted_short_text'
+        ) {
           console.log(
             'autofill',
             input_field,
@@ -364,6 +376,7 @@ export class PgmEditFactorsComponent implements OnInit {
   }
 
   displayNested(element) {
+    console.log('i did run');
     var displayArray = [];
     this.data.values[element.factor].whitelist.forEach((factor) => {
       if (element.values[0][factor.position].length > 0) {
@@ -374,5 +387,34 @@ export class PgmEditFactorsComponent implements OnInit {
       }
     });
     return displayArray;
+  }
+
+  updateNestedDisplays() {
+    for (let input of this.factorList) {
+      if (this.data.values[input.factor].input_type == 'nested') {
+        var nested_input = this.displayNested(input);
+        console.log('nested input display', nested_input);
+        this.displayArrayNested[input.factor] = nested_input;
+      }
+    }
+  }
+
+  openSnackBar(
+    title: string,
+    message: string,
+    type: string,
+    confirmation_text?: string,
+    duration?: number,
+  ) {
+    var snackbar_config = {
+      data: { title: title, message: message, type: type },
+    };
+    if (confirmation_text) {
+      snackbar_config.data['confirmation_text'] = confirmation_text;
+    } else {
+      snackbar_config['duration'] = duration;
+    }
+    console.log(snackbar_config);
+    this.snackBar.openFromComponent(SnackbarMessageComponent, snackbar_config);
   }
 }

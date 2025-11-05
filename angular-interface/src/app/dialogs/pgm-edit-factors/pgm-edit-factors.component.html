@@ -1,11 +1,10 @@
-<h1 mat-dialog-title color="accent">
+<h1 mat-dialog-title>
   <button
     mat-mini-fab
     mat-dialog-close
     #tooltip="matTooltip"
     matTooltip="Close"
     matTooltipPosition="below"
-    color="accent"
   >
     <mat-icon>close</mat-icon>
   </button>
@@ -20,7 +19,7 @@
     }"
   ></ng-container>
 
-  <mat-form-field color="accent" appearance="fill" class="full-form">
+  <mat-form-field appearance="fill" class="full-form">
     <mat-label>Choose a factor</mat-label>
     <mat-select
       [attr.name]="'factor'"
@@ -47,11 +46,12 @@
       }"
     ></ng-container>
   }
+
   <!--if factor says select  if data.values[selected_factor].input_type == 'select'-->
   @if (selected_factor) {
     <div>
       @if (data.values[selected_factor].input_type == "select") {
-        <mat-form-field color="accent" appearance="fill" class="full-form">
+        <mat-form-field appearance="fill" class="full-form">
           <mat-label
             >Choose values for
             {{ data.values[selected_factor].displayName }}</mat-label
@@ -72,7 +72,7 @@
         </mat-form-field>
       }
       @if (data.values[selected_factor].input_type == "group_select") {
-        <mat-form-field color="accent" appearance="fill" class="full-form">
+        <mat-form-field appearance="fill" class="full-form">
           <mat-label
             >Choose values for
             {{ data.values[selected_factor].displayName }}</mat-label
@@ -98,7 +98,7 @@
       }
       @if (data.values[selected_factor].input_type == "multi_autofill") {
         <div>
-          <mat-form-field color="accent" appearance="fill" class="full-form">
+          <mat-form-field appearance="fill" class="full-form">
             <mat-label
               >Choose values for
               {{ data.values[selected_factor].displayName }}</mat-label
@@ -132,7 +132,6 @@
             </mat-autocomplete>
             @if (input.value) {
               <button
-                color="accent"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
@@ -144,10 +143,7 @@
           </mat-form-field>
           <mat-chip-grid #chipGrid>
             @for (value of selected_value; track value) {
-              <mat-chip-row
-                style="border: 1px; border-color: black; border-style: solid"
-                (removed)="unselectValue(value)"
-              >
+              <mat-chip-row (removed)="unselectValue(value)">
                 {{ value }}
                 <button matChipRemove style="color: red">
                   <mat-icon>cancel</mat-icon>
@@ -160,7 +156,6 @@
       @if (data.values[selected_factor].input_type == "restricted_short_text") {
         <div>
           <mat-form-field
-            color="accent"
             appearance="fill"
             class="full-form"
             style="margin-bottom: 10px"
@@ -185,7 +180,6 @@
             @if (input.value) {
               <button
                 [name]="'factor:' + selected_factor + '_btn'"
-                color="accent"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
@@ -196,7 +190,6 @@
             }
             @if (input.value) {
               <button
-                color="accent"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
@@ -208,10 +201,7 @@
           </mat-form-field>
           <mat-chip-grid #chipGrid>
             @for (value of this.selected_value; track value) {
-              <mat-chip-row
-                style="border: 1px; border-color: black; border-style: solid"
-                (removed)="unselectValue(value)"
-              >
+              <mat-chip-row (removed)="unselectValue(value)">
                 {{ value }}
                 <button matChipRemove style="color: red">
                   <mat-icon>cancel</mat-icon>
@@ -229,11 +219,7 @@
             fxLayoutAlign="strech"
           >
             <div fxFlex="50%">
-              <mat-form-field
-                color="accent"
-                appearance="fill"
-                class="full-form"
-              >
+              <mat-form-field appearance="fill" class="full-form">
                 <mat-label>Choose values</mat-label>
                 <input
                   attr.data-type="{{
@@ -249,11 +235,7 @@
               </mat-form-field>
             </div>
             <div fxFlex="50%">
-              <mat-form-field
-                color="accent"
-                appearance="fill"
-                class="full-form"
-              >
+              <mat-form-field appearance="fill" class="full-form">
                 <mat-label>Choose a unit</mat-label>
                 <mat-select
                   attr.data-type="{{
@@ -279,11 +261,7 @@
           @for (field of data.values[selected_factor].whitelist; track field) {
             <div>
               @if (field.input_type == "select") {
-                <mat-form-field
-                  color="accent"
-                  appearance="fill"
-                  class="full-form"
-                >
+                <mat-form-field appearance="fill" class="full-form">
                   <mat-label
                     >{{ field.displayName }}
                     @if (field.required) {
@@ -307,11 +285,7 @@
                 </mat-form-field>
               }
               @if (field.input_type == "group_select") {
-                <mat-form-field
-                  color="accent"
-                  appearance="fill"
-                  class="full-form"
-                >
+                <mat-form-field appearance="fill" class="full-form">
                   <mat-label
                     >{{ field.displayName }}
                     @if (field.required) {
@@ -340,11 +314,7 @@
               }
               @if (field.input_type == "multi_autofill") {
                 <div>
-                  <mat-form-field
-                    color="accent"
-                    appearance="fill"
-                    class="full-form"
-                  >
+                  <mat-form-field appearance="fill" class="full-form">
                     <mat-label
                       >Choose values for {{ field.displayName }}
                       @if (field.required) {
@@ -384,7 +354,6 @@
                     </mat-autocomplete>
                     @if (input.value) {
                       <button
-                        color="accent"
                         matSuffix
                         mat-icon-button
                         aria-label="Clear"
@@ -401,11 +370,6 @@
                       track value
                     ) {
                       <mat-chip-row
-                        style="
-                          border: 1px;
-                          border-color: black;
-                          border-style: solid;
-                        "
                         (removed)="unselectNestedValue(value, field.position)"
                       >
                         {{ value }}
@@ -420,7 +384,6 @@
               @if (field.input_type == "restricted_short_text") {
                 <div>
                   <mat-form-field
-                    color="accent"
                     appearance="fill"
                     class="full-form"
                     style="margin-bottom: 10px"
@@ -456,7 +419,6 @@
                           field.position +
                           '_btn'
                         "
-                        color="accent"
                         matSuffix
                         mat-icon-button
                         aria-label="Clear"
@@ -470,7 +432,6 @@
                     }
                     @if (input.value) {
                       <button
-                        color="accent"
                         matSuffix
                         mat-icon-button
                         aria-label="Clear"
@@ -487,11 +448,6 @@
                       track value
                     ) {
                       <mat-chip-row
-                        style="
-                          border: 1px;
-                          border-color: black;
-                          border-style: solid;
-                        "
                         (removed)="unselectNestedValue(value, field.position)"
                       >
                         {{ value }}
@@ -511,11 +467,7 @@
                     fxLayoutAlign="strech"
                   >
                     <div fxFlex="50%">
-                      <mat-form-field
-                        color="accent"
-                        appearance="fill"
-                        class="full-form"
-                      >
+                      <mat-form-field appearance="fill" class="full-form">
                         <mat-label
                           >{{ field.displayName }}
                           @if (field.required) {
@@ -533,7 +485,7 @@
                           "
                           matInput
                           [(ngModel)]="field.value"
-                          (selectionChange)="nestedValuesSelect(field)"
+                          (keyup)="nestedValuesSelect(field)"
                         />
                         <mat-hint align="start"
                           >Enter values separated by comma.</mat-hint
@@ -541,11 +493,7 @@
                       </mat-form-field>
                     </div>
                     <div fxFlex="50%">
-                      <mat-form-field
-                        color="accent"
-                        appearance="fill"
-                        class="full-form"
-                      >
+                      <mat-form-field appearance="fill" class="full-form">
                         <mat-label>Choose a unit</mat-label>
                         <mat-select
                           attr.data-type="{{ field.input_type }}-select"
@@ -581,8 +529,7 @@
     class="full-form"
     style="margin-bottom: 10px; margin-top: 15px"
     [disabled]="addFactorDisabled()"
-    mat-raised-button
-    color="accent"
+    mat-flat-button
     (click)="addFactor()"
   >
     Save Factor
@@ -602,19 +549,15 @@
       <th mat-header-cell *matHeaderCellDef>Values</th>
       <td mat-cell *matCellDef="let element">
         @if (this.data.values[element.factor].input_type == "nested") {
-          <div>
-            @for (nested_input of displayNested(element); track nested_input) {
-              <div>
-                {{ nested_input.name }}: {{ nested_input.value }}
-                <br />
-              </div>
-            }
-          </div>
-        }
-        @if (this.data.values[element.factor].input_type != "nested") {
-          <div>
-            {{ element.values }}
-          </div>
+          @for (
+            nested_input of displayArrayNested[element.factor];
+            track $index
+          ) {
+            {{ nested_input.name }}: {{ nested_input.value }}
+            <br />
+          }
+        } @else {
+          {{ element.values }}
         }
       </td>
     </ng-container>
@@ -627,7 +570,7 @@
           #tooltip="matTooltip"
           matTooltip="Edit Factor"
           matTooltipPosition="above"
-          color="accent"
+          class="icon-tertiary"
           (click)="editFactor(element)"
         >
           <mat-icon>edit</mat-icon>
@@ -637,7 +580,7 @@
           #tooltip="matTooltip"
           matTooltip="Remove Factor"
           matTooltipPosition="above"
-          color="warn"
+          class="icon-warn"
           (click)="removeFactor(element)"
         >
           <mat-icon>delete</mat-icon>
@@ -653,15 +596,14 @@
 <div mat-dialog-actions align="end">
   <button
     name="Generate all factor Combinations"
-    mat-raised-button
+    mat-flat-button
     mat-dialog-close
-    color="accent"
     [disabled]="generateConditionsDisabled()"
     [mat-dialog-close]="{ factor_list: factorList }"
   >
     Generate all factor Combinations
   </button>
-  <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-flat-button mat-dialog-close class="button-warn">Cancel</button>
 </div>
 
 <ng-template #global_desc_template let-info_element="info_element">

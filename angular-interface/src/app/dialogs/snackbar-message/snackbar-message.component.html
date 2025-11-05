@@ -1,0 +1,28 @@
+@if (data["title"]) {
+  <h4 [ngClass]="{ warning_class: data['type'] == 'warning' }">
+    {{ data["title"] }}
+  </h4>
+}
+<div style="display: flex; align-items: center">
+  @if (data["type"] == "upload_confirm") {
+    <mat-icon style="color: rgb(2, 214, 2); margin-right: 5px"
+      >check_circle</mat-icon
+    >
+  }
+  <span [ngClass]="{ warning_class: data['type'] == 'warning' }">{{
+    data["message"]
+  }}</span>
+</div>
+
+@if (data["confirmation_text"]) {
+  <span matSnackBarActions>
+    <button
+      mat-button
+      style="width: 100%"
+      matSnackBarAction
+      (click)="snackBarRef.dismissWithAction()"
+    >
+      {{ data["confirmation_text"] }}
+    </button>
+  </span>
+}

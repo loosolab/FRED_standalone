@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header-toolbar">
   <!--<button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>-->
@@ -8,7 +8,7 @@
   <a
     style="margin-left: 16px; margin-right: 16px"
     mat-flat-button
-    color="primary"
+    class="header-nav-button"
     routerLink="/home"
     routerLinkActive="active-nav-button"
     >Home</a
@@ -16,14 +16,14 @@
   <a
     style="margin-right: 16px"
     mat-flat-button
-    color="primary"
+    class="header-nav-button"
     routerLinkActive="active-nav-button"
     routerLink="/pgm"
     >Project Generator Metadata</a
   >
   <button
     mat-icon-button
-    color="accent"
+    class="icon-tertiary"
     (click)="openHelp()"
     #tooltip="matTooltip"
     matTooltip="Help"

@@ -1,9 +1,9 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header-toolbar">
   <!--<span><img height="50px" src="assets/images/bcu_icon_minimal.png"></span>-->
   <a
     style="margin-left: 16px; margin-right: 16px"
     mat-flat-button
-    color="primary"
+    class="header-nav-button"
     routerLink="/home"
     routerLinkActive="active-nav-button"
     >Home</a
@@ -11,16 +11,15 @@
   <a
     style="margin-right: 16px"
     mat-flat-button
-    color="primary"
+    class="header-nav-button"
     routerLink="/pgm"
     routerLinkActive="active-nav-button"
     >Project Generator Metadata</a
   >
-  <!--<a mat-flat-button color="primary"  routerLinkActive="active-nav-button" >DSI</a>-->
 
   <button
     mat-icon-button
-    color="accent"
+    class="icon-tertiary"
     (click)="openHelpDialog()"
     #tooltip="matTooltip"
     matTooltip="Help"
@@ -34,7 +33,7 @@
 @if (waiting_for_data) {
   <div class="loading-wrapper">
     <div class="loading-spinner">
-      <mat-spinner color="accent"></mat-spinner>
+      <mat-spinner></mat-spinner>
     </div>
   </div>
 }
@@ -226,7 +225,6 @@
                           class="full-form"
                           name="Edit Factors and generate Conditions"
                           mat-raised-button
-                          color="accent"
                           (click)="openFactorsDialogAllowed()"
                         >
                           Edit Factors and generate Conditions
@@ -281,7 +279,6 @@
                                   style="margin-bottom: 30px"
                                 ></mat-divider>
                                 <mat-form-field
-                                  color="accent"
                                   appearance="fill"
                                   class="full-form"
                                   style="margin-bottom: 10px"
@@ -319,7 +316,6 @@
                                       fxFlex.sm="33%"
                                     >
                                       <mat-form-field
-                                        color="accent"
                                         appearance="fill"
                                         class="full-form"
                                         style="margin-bottom: 5px"
@@ -353,7 +349,6 @@
                                       fxFlex.sm="33%"
                                     >
                                       <mat-form-field
-                                        color="accent"
                                         appearance="fill"
                                         class="full-form"
                                         style="margin-bottom: 5px"
@@ -390,7 +385,7 @@
                                 <mat-action-row>
                                   <button
                                     mat-raised-button
-                                    color="warn"
+                                    class="button-warn"
                                     (click)="resetFilterChipConds()"
                                   >
                                     Reset Filter
@@ -489,14 +484,13 @@
                           <mat-action-row>
                             <button
                               mat-raised-button
-                              color="accent"
                               (click)="selectAllChipConds()"
                             >
                               Select All
                             </button>
                             <button
                               mat-raised-button
-                              color="warn"
+                              class="button-warn"
                               (click)="unselectAllChipConds()"
                             >
                               Unselect All
@@ -575,7 +569,6 @@
                                       (click)="
                                         editCondition(condition, organism_name)
                                       "
-                                      color="accent"
                                     >
                                       <mat-icon>add</mat-icon>
                                       More Samples
@@ -594,7 +587,7 @@
                                       (click)="
                                         editCondition(condition, organism_name)
                                       "
-                                      color="warn"
+                                      class="button-warn"
                                     >
                                       Missing Samples
                                       <mat-icon>add</mat-icon>
@@ -703,7 +696,6 @@
           <button
             mat-raised-button
             style="margin-top: 10px; margin-right: 5px"
-            color="accent"
             matStepperNext
           >
             Next
@@ -738,147 +730,6 @@
             track element
           ) {
             <div>
-              <!-- <ng-template #justInputBlock>
-                      <div
-                        fxLayout="row wrap"
-                        fxLayoutGap="16px grid"
-                        fxLayoutAlign="strech"
-                        >
-                        <ng-container
-                          *ngIf="element.input_type == 'short_text'"
-                          [ngTemplateOutlet]="short_text_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'long_text'"
-                          [ngTemplateOutlet]="long_text_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'restricted_short_text'"
-                          [ngTemplateOutlet]="restricted_short_text_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'number'"
-                          [ngTemplateOutlet]="number_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'date'"
-                          [ngTemplateOutlet]="date_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'select'"
-                          [ngTemplateOutlet]="select_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'group_select'"
-                          [ngTemplateOutlet]="group_select_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                *ngIf="
-                  element.input_type == 'single_autofill' ||
-                  element.input_type == 'multi_autofill'
-                "
-                          [ngTemplateOutlet]="autofill_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'value_unit'"
-                          [ngTemplateOutlet]="value_unit_template"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                *ngIf="
-                  element.input_type != 'long_text' &&
-                  element.input_type != 'organism_name'
-                "
-                          [ngTemplateOutlet]="std_description"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                        <ng-container
-                          *ngIf="element.input_type == 'long_text'"
-                          [ngTemplateOutlet]="long_text_description"
-                          [ngTemplateOutletContext]="{ element: element }"
-                        ></ng-container>
-                      </div>
-                      <ng-container
-              *ngIf="
-                (element.list &&
-                  !['select', 'group_select'].includes(element.input_type)) ||
-                element.input_type == 'single_autofill'
-              "
-                        [ngTemplateOutlet]="list_chip_grid_template"
-                        [ngTemplateOutletContext]="{ element: element }"
-                      ></ng-container>
-                      <div *ngIf="element.input_type == 'organism_name'">
-                        <div fxLayout="row wrap" fxLayoutGap="16px grid">
-                          <div fxFlex="40%" fxFlex.xs="100%">
-                            <mat-form-field
-                              color="accent"
-                              appearance="fill"
-                              class="full-form"
-                              style="margin-bottom: 10px"
-                              >
-                              <mat-label
-                                >{{ element.displayName
-                                }}<sup *ngIf="element.mandatory">*</sup>
-                              </mat-label>
-                              <mat-select
-                                attr.data-type="{{ element.input_type }}"
-                                [attr.name]="element.position"
-                                [disabled]="organism_was_selected"
-                                [(ngModel)]="element.value"
-                                >
-                                <mat-option
-                                  [value]="value"
-                                  *ngFor="let value of element.whitelist"
-                                  >
-                                  {{ value }}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div fxFlex="5%" fxFlex.xs="100%">
-                            <button
-                              name="Select Organism"
-                              mat-mini-fab
-                              [disabled]="setOrganismDisabled(element.value)"
-                              #tooltip="matTooltip"
-                              matTooltip="Select Organism"
-                              matTooltipPosition="below"
-                              color="accent"
-                              (click)="setOrganismName(element.value)"
-                              >
-                              <mat-icon>check</mat-icon>
-                            </button>
-                          </div>
-                          <div fxFlex="5%" fxFlex.xs="100%">
-                            <button
-                              name="Clear Organism"
-                              mat-mini-fab
-                              color="warn"
-                              #tooltip="matTooltip"
-                              matTooltip="Clear Organism and reset current input"
-                              [disabled]="clearOrganismDisabled()"
-                              matTooltipPosition="below"
-                              (click)="clearOrganismName(element)"
-                              >
-                              <mat-icon>close</mat-icon>
-                            </button>
-                          </div>
-                          <div
-                            fxFlex="50%"
-                            style="word-wrap: break-word; white-space: pre-wrap"
-                            [innerHTML]="element.desc"
-                          ></div>
-                        </div>
-                      </div>
-                    </ng-template> -->
               @if (element.title) {
                 <mat-accordion
                   togglePosition="before"
@@ -1048,7 +899,6 @@
                           class="full-form"
                           name="Edit Factors and generate Conditions"
                           mat-raised-button
-                          color="accent"
                           (click)="openFactorsDialogAllowed()"
                         >
                           Edit Factors and generate Conditions
@@ -1103,7 +953,6 @@
                                   style="margin-bottom: 30px"
                                 ></mat-divider>
                                 <mat-form-field
-                                  color="accent"
                                   appearance="fill"
                                   class="full-form"
                                   style="margin-bottom: 10px"
@@ -1141,7 +990,6 @@
                                       fxFlex.sm="33%"
                                     >
                                       <mat-form-field
-                                        color="accent"
                                         appearance="fill"
                                         class="full-form"
                                         style="margin-bottom: 5px"
@@ -1175,7 +1023,6 @@
                                       fxFlex.sm="33%"
                                     >
                                       <mat-form-field
-                                        color="accent"
                                         appearance="fill"
                                         class="full-form"
                                         style="margin-bottom: 5px"
@@ -1212,7 +1059,7 @@
                                 <mat-action-row>
                                   <button
                                     mat-raised-button
-                                    color="warn"
+                                    class="button-warn"
                                     (click)="resetFilterChipConds()"
                                   >
                                     Reset Filter
@@ -1311,14 +1158,13 @@
                           <mat-action-row>
                             <button
                               mat-raised-button
-                              color="accent"
                               (click)="selectAllChipConds()"
                             >
                               Select All
                             </button>
                             <button
                               mat-raised-button
-                              color="warn"
+                              class="button-warn"
                               (click)="unselectAllChipConds()"
                             >
                               Unselect All
@@ -1397,7 +1243,6 @@
                                       (click)="
                                         editCondition(condition, organism_name)
                                       "
-                                      color="accent"
                                     >
                                       <mat-icon>add</mat-icon>
                                       More Samples
@@ -1416,7 +1261,7 @@
                                       (click)="
                                         editCondition(condition, organism_name)
                                       "
-                                      color="warn"
+                                      class="icon-warn"
                                     >
                                       Missing Samples
                                       <mat-icon>add</mat-icon>
@@ -1589,7 +1434,6 @@
           name="Save Experimental Setting"
           class="full-form"
           mat-raised-button
-          color="accent"
           style="margin-top: 10px; margin-bottom: 10px"
           (click)="addExperimentalSettingDialogs()"
           [disabled]="addExperimentalSettingDisabled()"
@@ -1905,7 +1749,6 @@
                                                 setting
                                               )
                                             "
-                                            color="accent"
                                           >
                                             <mat-icon>edit</mat-icon>
                                           </button>
@@ -1922,7 +1765,7 @@
                           <button
                             mat-icon-button
                             (click)="removeExperimentalSetting(setting)"
-                            color="warn"
+                            class="icon-warn"
                           >
                             <mat-icon>delete</mat-icon>
                           </button>
@@ -1939,17 +1782,11 @@
           <button
             mat-raised-button
             style="margin-top: 10px; margin-right: 5px"
-            color="accent"
             matStepperPrevious
           >
             Back
           </button>
-          <button
-            mat-raised-button
-            style="margin-top: 10px"
-            color="accent"
-            matStepperNext
-          >
+          <button mat-raised-button style="margin-top: 10px" matStepperNext>
             Next
           </button>
         </div>
@@ -2214,22 +2051,16 @@
           <button
             mat-raised-button
             style="margin-top: 10px; margin-right: 5px"
-            color="accent"
             matStepperPrevious
           >
             Back
           </button>
-          <button
-            mat-raised-button
-            style="margin-top: 10px"
-            color="accent"
-            matStepperNext
-          >
+          <button mat-raised-button style="margin-top: 10px" matStepperNext>
             Next
           </button>
         </div>
       </mat-step>
-      <mat-step label="Finish" color="accent">
+      <mat-step label="Finish">
         <mat-card appearance="outlined" style="margin-bottom: 30px">
           <mat-card-header>
             <mat-card-subtitle> Information: </mat-card-subtitle>
@@ -2249,7 +2080,6 @@
             <button
               name="Finish and save"
               mat-raised-button
-              color="accent"
               style="margin-top: 10px"
               [disabled]="finishDisabled()"
               (click)="finishMetadataInput()"
@@ -2291,7 +2121,6 @@
                   <div [innerHTML]="object_summary.file_names"></div>
                   <button
                     mat-raised-button
-                    color="accent"
                     [disabled]="!object_summary.file_string"
                     (click)="downloadFileList(object_summary.file_string)"
                   >
@@ -2303,12 +2132,7 @@
           </div>
         </div>
         <div>
-          <button
-            mat-raised-button
-            style="margin-top: 10px"
-            color="accent"
-            matStepperPrevious
-          >
+          <button mat-raised-button style="margin-top: 10px" matStepperPrevious>
             Back
           </button>
         </div>
@@ -2332,7 +2156,6 @@
 <ng-template #short_text_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -2364,7 +2187,6 @@
 <ng-template #long_text_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.long_text[0]">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -2397,7 +2219,6 @@
 <ng-template #restricted_short_text_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -2438,7 +2259,6 @@
 <ng-template #number_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       [style.margin-bottom.px]="element.list ? 0 : 25"
@@ -2495,7 +2315,7 @@
         matSuffix
         [for]="picker"
       ></mat-datepicker-toggle>
-      <mat-datepicker color="accent" #picker disabled="false"></mat-datepicker>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
     </mat-form-field>
   </div>
 </ng-template>
@@ -2503,7 +2323,6 @@
 <ng-template #select_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       style="margin-bottom: 25px"
@@ -2538,7 +2357,6 @@
 <ng-template #group_select_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std">
     <mat-form-field
-      color="accent"
       appearance="fill"
       class="full-form"
       style="margin-bottom: 25px"
@@ -2576,7 +2394,7 @@
 
 <ng-template #autofill_template let-element="element">
   <div [fxFlex]="styling_vars.input_types.std" style="margin-bottom: 0px">
-    <mat-form-field color="accent" appearance="fill" class="full-form">
+    <mat-form-field appearance="fill" class="full-form">
       <mat-label
         >{{ element.displayName }}
         @if (element.mandatory) {
@@ -2612,7 +2430,6 @@
       @if (input.value) {
         <button
           [name]="element.position + '_btn'"
-          color="accent"
           matSuffix
           mat-icon-button
           aria-label="Clear"
@@ -2632,7 +2449,7 @@
   >
     <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="strech">
       <div fxFlex="50%">
-        <mat-form-field color="accent" appearance="fill" class="full-form">
+        <mat-form-field appearance="fill" class="full-form">
           <mat-label
             >{{ element.displayName }}
             @if (element.mandatory) {
@@ -2651,7 +2468,7 @@
         </mat-form-field>
       </div>
       <div fxFlex="50%">
-        <mat-form-field color="accent" appearance="fill" class="full-form">
+        <mat-form-field appearance="fill" class="full-form">
           <mat-label>Unit</mat-label>
           <mat-select
             attr.data-type="{{ element.input_type }}-select"
@@ -2675,7 +2492,6 @@
     mat-icon-button
     [name]="element.position + '_btn'"
     [disabled]="addDisabledToGenericList(element)"
-    color="accent"
     (click)="addToGenericList(element)"
   >
     <mat-icon>send</mat-icon>
@@ -2736,7 +2552,6 @@
       class="full-form"
       [name]="element.position + '_btn'"
       mat-raised-button
-      color="accent"
       style="margin-bottom: 10px"
       (click)="addToGenericExpandable(element)"
       [disabled]="addDisabledToGenericExpandable(element)"
@@ -2792,13 +2607,12 @@
               <mat-card-actions align="end">
                 <button
                   mat-icon-button
-                  color="accent"
                   (click)="editGenericExpandable(element, list_element)"
                 >
                   <mat-icon>edit</mat-icon></button
                 ><button
                   mat-icon-button
-                  color="warn"
+                  class="icon-warn"
                   [disabled]="deleteDisabledFromGenericExpandable(list_element)"
                   (click)="deleteFromGenericExpandable(element, list_element)"
                 >
@@ -2833,7 +2647,7 @@
 
 <ng-template #error_warn_list_item let-element="element">
   <mat-list-item style="height: initial !important">
-    <span matListItemIcon><mat-icon color="warn">cancel</mat-icon></span>
+    <span matListItemIcon><mat-icon class="icon-warn">cancel</mat-icon></span>
     <div matListItemTitle style="color: red" [innerHTML]="element.title"></div>
     <div
       matListItemLine
