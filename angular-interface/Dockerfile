@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY . .
 RUN npm install --force
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@15
 EXPOSE 4200
 CMD ng serve --host 0.0.0.0
 
