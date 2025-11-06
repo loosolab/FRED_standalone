@@ -20,7 +20,12 @@ $theme: mat.define-theme(
   )
 );
 @include mat.all-component-themes($theme);
-html,
+html {
+  @include mat.elevation-classes();
+  @include mat.app-background();
+  @include mat.all-component-themes($theme);
+  @include mat.all-component-typographies($theme);
+}
 body {
   height: 100%;
 }

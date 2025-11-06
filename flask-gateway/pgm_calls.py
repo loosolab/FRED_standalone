@@ -72,7 +72,7 @@ def validateMetadataObjectWithSummary(data):
 
 
 def finishResult(data):
-    filenames = {}
+    filenames = []
     file_name_to_save = "anonymous" + "_" + datetime.now().strftime("%d_%m_%Y")
     save_path = "saved_metadata/"
 

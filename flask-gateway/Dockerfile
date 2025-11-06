@@ -7,7 +7,6 @@ WORKDIR /app
 COPY . /app
 RUN pip3 install -r requirements.txt
 
-# Install Fred requirements
-RUN pip3 install -r metadata-organizer/requirements.txt
+
 EXPOSE 5000
 CMD ["python", "app.py"]
