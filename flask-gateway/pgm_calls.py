@@ -12,16 +12,19 @@ import threading
 import importlib.util as ilu
 import wetlab_writer
 import fred
+import fred.src.wi_functions as wi_functions
 
 # import wi_functions
-spec = ilu.spec_from_file_location(
-    "wi_functions",
-    os.path.join(
-        os.path.dirname(__file__), "metadata-organizer", "src", "wi_functions.py"
-    ),
-)
-metadata_organizer = ilu.module_from_spec(spec)
-spec.loader.exec_module(metadata_organizer)
+# spec = ilu.spec_from_file_location(
+#     "wi_functions",
+#     os.path.join(
+#         os.path.dirname(__file__), "metadata-organizer", "src", "wi_functions.py"
+#     ),
+# )
+# metadata_organizer = ilu.module_from_spec(spec)
+# spec.loader.exec_module(metadata_organizer)
+
+fred_config = os.path.join(os.path.dirname(__file__), "config", "fred_config.yaml")
 
 
 def getEmptyMask():
@@ -163,3 +166,11 @@ def createFilelist(data):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), "tmp"))
     filename = metadata_organizer.save_filenames(data["file_string"], path)
     return {"filename": filename}
+
+
+def getPgmObject(conifig_path):
+    m_object = wi_functions.Webinterface(conifig_path)
+    return m_object.to_dict()
+
+
+print(getPgmObject(fred_config))

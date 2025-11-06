@@ -17,3 +17,4 @@ prometheus-client
 prometheus-flask-exporter
 psutil
 kubernetes
+fred-metadata
