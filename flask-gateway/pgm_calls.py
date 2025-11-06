@@ -14,16 +14,6 @@ import wetlab_writer
 import fred
 import fred.src.wi_functions as wi_functions
 
-# import wi_functions
-# spec = ilu.spec_from_file_location(
-#     "wi_functions",
-#     os.path.join(
-#         os.path.dirname(__file__), "metadata-organizer", "src", "wi_functions.py"
-#     ),
-# )
-# metadata_organizer = ilu.module_from_spec(spec)
-# spec.loader.exec_module(metadata_organizer)
-
 fred_config = os.path.join(os.path.dirname(__file__), "config", "fred_config.yaml")
 m_object = wi_functions.Webinterface(fred_config)
 g_pgm_object = m_object.to_dict()
@@ -84,7 +74,7 @@ def validateMetadataObjectWithSummary(data):
 def finishResult(data):
     filenames = {}
     file_name_to_save = "anonymous" + "_" + datetime.now().strftime("%d_%m_%Y")
-    save_path = "tmp/"
+    save_path = "saved_metadata/"
 
     metadata_object = wi_functions.parse_object(
         g_pgm_object, data["object"], g_whitelist_object
@@ -106,14 +96,14 @@ def finishResult(data):
         exp_setting_list_new, save_path, file_name_to_save_wetlab
     )
     filenames.append(filename_wetlab.split("/")[-1])
-    move_process = threading.Thread(
-        target=moveMetadata,
-        args=(
-            save_path,
-            filenames,
-        ),
-    )
-    move_process.start()
+    # move_process = threading.Thread(
+    #     target=moveMetadata,
+    #     args=(
+    #         save_path,
+    #         filenames,
+    #     ),
+    # )
+    # move_process.start()
     return {"filenames": filenames}
 
 
