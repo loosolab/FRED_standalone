@@ -25,80 +25,76 @@ import fred.src.wi_functions as wi_functions
 # spec.loader.exec_module(metadata_organizer)
 
 fred_config = os.path.join(os.path.dirname(__file__), "config", "fred_config.yaml")
+m_object = wi_functions.Webinterface(fred_config)
+g_pgm_object = m_object.to_dict()
+g_whitelist_object = wi_functions.get_whitelist_object(g_pgm_object)["whitelists"]
 
 
 def getEmptyMask():
-    full_mask = metadata_organizer.get_empty_wi_object()
+    full_mask = wi_functions.get_empty_wi_object(g_pgm_object, g_whitelist_object)
     return full_mask
 
 
-def getEditMask(data):
-    metadata_mask = metadata_organizer.edit_wi_object(data["path"], data["id"])
-    return metadata_mask
-
-
 def getFactors(organism_name):
-    data = metadata_organizer.get_factors(organism_name)
+    data = wi_functions.get_factors(g_pgm_object, organism_name, g_whitelist_object)
     return data
 
 
 def getSingleWhitelist(search_object):
-    start_time = time.time()
-    data = metadata_organizer.get_single_whitelist(search_object)
-    end_time = time.time()
-    execution_time = end_time - start_time
-    execution_time_str = "Execution time: {:.2f} seconds".format(execution_time)
-    with open("getWhitelists.txt", "w") as f:
-        f.write(execution_time_str)
+    data = wi_functions.get_single_whitelist(search_object, g_whitelist_object)
     return data
 
 
 def searchElements(search_string, result_count, data):
-    start_time = time.time()
     filterd_data = []
     for element in data:
         if len(filterd_data) >= result_count:
             break
         if search_string.lower() in element.lower():
             filterd_data.append(element)
-    end_time = time.time()
-    execution_time = end_time - start_time
-    execution_time_str = "Execution time: {:.2f} seconds".format(execution_time)
-    with open("search.txt", "w") as f:
-        f.write(execution_time_str)
 
     return filterd_data
 
 
 def genConditions(data):
-    new_data = metadata_organizer.get_conditions(
-        data["factor_list"], data["organism_name"]
+    new_data = wi_functions.get_conditions(
+        g_pgm_object, data["factor_list"], data["organism_name"], g_whitelist_object
     )
     return new_data
 
 
-def validateMetadataObject(data):
+# Add finish to pipe from angular
+def validateMetadataObject(data, finish=False):
     print(data)
-    new_data = metadata_organizer.validate_object(data["object"])
+    if "finish" in data and data["finish"]:
+        finish = True
+    new_data = wi_functions.validate_object(
+        g_pgm_object, data["object"], g_whitelist_object, finish
+    )
     return new_data
 
 
 def validateMetadataObjectWithSummary(data):
-    new_data = metadata_organizer.get_summary(data["object"])
+    new_data = wi_functions.get_summary(
+        g_pgm_object, data["object"], g_whitelist_object
+    )
     return new_data
 
 
-def finishResult(path, data):
-    filenames = []
+def finishResult(data):
+    filenames = {}
     file_name_to_save = "anonymous" + "_" + datetime.now().strftime("%d_%m_%Y")
-    save_path = path + "/tmp/"
+    save_path = "tmp/"
 
-    metadata_object = metadata_organizer.parse_object(data["object"])
-    filename_metadata, project_id = metadata_organizer.save_object(
-        metadata_object, save_path, file_name_to_save
+    metadata_object = wi_functions.parse_object(
+        g_pgm_object, data["object"], g_whitelist_object
+    )
+    filename_metadata, project_id = wi_functions.save_object(
+        metadata_object, save_path, file_name_to_save, False
     )
     filenames.append(filename_metadata.split("/")[-1])
-    # save wetlab.xlsx
+
+    # Check Wetlab Writer Funcs
 
     all_exp_settings = sum(
         list(wetlab_writer.find_keys(metadata_object, "experimental_setting")), []
@@ -145,26 +141,31 @@ def moveMetadata(save_path, filenames):
     return
 
 
-def getMetadata(data):
-    result = metadata_organizer.get_meta_info(data["path"], data["id"])
-    return {"data": result}
+def getPlot(project_id):
+    plot_result = wi_functions.get_plot(g_pgm_object, fred_config, "./", project_id)
+    return plot_result
 
 
-def getSearchMask():
-    result = metadata_organizer.get_search_mask()
-    return {"data": result}
+# def getMetadata(data):
+#     result = wi_functions.get_meta_info(data["path"], data["id"])
+#     return {"data": result}
 
 
-def find_metadata(data):
-    path = "bcu_repository/"
-    search_string = data["search_string"]
-    result = metadata_organizer.find_metadata(path, search_string)
-    return {"data": result}
+# def getSearchMask():
+#     result = metadata_organizer.get_search_mask()
+#     return {"data": result}
+
+
+# def find_metadata(data):
+#     path = "bcu_repository/"
+#     search_string = data["search_string"]
+#     result = metadata_organizer.find_metadata(path, search_string)
+#     return {"data": result}
 
 
 def createFilelist(data):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), "tmp"))
-    filename = metadata_organizer.save_filenames(data["file_string"], path)
+    filename = wi_functions.save_filenames(data["file_string"], path)
     return {"filename": filename}
 
 
@@ -173,4 +174,5 @@ def getPgmObject(conifig_path):
     return m_object.to_dict()
 
 
-print(getPgmObject(fred_config))
+def getWhitelistObject(pgm_object):
+    return wi_functions.get_whitelist_object(pgm_object)
