@@ -177,4 +177,7 @@ def loadFredConfig():
 def updateFredConfig(new_config):
     with open(fred_config, "w") as file:
         yaml.dump(new_config, file, sort_keys=False)
+    global g_pgm_object, g_whitelist_object
+    g_pgm_object = getPgmObject(fred_config)
+    g_whitelist_object = getWhitelistObject(g_pgm_object)
     return

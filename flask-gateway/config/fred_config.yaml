@@ -1,6 +1,6 @@
 branch: v1.2.*
 email: bcu.support@mpi-bn.mpg.de
-filename: _metadata
+filename: _metadata_2
 output_path: .
 private_access:
   name: null
