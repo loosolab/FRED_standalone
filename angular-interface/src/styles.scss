@@ -1,20 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 
-// @include mat.all-component-typographies();
-@include mat.elevation-classes();
-@include mat.app-background();
+// 1) core must be included once globally
+@include mat.core();
 
-//Theming
-//$my-primary: mat.define-palette(mat.$teal-palette,400);
-//$my-accent: mat.define-palette(mat.$green-palette, A400);
-//$my-warn: mat.define-palette(mat.$red-palette);
-// Define a new color for warning
+// 2) define your theme object
 $theme: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$chartreuse-palette,
+      primary: mat.$yellow-palette,
       tertiary: mat.$magenta-palette,
     ),
     typography: (
@@ -28,12 +23,17 @@ $theme: mat.define-theme(
   )
 );
 
-html {
-  @include mat.elevation-classes();
-  @include mat.app-background();
+// 3) Emit the theme CSS variables globally
+:root {
+  // this registers all system CSS variables (colors, typography tokens, etc.)
   @include mat.all-component-themes($theme);
   @include mat.all-component-typographies($theme);
 }
+
+// 4) Also include helper mixins if you need them globally
+@include mat.elevation-classes();
+@include mat.app-background();
+html,
 body {
   height: 100%;
   padding: 0;
@@ -92,7 +92,6 @@ body {
   align-items: center;
   height: calc(100vh - 20px);
 }
-
 .loading-spinner {
   padding: 12px;
 }

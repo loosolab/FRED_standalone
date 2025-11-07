@@ -221,7 +221,7 @@
                           style="margin-bottom: 10px"
                           class="full-form"
                           name="Edit Factors and generate Conditions"
-                          mat-raised-button
+                          mat-flat-button
                           (click)="openFactorsDialogAllowed()"
                         >
                           Edit Factors and generate Conditions
@@ -381,7 +381,7 @@
                                 }
                                 <mat-action-row>
                                   <button
-                                    mat-raised-button
+                                    mat-flat-button
                                     class="button-warn"
                                     (click)="resetFilterChipConds()"
                                   >
@@ -480,13 +480,13 @@
                           </mat-card-content>
                           <mat-action-row>
                             <button
-                              mat-raised-button
+                              mat-flat-button
                               (click)="selectAllChipConds()"
                             >
                               Select All
                             </button>
                             <button
-                              mat-raised-button
+                              mat-flat-button
                               class="button-warn"
                               (click)="unselectAllChipConds()"
                             >
@@ -691,7 +691,7 @@
         </div>
         <div>
           <button
-            mat-raised-button
+            mat-flat-button
             style="margin-top: 10px; margin-right: 5px"
             matStepperNext
           >
@@ -890,7 +890,7 @@
                           style="margin-bottom: 10px"
                           class="full-form"
                           name="Edit Factors and generate Conditions"
-                          mat-raised-button
+                          mat-flat-button
                           (click)="openFactorsDialogAllowed()"
                         >
                           Edit Factors and generate Conditions
@@ -1050,7 +1050,7 @@
                                 }
                                 <mat-action-row>
                                   <button
-                                    mat-raised-button
+                                    mat-flat-button
                                     class="button-warn"
                                     (click)="resetFilterChipConds()"
                                   >
@@ -1149,13 +1149,13 @@
                           </mat-card-content>
                           <mat-action-row>
                             <button
-                              mat-raised-button
+                              mat-flat-button
                               (click)="selectAllChipConds()"
                             >
                               Select All
                             </button>
                             <button
-                              mat-raised-button
+                              mat-flat-button
                               class="button-warn"
                               (click)="unselectAllChipConds()"
                             >
@@ -1425,7 +1425,7 @@
         <button
           name="Save Experimental Setting"
           class="full-form"
-          mat-raised-button
+          mat-flat-button
           style="margin-top: 10px; margin-bottom: 10px"
           (click)="addExperimentalSettingDialogs()"
           [disabled]="addExperimentalSettingDisabled()"
@@ -1772,13 +1772,13 @@
         </mat-accordion>
         <div>
           <button
-            mat-raised-button
+            mat-flat-button
             style="margin-top: 10px; margin-right: 5px"
             matStepperPrevious
           >
             Back
           </button>
-          <button mat-raised-button style="margin-top: 10px" matStepperNext>
+          <button mat-flat-button style="margin-top: 10px" matStepperNext>
             Next
           </button>
         </div>
@@ -2038,13 +2038,13 @@
         </div>
         <div>
           <button
-            mat-raised-button
+            mat-flat-button
             style="margin-top: 10px; margin-right: 5px"
             matStepperPrevious
           >
             Back
           </button>
-          <button mat-raised-button style="margin-top: 10px" matStepperNext>
+          <button mat-flat-button style="margin-top: 10px" matStepperNext>
             Next
           </button>
         </div>
@@ -2068,7 +2068,7 @@
           <div fxFlex="15%" fxFlex.xs="100%">
             <button
               name="Finish and save"
-              mat-raised-button
+              mat-flat-button
               style="margin-top: 10px"
               [disabled]="finishDisabled()"
               (click)="finishMetadataInput()"
@@ -2109,7 +2109,7 @@
                   </mat-expansion-panel-header>
                   <div [innerHTML]="object_summary.file_names"></div>
                   <button
-                    mat-raised-button
+                    mat-flat-button
                     [disabled]="!object_summary.file_string"
                     (click)="downloadFileList(object_summary.file_string)"
                   >
@@ -2121,7 +2121,7 @@
           </div>
         </div>
         <div>
-          <button mat-raised-button style="margin-top: 10px" matStepperPrevious>
+          <button mat-flat-button style="margin-top: 10px" matStepperPrevious>
             Back
           </button>
         </div>
@@ -2540,7 +2540,7 @@
     <button
       class="full-form"
       [name]="element.position + '_btn'"
-      mat-raised-button
+      mat-flat-button
       style="margin-bottom: 10px"
       (click)="addToGenericExpandable(element)"
       [disabled]="addDisabledToGenericExpandable(element)"

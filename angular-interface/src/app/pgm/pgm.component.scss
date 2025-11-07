@@ -1,5 +1,44 @@
+@use "sass:map";
 @use "@angular/material" as mat;
-.my-class-with-custom-shadow {
-  // Adds a shadow for elevation level 2 with color #e91e63 and 80% of the default opacity:
-  @include mat.elevation(2, #aa00ff, 0.8);
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+}
+
+@mixin color($theme) {
+  .card-selected {
+    border: 1px;
+    border-color: mat.get-theme-color($theme, primary);
+    border-style: solid;
+  }
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap to the next line if necessary */
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  position: relative;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto; /* Allows the card to expand horizontally based on content */
+  min-width: 200px; /* Optional: Set a minimum width */
+  max-width: 100%; /* Ensures the card doesn't exceed the container width */
+  display: flex;
+  flex-direction: column;
+}
+
+.check-icon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
+.card-content {
+  padding: 24px;
 }
