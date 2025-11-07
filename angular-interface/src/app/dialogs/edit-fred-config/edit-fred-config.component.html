@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>
+  <button
+    mat-mini-fab
+    mat-dialog-close
+    #tooltip="matTooltip"
+    matTooltip="Close"
+    matTooltipPosition="below"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  Configure FRED Settings
+</h1>
+<div mat-dialog-content>
+  <mat-card appearance="outlined" style="margin-bottom: 16px">
+    <mat-card-header>
+      <mat-card-subtitle> Information: </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      Dummy dummy for fred settings configuration.
+    </mat-card-content></mat-card
+  >
+  <mat-divider style="margin-bottom: 16px"></mat-divider>
+
+  <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
+    <mat-label>File Suiffix</mat-label>
+    <input matInput type="text" [(ngModel)]="fred_config.filename" />
+    <mat-hint>File Suffix</mat-hint>
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
+    <mat-label>Whitelist Repository</mat-label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="fred_config.whitelist_repository"
+    />
+    <mat-hint>Whitelist Repository</mat-hint>
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
+    <mat-label>Git Access Name</mat-label>
+    <input matInput type="text" [(ngModel)]="fred_config.private_access.name" />
+    <mat-hint>
+      github: username for access token; gitlab: oauth2 for project access
+      token</mat-hint
+    >
+  </mat-form-field>
+  <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
+    <mat-label>Git Access Token</mat-label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="fred_config.private_access.token"
+    />
+    <mat-hint>personal (github) or project (gitlab) access token</mat-hint>
+  </mat-form-field>
+  <!-- <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
+    <mat-label>Whitelist Path</mat-label>
+    <input matInput type="text" [(ngModel)]="fred_config.whitelist_path" />
+    <mat-hint>Whitelist Path</mat-hint>
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions align="end">
+  <button name="Apply Config" mat-flat-button (click)="applyFredConfig()">
+    Apply Settings
+  </button>
+  <button mat-flat-button mat-dialog-close class="button-warn">Cancel</button>
+</div>

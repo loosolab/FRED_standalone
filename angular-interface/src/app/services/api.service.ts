@@ -217,4 +217,28 @@ export class ApiService {
     a.click();
     window.URL.revokeObjectURL(url);
   }
+
+  getFredConfig() {
+    return new Promise((resolve) => {
+      this.http
+        .get(this.apiURL + '/loadFredConfig')
+        .pipe()
+        .subscribe((res: any) => {
+          console.log(res);
+          resolve(res);
+        });
+    });
+  }
+  updateFredConfig(fred_config) {
+    return new Promise((resolve) => {
+      console.log('Object to validate', fred_config);
+      this.http
+        .post(this.apiURL + '/updateFredConfig', fred_config)
+        .pipe()
+        .subscribe((res: any) => {
+          console.log('FRED config updated', res);
+          resolve('');
+        });
+    });
+  }
 }

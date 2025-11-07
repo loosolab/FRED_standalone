@@ -75,6 +75,22 @@ def getPgmFiles():
         return "File not Found", 404
 
 
+@app.route("/loadFredConfig", methods=["GET"])
+def loadFredConfig():
+    config_data = pgm_calls.loadFredConfig()
+    return jsonify(config_data)
+
+
+@app.route("/updateFredConfig", methods=["POST"])
+def updateFredConfig():
+    request_data = request.get_json()
+    try:
+        pgm_calls.updateFredConfig(request_data)
+        return {"status": "success"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+
+
 if __name__ == "__main__":
     # Run the Flask application on port 5000 (default)
     app.run(host="0.0.0.0", port=5000, debug=True)

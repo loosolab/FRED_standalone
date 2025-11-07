@@ -43,6 +43,7 @@ import { PgmEditFactorsComponent } from './dialogs/pgm-edit-factors/pgm-edit-fac
 import { PgmEditConditionComponent } from './dialogs/pgm-edit-condition/pgm-edit-condition.component';
 import { PgmHelpComponent } from './dialogs/pgm-help/pgm-help.component';
 import { SnackbarMessageComponent } from './dialogs/snackbar-message/snackbar-message.component';
+import { EditFredConfigComponent } from './dialogs/edit-fred-config/edit-fred-config.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { SnackbarMessageComponent } from './dialogs/snackbar-message/snackbar-me
     PgmEditConditionComponent,
     PgmHelpComponent,
     SnackbarMessageComponent,
+    EditFredConfigComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

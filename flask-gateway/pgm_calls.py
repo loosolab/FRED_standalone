@@ -166,3 +166,15 @@ def getPgmObject(conifig_path):
 
 def getWhitelistObject(pgm_object):
     return wi_functions.get_whitelist_object(pgm_object)
+
+
+def loadFredConfig():
+    with open(fred_config, "r") as file:
+        config_data = yaml.safe_load(file)
+    return config_data
+
+
+def updateFredConfig(new_config):
+    with open(fred_config, "w") as file:
+        yaml.dump(new_config, file, sort_keys=False)
+    return
