@@ -453,7 +453,43 @@
                                     No matching conditions found
                                   </div>
                                 }
-                                <mat-chip-listbox
+                                <div class="card-container">
+                                  @for (
+                                    chip_cond of displayedChips;
+                                    track chip_cond
+                                  ) {
+                                    <mat-card
+                                      class="card"
+                                      appearance="outlined"
+                                      matRipple
+                                      [class.card-selected]="
+                                        chip_cond.selected == true
+                                      "
+                                      (click)="chipSelectionChange(chip_cond)"
+                                      ><mat-card-header>
+                                        @if (chip_cond.selected == true) {
+                                          <mat-icon
+                                            class="icon-tertiary check-icon"
+                                            >check_circle</mat-icon
+                                          >
+                                        } @else {
+                                          <mat-icon
+                                            class="icon-tertiary check-icon"
+                                            >radio_button_unchecked</mat-icon
+                                          >
+                                        }
+                                      </mat-card-header>
+
+                                      <mat-card-content class="card-content">
+                                        <div
+                                          [innerHTML]="chip_cond.title"
+                                        ></div>
+                                      </mat-card-content>
+                                      <mat-card-footer></mat-card-footer>
+                                    </mat-card>
+                                  }
+                                </div>
+                                <!-- <mat-chip-listbox
                                   multiple
                                   selectable
                                   [attr.name]="'cond_chip'"
@@ -474,7 +510,7 @@
                                       <div [innerHTML]="chip_cond.title"></div>
                                     </mat-chip-option>
                                   }
-                                </mat-chip-listbox>
+                                </mat-chip-listbox> -->
                               </mat-card-content>
                             </mat-card>
                           </mat-card-content>
@@ -1122,28 +1158,42 @@
                                     No matching conditions found
                                   </div>
                                 }
-                                <mat-chip-listbox
-                                  multiple
-                                  selectable
-                                  [attr.name]="'cond_chip'"
-                                  style="margin-bottom: 15px"
-                                >
+                                <div class="card-container">
                                   @for (
                                     chip_cond of displayedChips;
                                     track chip_cond
                                   ) {
-                                    <mat-chip-option
-                                      [attr.name]="chip_cond.correct_value"
-                                      style="height: auto !important"
-                                      (selectionChange)="
-                                        chipSelectionChange($event, chip_cond)
+                                    <mat-card
+                                      class="card"
+                                      appearance="outlined"
+                                      matRipple
+                                      [class.card-selected]="
+                                        chip_cond.selected == true
                                       "
-                                      [selected]="chip_cond.selected"
-                                    >
-                                      <div [innerHTML]="chip_cond.title"></div>
-                                    </mat-chip-option>
+                                      (click)="chipSelectionChange(chip_cond)"
+                                      ><mat-card-header>
+                                        @if (chip_cond.selected == true) {
+                                          <mat-icon
+                                            class="icon-tertiary check-icon"
+                                            >check_circle</mat-icon
+                                          >
+                                        } @else {
+                                          <mat-icon
+                                            class="icon-tertiary check-icon"
+                                            >radio_button_unchecked</mat-icon
+                                          >
+                                        }
+                                      </mat-card-header>
+
+                                      <mat-card-content class="card-content">
+                                        <div
+                                          [innerHTML]="chip_cond.title"
+                                        ></div>
+                                      </mat-card-content>
+                                      <mat-card-footer></mat-card-footer>
+                                    </mat-card>
                                   }
-                                </mat-chip-listbox>
+                                </div>
                               </mat-card-content>
                             </mat-card>
                           </mat-card-content>
@@ -2545,24 +2595,16 @@
           Not available
         </div>
       }
-      <mat-chip-listbox>
+      <mat-chip-set>
         @for (list_item of element.list_value; track list_item) {
-          <mat-chip-option
-            style="
-              border: 1px;
-              border-color: black;
-              border-style: solid;
-              height: auto !important;
-            "
-            (removed)="deleteFromGenericList(element, list_item)"
-          >
+          <mat-chip (removed)="deleteFromGenericList(element, list_item)">
             {{ list_item }}
             <button matChipRemove style="color: red">
               <mat-icon>cancel</mat-icon>
             </button>
-          </mat-chip-option>
+          </mat-chip>
         }
-      </mat-chip-listbox>
+      </mat-chip-set>
     </mat-card-content>
   </mat-card>
 </ng-template>

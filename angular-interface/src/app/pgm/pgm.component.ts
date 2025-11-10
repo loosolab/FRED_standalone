@@ -546,6 +546,7 @@ export class PgmComponent implements OnInit {
     );
     console.log('sel conds', this.selected_conditions);
   }
+
   resetFilterChipConds() {
     this.selected_filter_factor_object = [
       {
@@ -563,11 +564,16 @@ export class PgmComponent implements OnInit {
     this.filterChipConditions();
   }
 
-  chipSelectionChange(event: any, cond) {
-    cond.selected = event.selected;
+  chipSelectionChange(cond) {
+    // Toggle the selected state
+    const currentIndex = this.chip_conditions.indexOf(cond);
+    const currentCondition = this.chip_conditions[currentIndex];
+    currentCondition.selected = !currentCondition.selected;
+    cond.selected = currentCondition.selected;
+    console.log('sel conds before', this.selected_conditions);
+    console.log('display chips in event', this.displayedChips);
     this.filterChipConditions();
     this.update_selected_conditions();
-    //if event false --> unselect
   }
   selectAllChipConds() {
     this.chip_conditions.map((v) => (v.selected = true));
@@ -641,6 +647,15 @@ export class PgmComponent implements OnInit {
   onPageChange(event: any) {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
+    console.log(
+      'cond chips',
+      this.chip_conditions.filter((v) => v.selected == true),
+    );
+    console.log(
+      'display chips',
+      this.displayedChips.filter((v) => v.selected == true),
+    );
+
     this.displayedChips = this.chip_conditions.slice(startIndex, endIndex);
   }
   openFactorsDialogAllowed() {

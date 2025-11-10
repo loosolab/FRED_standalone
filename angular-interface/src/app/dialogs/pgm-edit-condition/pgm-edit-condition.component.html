@@ -513,7 +513,7 @@
         <mat-card-actions>
           <button
             name="Save Sample"
-            mat-raised-button
+            mat-flat-button
             [disabled]="addSampleDisabled()"
             (click)="addSample()"
             style="margin-right: 10px"
@@ -522,7 +522,7 @@
           </button>
           <button
             name="Save Condition"
-            mat-raised-button
+            mat-flat-button
             mat-dialog-close
             [mat-dialog-close]="sample_ls"
           >
@@ -540,8 +540,8 @@
     </div>
   </div>
   <!--<div mat-dialog-actions align="end">
-<button mat-raised-button  (click)="addSample()">Save Sample</button>
-<button mat-raised-button mat-dialog-close  [mat-dialog-close]="sample_ls">Save Condition
+<button mat-flat-button  (click)="addSample()">Save Sample</button>
+<button mat-flat-button mat-dialog-close  [mat-dialog-close]="sample_ls">Save Condition
 </button>
 </div>-->
 
@@ -944,7 +944,7 @@
       <button
         class="full-form"
         [name]="element.position + '_btn'"
-        mat-raised-button
+        mat-flat-button
         style="margin-bottom: 10px"
         (click)="addToGenericExpandable(element)"
         [disabled]="addDisabledToGenericExpandable(element)"
