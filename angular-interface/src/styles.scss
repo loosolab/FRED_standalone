@@ -1,16 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
+@use "./app/themes/fred_theme-colors.scss" as fred;
 
 // 1) core must be included once globally
 @include mat.core();
+
+
 
 // 2) define your theme object
 $theme: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$yellow-palette,
-      tertiary: mat.$magenta-palette,
+      primary: fred.$primary-palette,
+      tertiary: fred.$tertiary-palette,
     ),
     typography: (
       brand-family: "Roboto",
