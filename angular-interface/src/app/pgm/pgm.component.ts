@@ -1,4 +1,12 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../services/api.service';
@@ -11,6 +19,7 @@ import { PgmEditFactorsComponent } from '../dialogs/pgm-edit-factors/pgm-edit-fa
 import { PgmEditConditionComponent } from '../dialogs/pgm-edit-condition/pgm-edit-condition.component';
 import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pgm',
@@ -24,6 +33,8 @@ export class PgmComponent implements OnInit {
   canDeactivate(): boolean | Observable<boolean> {
     return this.inputSaved;
   }
+
+  @ViewChildren('scriptContainer') scriptContainers: QueryList<ElementRef>;
 
   inputSaved = false;
   disableAnimation = true;
@@ -75,8 +86,13 @@ export class PgmComponent implements OnInit {
 
   displayedChips = this.chip_conditions.slice(0, 10);
   styling_vars = { input_types: { std: '50', long_text: ['70', '30'] } };
-
+  object_summary_project: any;
+  object_summary_exp_settings: any;
+  object_summary_tech_details: any;
+  object_summary_file_names: any;
   constructor(
+    private sanitizer: DomSanitizer,
+
     /*private dialog: MatDialog,
     public navService: NavigationService,
     public apiService: ApiService,
@@ -171,9 +187,17 @@ export class PgmComponent implements OnInit {
         ),
       ]).then((all_res: Array<any>) => {
         console.log('All Promise', all_res);
+        console.log('All Promise', all_res);
         var error_warning_res = all_res[0];
-        var summary_res = all_res[1];
-        this.object_summary = summary_res;
+        var summary_res = all_res[1].summary;
+        this.object_summary_file_names = all_res[1].files;
+        this.object_summary_project = summary_res.project;
+        this.object_summary_tech_details = summary_res.technical_details;
+        this.object_summary_exp_settings = this.sanitizeExpSettings(
+          summary_res.experimental_setting,
+        );
+        console.log('Sanitized exp settings', this.object_summary_exp_settings);
+        console.log('Summary filenames', this.object_summary_file_names);
         this.object_errors = error_warning_res.errors;
         this.object_errors.summed =
           this.object_errors.project.length +
@@ -186,9 +210,107 @@ export class PgmComponent implements OnInit {
           this.object_warnings.technical_details.length;
         this.was_validated = true;
         this.loading_validation = false;
-        loadingRef.close();
+        this.waitForElementsAndReinsertScripts().then(() => {
+          console.log('Scripts reinserted successfully');
+          loadingRef.close(); // Close loading after scripts are reinserted
+        });
       });
     }
+  }
+
+  sanitizeExpSettings(unsafe_exp_settings) {
+    return unsafe_exp_settings.map((setting) => {
+      return {
+        ...setting,
+        plot: this.sanitizer.bypassSecurityTrustHtml(setting.plot),
+      };
+    });
+  }
+
+  waitForElementsAndReinsertScripts(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log(
+        'Waiting for elements to reinsert scripts',
+        this.object_summary_exp_settings.length,
+      );
+
+      if (this.object_summary_exp_settings) {
+        console.log(
+          'Exp settings found, reinserting scripts',
+          this.object_summary_exp_settings.length,
+        );
+        setTimeout(() => {
+          console.log(
+            'Checking for script containers...',
+            this.scriptContainers.length,
+          );
+          if (
+            this.scriptContainers.length ==
+            this.object_summary_exp_settings.length
+          ) {
+            this.scriptContainers.forEach((container) => {
+              this.reinsertScripts(container);
+            });
+            resolve(); // Resolve the promise after reinserting scripts
+          } else {
+            console.log('Element with runScripts not found');
+            reject(new Error('Element with runScripts not found'));
+          }
+        }, 200); // Adjust the delay as needed
+      } else {
+        reject(new Error('No exp settings found'));
+      }
+    });
+  }
+
+  reinsertScripts(elementRef: ElementRef): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log('Attempting to reinsert scripts');
+      const element = elementRef.nativeElement;
+
+      if (element) {
+        console.log('Element with runScripts found:', element);
+        const scripts = Array.from(
+          element.getElementsByTagName('script'),
+        ) as HTMLScriptElement[];
+        console.log('Number of scripts found:', scripts.length);
+
+        const scriptsInitialLength = scripts.length;
+        for (let i = 0; i < scriptsInitialLength; i++) {
+          const script = scripts[i];
+          console.log(
+            `Processing script ${i + 1}/${scriptsInitialLength}:`,
+            script,
+          );
+
+          const scriptCopy = document.createElement('script');
+          scriptCopy.type = script.type ? script.type : 'text/javascript';
+
+          if (script.innerHTML) {
+            console.log('Script has innerHTML');
+            scriptCopy.innerHTML = script.innerHTML;
+          } else if (script.src) {
+            console.log('Script has src:', script.src);
+
+            // Check if the script is already loaded
+            if (!document.querySelector(`script[src="${script.src}"]`)) {
+              scriptCopy.src = script.src;
+            } else {
+              console.log(`Script with src ${script.src} is already loaded`);
+              continue; // Skip adding the script again
+            }
+          }
+
+          scriptCopy.async = false;
+          script.parentNode.replaceChild(scriptCopy, script);
+          console.log('Script replaced successfully');
+        }
+        resolve(); // Resolve the promise after processing all scripts
+      } else {
+        console.log('No element with runScripts found');
+        reject(new Error('No element with runScripts found'));
+      }
+    });
   }
 
   getExpSettingID() {

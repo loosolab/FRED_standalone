@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -91,6 +92,7 @@ import { EditFredConfigComponent } from './dialogs/edit-fred-config/edit-fred-co
     MatChipsModule,
     MatPaginatorModule,
     MatBadgeModule,
+    MatTabsModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },

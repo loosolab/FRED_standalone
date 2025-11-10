@@ -2066,15 +2066,19 @@
         <mat-divider style="margin-bottom: 30px"></mat-divider>
         <div fxLayout="row wrap" fxLayoutGap="16px grid">
           <div fxFlex="15%" fxFlex.xs="100%">
-            <button
-              name="Finish and save"
-              mat-flat-button
-              style="margin-top: 10px"
-              [disabled]="finishDisabled()"
-              (click)="finishMetadataInput()"
-            >
-              Finish and save
-            </button>
+            <div fxLayout="row wrap" fxLayoutGap="16px grid">
+              <div fxFlex="100%" fxFlex.xs="100%">
+                <button
+                  name="Finish and save"
+                  mat-flat-button
+                  style="margin-top: 10px"
+                  [disabled]="finishDisabled()"
+                  (click)="finishMetadataInput()"
+                >
+                  Finish and save
+                </button>
+              </div>
+            </div>
           </div>
           <div fxFlex="85%" fxFlex.xs="100%">
             @if (object_errors.summed > 0) {
@@ -2094,24 +2098,67 @@
               ></ng-container>
             }
             <mat-accordion togglePosition="before">
-              @if (object_summary) {
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    Summary
-                  </mat-expansion-panel-header>
-                  <div [innerHTML]="object_summary.summary"></div>
-                </mat-expansion-panel>
-              }
-              @if (object_summary && object_summary.file_names) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  Project Details
+                </mat-expansion-panel-header>
+                <div [innerHTML]="object_summary_project"></div>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  Experimental Settings
+                </mat-expansion-panel-header>
+                @if (object_summary_exp_settings) {
+                  <mat-tab-group>
+                    @for (
+                      setting of object_summary_exp_settings;
+                      track setting.title
+                    ) {
+                      <mat-tab [label]="'Setting: ' + setting.title">
+                        <div
+                          style="margin-top: 10px"
+                          #scriptContainer
+                          [innerHTML]="setting.plot"
+                          runScripts
+                        ></div>
+                      </mat-tab>
+                    }
+                  </mat-tab-group>
+                }
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  Technical Details
+                </mat-expansion-panel-header>
+                <div [innerHTML]="object_summary_tech_details"></div>
+              </mat-expansion-panel>
+
+              @if (object_summary_file_names) {
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     File list
                   </mat-expansion-panel-header>
-                  <div [innerHTML]="object_summary.file_names"></div>
+
+                  <mat-list>
+                    @for (
+                      file_name of object_summary_file_names.file_names;
+                      track file_name
+                    ) {
+                      <mat-list-item>
+                        {{ file_name }}
+                      </mat-list-item>
+                    }
+                  </mat-list>
+
+                  <!-- <div
+                                            [innerHTML]="object_summary_file_names.file_names"
+                                        ></div> -->
                   <button
                     mat-flat-button
-                    [disabled]="!object_summary.file_string"
-                    (click)="downloadFileList(object_summary.file_string)"
+                    [disabled]="!object_summary_file_names.file_string"
+                    (click)="
+                      downloadFileList(object_summary_file_names.file_string)
+                    "
                   >
                     Download File list
                   </button>
