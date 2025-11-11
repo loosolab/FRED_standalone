@@ -5,8 +5,6 @@
 // 1) core must be included once globally
 @include mat.core();
 
-
-
 // 2) define your theme object
 $theme: mat.define-theme(
   (
@@ -142,4 +140,7 @@ body {
 
 .td_style_condition_title_value {
   padding: 5px;
+}
+.example-spacer {
+  flex: 1 1 auto;
 }

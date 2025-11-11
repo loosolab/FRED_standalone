@@ -21,18 +21,21 @@
     routerLink="/pgm"
     >Project Generator Metadata</a
   >
+  <span class="example-spacer"></span>
+
   <button
-    mat-icon-button
-    class="icon-tertiary"
-    (click)="openHelp()"
+    mat-mini-fab
+    style="margin-right: 10px"
+    (click)="openFredConfigure()"
     #tooltip="matTooltip"
-    matTooltip="Help"
+    matTooltip="Settings"
     matTooltipPosition="below"
   >
-    <mat-icon>question_mark</mat-icon>
-  </button>
-  <button mat-icon-button class="icon-tertiary" (click)="openFredConfigure()">
     <mat-icon>settings</mat-icon>
+  </button>
+
+  <button mat-mini-fab (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
   </button>
 </mat-toolbar>
 
