@@ -195,7 +195,7 @@ export class ApiService {
           var filename = res.filename;
           this.http
             .get(this.apiURL + '/getPgmFiles', {
-              params: { filename: filename },
+              params: { filename: filename, file_type: 'file_list' },
               responseType: 'blob',
             })
             .pipe()

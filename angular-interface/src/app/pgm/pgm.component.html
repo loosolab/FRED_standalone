@@ -1214,11 +1214,6 @@
                             <div fxFlex></div>
                           </mat-action-row>
                         </mat-card>
-                        <!--<mat-list>
-                                    <mat-list-item *ngFor="let factor of factors">
-                                      {{factor.factor}}
-                                    </mat-list-item>
-                                  </mat-list>-->
                       </div>
                     }
                     @if (
@@ -1824,6 +1819,7 @@
           <button
             mat-flat-button
             style="margin-top: 10px; margin-right: 5px"
+            class="button-warn"
             matStepperPrevious
           >
             Back
@@ -2090,6 +2086,7 @@
           <button
             mat-flat-button
             style="margin-top: 10px; margin-right: 5px"
+            class="button-warn"
             matStepperPrevious
           >
             Back
@@ -2205,7 +2202,9 @@
                                         ></div> -->
                   <button
                     mat-flat-button
-                    [disabled]="!object_summary_file_names.file_string"
+                    [disabled]="
+                      object_summary_file_names.file_names.length == 0
+                    "
                     (click)="
                       downloadFileList(object_summary_file_names.file_string)
                     "
@@ -2218,7 +2217,12 @@
           </div>
         </div>
         <div>
-          <button mat-flat-button style="margin-top: 10px" matStepperPrevious>
+          <button
+            mat-flat-button
+            class="button-warn"
+            style="margin-top: 10px"
+            matStepperPrevious
+          >
             Back
           </button>
         </div>

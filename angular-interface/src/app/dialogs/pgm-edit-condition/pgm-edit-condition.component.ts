@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from 'src/app/services/api.service';
+import { SnackbarMessageComponent } from '../snackbar-message/snackbar-message.component';
 
 @Component({
   selector: 'app-pgm-edit-condition',
@@ -140,7 +141,7 @@ export class PgmEditConditionComponent implements OnInit {
       console.log(this.sample_ls);
       this.updateSampleNames();
     } else {
-      this.openSnackBar('Please enter a sample name.');
+      this.openSnackBar('', 'Please enter a sample name.', '', undefined, 4000);
     }
   }
 
@@ -164,11 +165,23 @@ export class PgmEditConditionComponent implements OnInit {
     this.updateSampleNames();
   }
 
-  openSnackBar(message) {
-    this.snackBar.open(message, '', {
-      duration: 4000,
-      panelClass: ['warning-snackbar'],
-    });
+  openSnackBar(
+    title: string,
+    message: string,
+    type: string,
+    confirmation_text?: string,
+    duration?: number,
+  ) {
+    var snackbar_config = {
+      data: { title: title, message: message, type: type },
+    };
+    if (confirmation_text) {
+      snackbar_config.data['confirmation_text'] = confirmation_text;
+    } else {
+      snackbar_config['duration'] = duration;
+    }
+    console.log(snackbar_config);
+    this.snackBar.openFromComponent(SnackbarMessageComponent, snackbar_config);
   }
   updateSampleNames() {
     this.sample_ls.forEach((sample, i) => {
@@ -239,7 +252,11 @@ export class PgmEditConditionComponent implements OnInit {
     if (used_unique_values.includes(value_to_check)) {
       console.log('already added');
       this.openSnackBar(
+        '',
         'This value is already added. Please edit or delete the value below.',
+        '',
+        undefined,
+        4000,
       );
     } else {
       console.log('new one');

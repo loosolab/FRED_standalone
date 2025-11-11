@@ -20,6 +20,7 @@ import { PgmEditConditionComponent } from '../dialogs/pgm-edit-condition/pgm-edi
 import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SnackbarMessageComponent } from '../dialogs/snackbar-message/snackbar-message.component';
 
 @Component({
   selector: 'app-pgm',
@@ -131,11 +132,24 @@ export class PgmComponent implements OnInit {
       },
     });
   }
-  openSnackBar(message) {
-    this.snackBar.open(message, '', {
-      duration: 5000,
-      panelClass: ['warning-snackbar'],
-    });
+
+  openSnackBar(
+    title: string,
+    message: string,
+    type: string,
+    confirmation_text?: string,
+    duration?: number,
+  ) {
+    var snackbar_config = {
+      data: { title: title, message: message, type: type },
+    };
+    if (confirmation_text) {
+      snackbar_config.data['confirmation_text'] = confirmation_text;
+    } else {
+      snackbar_config['duration'] = duration;
+    }
+    console.log(snackbar_config);
+    this.snackBar.openFromComponent(SnackbarMessageComponent, snackbar_config);
   }
 
   selectionChange(event) {
@@ -473,7 +487,11 @@ export class PgmComponent implements OnInit {
     if (used_unique_values.includes(value_to_check)) {
       console.log('already added');
       this.openSnackBar(
+        '',
         'This value is already added. Please edit or delete the value below.',
+        '',
+        undefined,
+        4000,
       );
     } else {
       console.log('new one');
@@ -662,7 +680,13 @@ export class PgmComponent implements OnInit {
     if (this.organism_name) {
       this.openFactorsDialog();
     } else {
-      this.openSnackBar('Please confirm the organism first.');
+      this.openSnackBar(
+        '',
+        'Please confirm the organism first.',
+        '',
+        undefined,
+        4000,
+      );
     }
   }
 
@@ -1026,8 +1050,12 @@ export class PgmComponent implements OnInit {
         }
       });
       this.openSnackBar(
+        '',
         'Not all required fields are filled out. Please check your input at ' +
           missing_part.join(', '),
+        'warning',
+        undefined,
+        5000,
       );
     }
   }

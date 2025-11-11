@@ -59,7 +59,7 @@
   </mat-form-field> -->
 </div>
 <div mat-dialog-actions align="end">
-  <button name="Apply Config" mat-flat-button (click)="applyFredConfig()">
+  <button name="Apply Config" mat-flat-button [mat-dialog-close]="fred_config">
     Apply Settings
   </button>
   <button mat-flat-button mat-dialog-close class="button-warn">Cancel</button>

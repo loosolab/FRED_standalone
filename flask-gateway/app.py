@@ -3,9 +3,7 @@ from flask_cors import CORS
 import pgm_calls
 import os
 
-UPLOAD_DIRECTORY = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "saved_metadata")
-)
+UPLOAD_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 # Create a Flask application
 app = Flask(__name__)
 cors = CORS(app)
@@ -65,7 +63,12 @@ def finishPgm():
 @app.route("/getPgmFiles", methods=["GET"])
 def getPgmFiles():
     filename = request.args.get("filename")
-    private_directory = os.path.join(UPLOAD_DIRECTORY)
+    file_type = request.args.get("file_type")
+    if file_type == "file_list":
+        private_directory = os.path.join(UPLOAD_DIRECTORY, "tmp")
+    else:
+        private_directory = os.path.join(UPLOAD_DIRECTORY, "saved_metadata")
+
     print("Requested file:", filename)
     print("Private directory:", private_directory)
     path_to_file = os.path.join(private_directory, filename)

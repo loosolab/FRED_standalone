@@ -1,0 +1,59 @@
+project:
+  id: afwuf
+  project_name: sgegsg
+  date: 11.11.2025
+  description: esgesgeg
+  owner:
+    name: seff
+    ldap_name: sesf
+    department: AG-DeepSeq
+    email: esfes
+experimental_setting:
+- setting_id: exp1
+  organism:
+    organism_name: ascomycota
+    taxonomy_id: '367110'
+  experimental_factors:
+  - factor: gene_editing
+    values:
+    - editing_type:
+      - WT
+      - knockdown
+  conditions:
+  - condition_name: gene_editing:{editing_type:"WT"}
+    biological_replicates:
+      count: 1
+      samples:
+      - sample_name: ge#tp.WT_b01
+        pooled: false
+        donor_count: 1
+        number_of_measurements: 1
+        gene_editing:
+        - editing_type: WT
+        technical_replicates:
+          count: 1
+          sample_name:
+          - afwuf_exp1_bulkRNAarray_ascmc_ge#tp.WT_b01_t01_m01
+          filenames:
+          - afwuf__1__bulkRNAarray__WT__1
+  - condition_name: gene_editing:{editing_type:"knockdown"}
+    biological_replicates:
+      count: 1
+      samples:
+      - sample_name: ge#tp.kd_b01
+        pooled: false
+        donor_count: 1
+        number_of_measurements: 1
+        gene_editing:
+        - editing_type: knockdown
+        technical_replicates:
+          count: 1
+          sample_name:
+          - afwuf_exp1_bulkRNAarray_ascmc_ge#tp.kd_b01_t01_m01
+          filenames:
+          - afwuf__2__bulkRNAarray__kd__1
+technical_details:
+  techniques:
+  - setting: exp1
+    technique:
+    - bulk RNA array
