@@ -59,8 +59,18 @@
   </mat-form-field> -->
 </div>
 <div mat-dialog-actions align="end">
-  <button name="Apply Config" mat-flat-button [mat-dialog-close]="fred_config">
+  <button
+    name="Apply Config"
+    mat-flat-button
+    [mat-dialog-close]="{ config: fred_config, restore: false }"
+  >
     Apply Settings
   </button>
-  <button mat-flat-button mat-dialog-close class="button-warn">Cancel</button>
+  <button
+    mat-flat-button
+    [mat-dialog-close]="{ config: fred_config, restore: true }"
+    class="button-warn"
+  >
+    Restore Settings
+  </button>
 </div>

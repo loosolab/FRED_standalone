@@ -14,8 +14,8 @@ import wetlab_writer
 import fred
 import fred.src.wi_functions as wi_functions
 
-fred_config = os.path.join(os.path.dirname(__file__), "config", "fred_config.yaml")
-m_object = wi_functions.Webinterface(fred_config)
+fred_config_path = os.path.join(os.path.dirname(__file__), "config", "fred_config.yaml")
+m_object = wi_functions.Webinterface(fred_config_path)
 g_pgm_object = m_object.to_dict()
 g_whitelist_object = wi_functions.get_whitelist_object(g_pgm_object)["whitelists"]
 
@@ -73,16 +73,20 @@ def validateMetadataObjectWithSummary(data):
 
 def finishResult(data):
     filenames = []
-    file_name_to_save = "anonymous" + "_" + datetime.now().strftime("%d_%m_%Y")
-    save_path = "saved_metadata/"
+    timestamp_folder = datetime.now().strftime("%H_%M_%S-%d_%m_%Y")
+    timestamp_to_save = datetime.now().strftime("%d_%m_%Y")
 
-    metadata_object = wi_functions.parse_object(
-        g_pgm_object, data["object"], g_whitelist_object
+    project_id, metadata_object = wi_functions.parse_object(
+        g_pgm_object, data["object"], g_whitelist_object, return_id=True
     )
+    print("Metadata Object:", metadata_object)
+    save_path = "saved_metadata/" + project_id + "_" + timestamp_folder + "/"
+    os.makedirs(save_path, exist_ok=True)
     filename_metadata, project_id = wi_functions.save_object(
-        metadata_object, save_path, file_name_to_save, False
+        metadata_object, save_path, timestamp_to_save, False
     )
-    filenames.append(filename_metadata.split("/")[-1])
+    print("Saved metadata file:", filename_metadata)
+    filenames.append(save_path + filename_metadata.split("/")[-1])
 
     # Check Wetlab Writer Funcs
 
@@ -91,11 +95,11 @@ def finishResult(data):
     )
     exp_setting_list = wetlab_writer.format_exp_settings(all_exp_settings)
     exp_setting_list_new = wetlab_writer.rename_exp_list(exp_setting_list)
-    file_name_to_save_wetlab = project_id + "_" + file_name_to_save
+    file_name_to_save_wetlab = project_id + "_" + timestamp_to_save
     filename_wetlab = wetlab_writer.write_wetlab(
         exp_setting_list_new, save_path, file_name_to_save_wetlab
     )
-    filenames.append(filename_wetlab.split("/")[-1])
+    filenames.append(save_path + filename_wetlab.split("/")[-1])
     # move_process = threading.Thread(
     #     target=moveMetadata,
     #     args=(
@@ -104,6 +108,11 @@ def finishResult(data):
     #     ),
     # )
     # move_process.start()
+
+    plot_img_ls = wi_functions.download_plot(g_pgm_object, metadata_object, save_path)
+    print("plot image return", plot_img_ls)
+    for plot_img in plot_img_ls:
+        filenames.append(save_path + plot_img)
     return {"filenames": filenames}
 
 
@@ -132,7 +141,9 @@ def moveMetadata(save_path, filenames):
 
 
 def getPlot(project_id):
-    plot_result = wi_functions.get_plot(g_pgm_object, fred_config, "./", project_id)
+    plot_result = wi_functions.get_plot(
+        g_pgm_object, fred_config_path, "./", project_id
+    )
     return plot_result
 
 
@@ -169,15 +180,25 @@ def getWhitelistObject(pgm_object):
 
 
 def loadFredConfig():
-    with open(fred_config, "r") as file:
+    with open(fred_config_path, "r") as file:
         config_data = yaml.safe_load(file)
     return config_data
 
 
-def updateFredConfig(new_config):
-    with open(fred_config, "w") as file:
-        yaml.dump(new_config, file, sort_keys=False)
+def updateFredConfig(data):
+    print(data)
+    fred_config = data["config"]
+    restore = data.get("restore", False)
+    if restore:
+        fred_default_config_path = os.path.join(
+            os.path.dirname(__file__), "config", "default_config.yaml"
+        )
+        with open(fred_default_config_path, "r") as file:
+            fred_config = yaml.safe_load(file)
+    print(fred_config)
+    with open(fred_config_path, "w") as file:
+        yaml.dump(fred_config, file, sort_keys=False)
     global g_pgm_object, g_whitelist_object
-    g_pgm_object = getPgmObject(fred_config)
+    g_pgm_object = getPgmObject(fred_config_path)
     g_whitelist_object = getWhitelistObject(g_pgm_object)
     return

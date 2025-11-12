@@ -125,7 +125,7 @@ export class PgmComponent implements OnInit {
   openHelpDialog() {
     const dialogRef = this.dialog.open(PgmHelpComponent, {
       hasBackdrop: true,
-      width: '50%',
+      minWidth: '70vw',
       height: '50%',
       data: {
         help_url: '',
@@ -798,7 +798,7 @@ export class PgmComponent implements OnInit {
     const dialogRef = this.dialog.open(PgmEditConditionComponent, {
       hasBackdrop: true,
       disableClose: true,
-      width: '80%',
+      minWidth: '70vw',
       data: {
         condition: condition,
         whitelist: this.condition_whitelists[organism_name],

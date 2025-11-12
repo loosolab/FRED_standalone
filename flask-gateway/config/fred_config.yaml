@@ -1,11 +1,11 @@
-branch: v1.2.*
-email: bcu.support@mpi-bn.mpg.de
-filename: _metadata_3
-output_path: .
+structure: fred
+whitelist_repository: https://gitlab.gwdg.de/loosolab/software/metadata_whitelists.git
 private_access:
   name: null
   token: null
-structure: fred
+branch: v1.2.*
+whitelist_path: fred
 update_whitelists: true
-whitelist_path: ./whitelists
-whitelist_repository: https://gitlab.gwdg.de/loosolab/software/metadata_whitelists.git
+output_path: .
+filename: _metadata
+email: bcu.support@mpi-bn.mpg.de

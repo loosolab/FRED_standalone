@@ -1,3 +1,25 @@
+<h1 mat-dialog-title>
+  <button
+    style="margin-right: 10px"
+    mat-mini-fab
+    mat-dialog-close
+    #tooltip="matTooltip"
+    matTooltip="Close"
+    matTooltipPosition="below"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  <button
+    mat-mini-fab
+    #tooltip="matTooltip"
+    matTooltip="Open in new Tab"
+    matTooltipPosition="below"
+    (click)="openHelp()"
+  >
+    <mat-icon>launch</mat-icon>
+  </button>
+  BCU documentation
+</h1>
 <iframe
   mat-dialog-content
   width="100%"

@@ -23,4 +23,10 @@ export class PgmHelpComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  openHelp() {
+    window.open(
+      'https://loosolab.pages.gwdg.de/container/bcu-documentation/index',
+    );
+  }
 }

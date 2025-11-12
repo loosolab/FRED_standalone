@@ -6,6 +6,7 @@ import { EditFredConfigComponent } from '../dialogs/edit-fred-config/edit-fred-c
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarMessageComponent } from '../dialogs/snackbar-message/snackbar-message.component';
 import { LoadingComponent } from '../dialogs/loading/loading.component';
+import { PgmHelpComponent } from '../dialogs/pgm-help/pgm-help.component';
 
 @Component({
   selector: 'app-home',
@@ -27,10 +28,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-  openHelp() {
-    window.open(
-      'https://loosolab.pages.gwdg.de/container/bcu-documentation/new_project/fill_metadata.html',
-    );
+  openHelpDialog() {
+    const dialogRef = this.dialog.open(PgmHelpComponent, {
+      hasBackdrop: true,
+      minWidth: '70vw',
+      height: '70%',
+      data: {
+        help_url: '',
+      },
+    });
   }
   test() {
     this.apiService.getPgmMask();

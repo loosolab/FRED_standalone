@@ -144,3 +144,16 @@ body {
 .example-spacer {
   flex: 1 1 auto;
 }
+.footer {
+  background-color: mat.get-theme-color($theme, secondary, 10) !important;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 0;
+}
+.footer-href {
+  color: mat.get-theme-color($theme, primary-fixed) !important;
+  text-decoration: none;
+  margin: 20px;
+}

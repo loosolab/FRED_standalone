@@ -67,7 +67,7 @@ def getPgmFiles():
     if file_type == "file_list":
         private_directory = os.path.join(UPLOAD_DIRECTORY, "tmp")
     else:
-        private_directory = os.path.join(UPLOAD_DIRECTORY, "saved_metadata")
+        private_directory = os.path.join(UPLOAD_DIRECTORY)
 
     print("Requested file:", filename)
     print("Private directory:", private_directory)

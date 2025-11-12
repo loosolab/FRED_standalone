@@ -177,7 +177,9 @@ export class ApiService {
                 responseType: 'blob',
               })
               .toPromise();
-            this.safeContentToFile(data, filename);
+            var save_filename = filename.split('/').pop();
+            console.log('save filename', save_filename);
+            this.safeContentToFile(data, save_filename);
             console.log('Metadata was generated successfully.');
           }
           resolve('');
