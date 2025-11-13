@@ -6,7 +6,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . /app
 RUN pip3 install -r requirements.txt
-
+# Ensure the 'saved' folder exists and is writable
+RUN mkdir -p /app/saved_metadata && chmod 777 /app/saved_metadata
+RUN mkdir -p /app/tmp && chmod 777 /app/tmp
 
 EXPOSE 5000
-CMD ["python", "app.py"]
+# CMD ["python", "app.py"]
+CMD ["gunicorn", "--workers=1","--bind", "0.0.0.0:5000", "app:app"]

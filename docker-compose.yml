@@ -4,9 +4,7 @@ services:
     build:
       context: ./angular-interface
     ports:
-      - "4200:4200"  # Adjust the port if needed
-    working_dir: /app/angular-interface
-    command: ng serve --host 0.0.0.0  # Adjust the command to start your Angular app
+      - "8080:80" 
     depends_on:
       - flask-gateway
 
@@ -14,7 +12,7 @@ services:
     build:
       context: ./flask-gateway
     ports:
-      - "5000:5000"  # Adjust the port if needed
-    working_dir: /app
-    command: python app.py  # Adjust the command to start your Flask API
+      - "5000:5000"
+    #volumes:
+    #  - ./my_test_data:/app/saved_metadata # Mount host directory to container
 
