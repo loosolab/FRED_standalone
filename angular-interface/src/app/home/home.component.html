@@ -109,9 +109,10 @@
           <div class="homecard-wrapper">
             <img class="card-icon" src="assets/ai_pgm.png" />
             <div class="text-button-wrapper">
-              <div class="card-text">
+              <span>
+                <h3>Enter Metadata</h3>
                 Enter Metadata using the FRED Webinterface
-              </div>
+              </span>
               <mat-card-actions class="full-width-button">
                 <button mat-flat-button routerLink="/pgm">
                   Go to Metadata Generation
@@ -127,10 +128,10 @@
           <div class="homecard-wrapper">
             <img class="card-icon" src="assets/ai_pgm.png" />
             <div class="text-button-wrapper">
-              <div class="card-text">
-                <h5>Configure FRED</h5>
+              <span>
+                <h3>Configure FRED</h3>
                 Configure FRED application settings and preferences.
-              </div>
+              </span>
               <mat-card-actions class="full-width-button">
                 <button mat-flat-button (click)="openFredConfigure()">
                   Configure FRED
@@ -146,10 +147,10 @@
           <div class="homecard-wrapper">
             <img class="card-icon" src="assets/ai_pgm.png" />
             <div class="text-button-wrapper">
-              <div class="card-text">
-                <h5>Open Fred Documentation</h5>
+              <span>
+                <h3>Open Fred Documentation</h3>
                 Documentation and help resources for using FRED.
-              </div>
+              </span>
               <mat-card-actions class="full-width-button">
                 <button mat-flat-button (click)="openHelpDialog()">
                   Open Fred Help
