@@ -157,44 +157,124 @@ body {
   text-decoration: none;
   margin: 20px;
 }
+
+/* Outer split: always 50/50 */
 .flex-container {
   display: flex;
+  width: 100%;
+  /* adjust the -64px if you have a header; or use 100vh */
+  height: calc(100vh - 39px);
+  gap: 12px;
+  padding: 8px;
 }
 
+/* columns are 50% each and must fill the flex-container height */
+.left-col,
+.right-col {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* ensure column fills outer height */
+  min-height: 0; /* allow children to shrink/expand properly */
+}
+
+/* LEFT CARD: must fill left column */
+.large-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* fill column */
+  height: 100%;
+  min-height: 0; /* critical */
+  box-sizing: border-box;
+  padding: 0; /* optional: card padding handled below */
+}
+
+/* Override Angular Material mat-card-content to let flex heights pass through.
+   Using !important here because mat-card-content has its own rules. */
+.large-card mat-card-content {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  box-sizing: border-box;
+}
+/* wrapper around iframe must be a flex child, allowed to shrink/grow */
+.infobox-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0; /* critical for nested flex */
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* iframe fills all available space inside its wrapper */
+.infobox-wrapper iframe {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border: none;
+  min-height: 0;
+}
+
+/* Fred icon: fixed size 240x240, does not grow or shrink */
+.fred-icon {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  margin: 16px auto 8px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* RIGHT column cards: unchanged except ensure they don't pull height */
 .flex-column {
   display: flex;
   flex-direction: column;
-  flex: 1 1 60%; /* Takes 50% of the container */
-  align-items: stretch; /* Ensure all items stretch to the same height */
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
 }
 
+/* card inside right column: let content define height or set equal heights by enabling flex:1 */
 .flex-card {
-  margin: 5px;
-  justify-content: center;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* If you want every right card equal height uncomment: flex: 1 1 0; */
 }
 
+/* card content layout: image left, text/button right */
 .homecard-wrapper {
   display: flex;
-  align-items: stretch; /* Ensure children stretch to the full height */
-  justify-content: start;
-  width: 100%;
+  align-items: center;
+  gap: 12px;
 }
 
+/* right-side card icons: fixed size, don't cause card to expand width */
+.card-icon {
+  width: 160px; /* pick whatever size fits your design */
+  height: 160px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+/* text/button column */
 .text-button-wrapper {
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  flex-grow: 1; /* Allow the text and button section to grow and fill the space */
-  justify-content: space-between; /* Distribute space between elements */
+  justify-content: space-between;
+  flex: 1 1 auto;
 }
 
+/* full width button */
 .full-width-button {
-  width: 100%; /* Ensure the button container takes the full width */
-  margin-top: auto; /* Push the button to the bottom */
-  padding-bottom: 0px !important;
+  width: 100%;
 }
 
 .full-width-button button {
-  width: 100%; /* Ensure the button itself takes the full width */
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }

@@ -88,82 +88,77 @@
   </div>
 
 </div> -->
-
+<!-- HTML -->
 <div class="flex-container">
-  <mat-card class="large-card" appearance="outlined">
-    <!-- <mat-card-header>
-      <mat-card-title> <h1>multicripsr2</h1> </mat-card-title>
-    </mat-card-header> -->
-    <img mat-card-xl-image src="assets/fred_edited.png" />
-    <mat-card-content>
-      <div class="infobox-wrapper">
-        <iframe
-          mat-card-content
-          width="100%"
-          height="100%"
-          frameBorder="0"
-          [src]="sanitizedUrl"
-        ></iframe>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <div class="flex-column">
-    <mat-card class="flex-card" appearance="outlined">
-      <mat-card-content>
-        <div class="homecard-wrapper">
-          <img mat-card-xl-image src="assets/ai_pgm.png" />
-          <div class="text-button-wrapper">
-            <span> Enter Metadata using the FRED Webinterface </span>
-            <mat-card-actions class="full-width-button">
-              <button mat-flat-button routerLink="/pgm">
-                Go to Metadata Generation
-              </button>
-            </mat-card-actions>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <div class="left-col">
+    <mat-card class="large-card" appearance="outlined">
+      <!-- Fixed Fred icon -->
+      <img class="fred-icon" src="assets/fred_edited.png" alt="FRED logo" />
 
-    <mat-card class="flex-card" appearance="outlined">
-      <mat-card-content>
-        <div class="homecard-wrapper">
-          <img mat-card-xl-image src="assets/ai_pgm.png" />
-          <div class="text-button-wrapper">
-            <span>
-              <h5>Configure FRED</h5>
-              Configure FRED application settings and preferences.
-            </span>
-            <mat-card-actions class="full-width-button">
-              <button mat-flat-button (click)="openFredConfigure()">
-                Configure FRED
-              </button>
-            </mat-card-actions>
-          </div>
-        </div>
+      <!-- content area that should fill remaining space -->
+      <mat-card-content class="infobox-wrapper">
+        <iframe [src]="sanitizedUrl"></iframe>
       </mat-card-content>
     </mat-card>
+  </div>
 
-    <mat-card class="flex-card" appearance="outlined">
-      <mat-card-content>
-        <div class="homecard-wrapper">
-          <img
-            mat-card-xl-image
-            src="assets/ai_pgm.png"
-            alt="Prime Edit gRNA Design"
-          />
-          <div class="text-button-wrapper">
-            <span>
-              <h5>Open Fred Documentation</h5>
-              Documentation and help resources for using FRED.
-            </span>
-            <mat-card-actions class="full-width-button" align="end">
-              <button mat-flat-button (click)="openHelpDialog()">
-                Open Fred Help
-              </button>
-            </mat-card-actions>
+  <div class="right-col">
+    <div class="flex-column">
+      <mat-card class="flex-card" appearance="outlined">
+        <mat-card-content>
+          <div class="homecard-wrapper">
+            <img class="card-icon" src="assets/ai_pgm.png" />
+            <div class="text-button-wrapper">
+              <div class="card-text">
+                Enter Metadata using the FRED Webinterface
+              </div>
+              <mat-card-actions class="full-width-button">
+                <button mat-flat-button routerLink="/pgm">
+                  Go to Metadata Generation
+                </button>
+              </mat-card-actions>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="flex-card" appearance="outlined">
+        <mat-card-content>
+          <div class="homecard-wrapper">
+            <img class="card-icon" src="assets/ai_pgm.png" />
+            <div class="text-button-wrapper">
+              <div class="card-text">
+                <h5>Configure FRED</h5>
+                Configure FRED application settings and preferences.
+              </div>
+              <mat-card-actions class="full-width-button">
+                <button mat-flat-button (click)="openFredConfigure()">
+                  Configure FRED
+                </button>
+              </mat-card-actions>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="flex-card" appearance="outlined">
+        <mat-card-content>
+          <div class="homecard-wrapper">
+            <img class="card-icon" src="assets/ai_pgm.png" />
+            <div class="text-button-wrapper">
+              <div class="card-text">
+                <h5>Open Fred Documentation</h5>
+                Documentation and help resources for using FRED.
+              </div>
+              <mat-card-actions class="full-width-button">
+                <button mat-flat-button (click)="openHelpDialog()">
+                  Open Fred Help
+                </button>
+              </mat-card-actions>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
