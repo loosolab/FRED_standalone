@@ -157,3 +157,44 @@ body {
   text-decoration: none;
   margin: 20px;
 }
+.flex-container {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 60%; /* Takes 50% of the container */
+  align-items: stretch; /* Ensure all items stretch to the same height */
+}
+
+.flex-card {
+  margin: 5px;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.homecard-wrapper {
+  display: flex;
+  align-items: stretch; /* Ensure children stretch to the full height */
+  justify-content: start;
+  width: 100%;
+}
+
+.text-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  flex-grow: 1; /* Allow the text and button section to grow and fill the space */
+  justify-content: space-between; /* Distribute space between elements */
+}
+
+.full-width-button {
+  width: 100%; /* Ensure the button container takes the full width */
+  margin-top: auto; /* Push the button to the bottom */
+  padding-bottom: 0px !important;
+}
+
+.full-width-button button {
+  width: 100%; /* Ensure the button itself takes the full width */
+}

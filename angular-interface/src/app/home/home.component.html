@@ -1,10 +1,5 @@
-<mat-toolbar class="header-toolbar">
-  <!--<button mat-icon-button (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>-->
+<!-- <mat-toolbar class="header-toolbar">
 
-  <!--<span><img height="50px" src="assets/images/bcu_icon_minimal.png"></span>-->
-  <!--<span>Welcome to BCU Repository</span>-->
   <a
     style="margin-left: 16px; margin-right: 16px"
     mat-flat-button
@@ -65,9 +60,9 @@
       style="min-height: 20%; margin-bottom: 10px; margin-top: 10px"
     >
       <mat-card-header>
-        <mat-card-title>Go To Fred Project Generator Metadata</mat-card-title>
+        <mat-card-title>Start Metadata Generation</mat-card-title>
       </mat-card-header>
-      <!--<img mat-card-md-image src="assets/images/databank.png">-->
+      
       <mat-card-content>
         Create and edit metadata for new or given projects.
         <br />
@@ -88,6 +83,86 @@
         eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
         dignissim qui blandit praesent luptatum zzril delenit augue duis dolore
         te feugait nulla facilisi. Lorem ipsum dolor sit amet,
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div> -->
+
+<div class="flex-container">
+  <mat-card class="large-card" appearance="outlined">
+    <!-- <mat-card-header>
+      <mat-card-title> <h1>multicripsr2</h1> </mat-card-title>
+    </mat-card-header> -->
+    <img mat-card-xl-image src="assets/fred_edited.png" />
+    <mat-card-content>
+      <div class="infobox-wrapper">
+        <iframe
+          mat-card-content
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          [src]="sanitizedUrl"
+        ></iframe>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="flex-column">
+    <mat-card class="flex-card" appearance="outlined">
+      <mat-card-content>
+        <div class="homecard-wrapper">
+          <img mat-card-xl-image src="assets/ai_pgm.png" />
+          <div class="text-button-wrapper">
+            <span> Enter Metadata using the FRED Webinterface </span>
+            <mat-card-actions class="full-width-button">
+              <button mat-flat-button routerLink="/pgm">
+                Go to Metadata Generation
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="flex-card" appearance="outlined">
+      <mat-card-content>
+        <div class="homecard-wrapper">
+          <img mat-card-xl-image src="assets/ai_pgm.png" />
+          <div class="text-button-wrapper">
+            <span>
+              <h5>Configure FRED</h5>
+              Configure FRED application settings and preferences.
+            </span>
+            <mat-card-actions class="full-width-button">
+              <button mat-flat-button (click)="openFredConfigure()">
+                Configure FRED
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="flex-card" appearance="outlined">
+      <mat-card-content>
+        <div class="homecard-wrapper">
+          <img
+            mat-card-xl-image
+            src="assets/ai_pgm.png"
+            alt="Prime Edit gRNA Design"
+          />
+          <div class="text-button-wrapper">
+            <span>
+              <h5>Open Fred Documentation</h5>
+              Documentation and help resources for using FRED.
+            </span>
+            <mat-card-actions class="full-width-button" align="end">
+              <button mat-flat-button (click)="openHelpDialog()">
+                Open Fred Help
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
