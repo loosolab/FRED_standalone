@@ -3,13 +3,13 @@
 ## Requirements
 
 - Docker
+- Docker Compose
 
 ## Getting started
 
-Clone the GIT repository with _submodules_.
+Clone the GIT repository.
 
 ```
-# Clone the main repository
 git clone https://gitlab.gwdg.de/loosolab/container/fred-standalone.git
 
 ```
