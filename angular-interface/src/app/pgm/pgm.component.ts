@@ -1017,7 +1017,7 @@ export class PgmComponent implements OnInit {
         data: {
           title: 'Finish Metadate Input',
           message:
-            "Are you sure you want to finish your Input? It can not be edited until your project appears under the 'Self Deployment Omics Analysis' Part of this Website.",
+            'Are you sure you want to finish your Input? It can not be edited.',
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
