@@ -226,7 +226,7 @@ body {
   flex: 0 0 auto;
 }
 
-/* RIGHT column cards: unchanged except ensure they don't pull height */
+/* RIGHT column cards: MODIFIED to fill height equally */
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -235,12 +235,12 @@ body {
   min-height: 0;
 }
 
-/* card inside right column: let content define height or set equal heights by enabling flex:1 */
+/* card inside right column: MODIFIED to take equal height */
 .flex-card {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  /* If you want every right card equal height uncomment: flex: 1 1 0; */
+  flex: 1 1 0; /* This makes all cards equal height */
 }
 
 /* card content layout: image left, text/button right */
@@ -248,6 +248,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  height: 100%; /* Fill the card height */
 }
 
 /* right-side card icons: fixed size, don't cause card to expand width */
@@ -264,6 +265,7 @@ body {
   margin-left: 10px;
   flex-grow: 1; /* Allow the text and button section to grow and fill the space */
   justify-content: space-between; /* Distribute space between elements */
+  height: 100%; /* Fill available height */
 }
 
 .full-width-button {
@@ -345,8 +347,8 @@ body {
 }
 
 .hero-image {
-  max-width: 320px;
-  max-height: 320px;
+  max-width: 650px; /* Increased from 320px for Full HD */
+  max-height: 650px; /* Increased from 320px for Full HD */
   width: 100%;
   height: auto;
   object-fit: contain;
@@ -364,13 +366,20 @@ body {
 }
 
 /* Responsive adjustments for hero card */
+@media (max-width: 1600px) {
+  .hero-image {
+    max-width: 380px;
+    max-height: 380px;
+  }
+}
+
 @media (max-width: 1200px) {
   .hero-title {
     font-size: 2.5rem;
   }
 
   .hero-image {
-    max-width: 240px;
-    max-height: 240px;
+    max-width: 280px;
+    max-height: 280px;
   }
 }
