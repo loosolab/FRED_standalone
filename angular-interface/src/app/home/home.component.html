@@ -1,107 +1,19 @@
-<!-- <mat-toolbar class="header-toolbar">
-
-  <a
-    style="margin-left: 16px; margin-right: 16px"
-    mat-flat-button
-    class="header-nav-button"
-    routerLink="/home"
-    routerLinkActive="active-nav-button"
-    >Home</a
-  >
-  <a
-    style="margin-right: 16px"
-    mat-flat-button
-    class="header-nav-button"
-    routerLinkActive="active-nav-button"
-    routerLink="/pgm"
-    >Project Generator Metadata</a
-  >
-  <span class="example-spacer"></span>
-
-  <button
-    mat-mini-fab
-    style="margin-right: 10px"
-    (click)="openFredConfigure()"
-    #tooltip="matTooltip"
-    matTooltip="Settings"
-    matTooltipPosition="below"
-  >
-    <mat-icon>settings</mat-icon>
-  </button>
-
-  <button mat-mini-fab (click)="openHelpDialog()">
-    <mat-icon>question_mark</mat-icon>
-  </button>
-</mat-toolbar>
-<div fxLayout="row wrap" fxLayoutGap="16px grid">
-  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-    <mat-card
-      style="margin-bottom: 10px; margin-top: 10px"
-      appearance="outlined"
-    >
-      <mat-card-header>
-        <mat-card-title>Fred Help Documentation</mat-card-title>
-      </mat-card-header>
-
-      <iframe
-        mat-card-content
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        [src]="sanitizedUrl"
-      ></iframe>
-    </mat-card>
-  </div>
-  <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="33%">
-    <mat-card
-      appearance="outlined"
-      matRipple
-      routerLink="/pgm"
-      style="min-height: 20%; margin-bottom: 10px; margin-top: 10px"
-    >
-      <mat-card-header>
-        <mat-card-title>Start Metadata Generation</mat-card-title>
-      </mat-card-header>
-      
-      <mat-card-content>
-        Create and edit metadata for new or given projects.
-        <br />
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-        amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-        rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-        ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
-        est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in
-        hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-        eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-        dignissim qui blandit praesent luptatum zzril delenit augue duis dolore
-        te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-</div> -->
 <!-- HTML -->
 <div class="flex-container">
+  <!-- Hero Card - Left Column Only -->
   <div class="left-col">
-    <mat-card class="large-card" appearance="outlined">
-      <!-- Fixed Fred icon -->
-      <!-- <img class="fred-icon" src="assets/fred_edited.png" alt="FRED logo" /> -->
-
-      <!-- content area that should fill remaining space -->
-      <mat-card-content class="infobox-wrapper">
-        <!-- <iframe [src]="sanitizedUrl"></iframe> -->
+    <mat-card class="large-card hero-card" appearance="outlined">
+      <mat-card-content class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Welcome to FRED</h1>
+          <p class="hero-subtitle">
+            Framework for Research and Engineering Data
+          </p>
+        </div>
         <img
-          class="fred-icon"
+          class="hero-image"
           src="assets/docker_compose.png"
-          alt="Help Documentation"
+          alt="FRED Framework"
         />
       </mat-card-content>
     </mat-card>
