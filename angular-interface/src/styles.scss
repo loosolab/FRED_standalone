@@ -330,13 +330,11 @@ body {
   font-size: 3rem;
   font-weight: 700;
   margin: 0 0 16px 0;
-  color: #1976d2; /* Adjust to match your primary color */
-  /* Optional gradient effect - uncomment if you like it
-  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  /* FRED logo inspired gradient: orange to cyan/blue */
+  background: linear-gradient(135deg, #fab60fff 0%, #00bfff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  */
 }
 
 .hero-subtitle {
