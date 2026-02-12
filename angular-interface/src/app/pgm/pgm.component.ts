@@ -716,8 +716,8 @@ export class PgmComponent implements OnInit {
               hasBackdrop: true,
               disableClose: true,
 
-              minWidth: '40%',
-              width: '40%',
+              minWidth: '40vw',
+
               data: {
                 factors: data_res.factor,
                 values: data_res.values,
