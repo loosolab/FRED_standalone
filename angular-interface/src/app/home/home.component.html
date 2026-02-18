@@ -18,10 +18,10 @@
       </mat-card-content>
     </mat-card>
   </div>
-
   <div class="right-col">
     <div class="flex-column">
-      <mat-card class="flex-card" appearance="outlined">
+      <!-- Top card: tall, with image on the right -->
+      <mat-card class="flex-card flex-card-large" appearance="outlined">
         <mat-card-content>
           <div class="homecard-wrapper">
             <img class="card-icon" src="assets/edit_metadata.png" />
@@ -30,60 +30,67 @@
                 <h3>Enter Metadata</h3>
                 Enter Metadata using the FRED Webinterface
               </span>
-              <mat-card-actions class="full-width-button">
-                <button mat-flat-button routerLink="/pgm">
-                  Go to Metadata Generation
-                </button>
-              </mat-card-actions>
             </div>
-            <!-- generate image: I just copied that in here, move it where you need it -->
             <img
-              class="hero-image"
+              class="generate-image"
               src="assets/generate_metadata.png"
               alt="FRED Framework"
             />
-            <!-- end of generate image -->
           </div>
         </mat-card-content>
+        <mat-card-footer>
+          <mat-card-actions class="full-width-button">
+            <button mat-flat-button routerLink="/pgm">
+              Go to Metadata Generation
+            </button>
+          </mat-card-actions>
+        </mat-card-footer>
       </mat-card>
 
-      <mat-card class="flex-card" appearance="outlined">
-        <mat-card-content>
-          <div class="homecard-wrapper">
-            <img class="card-icon" src="assets/edit_config_icon.png" />
-            <div class="text-button-wrapper">
-              <span>
-                <h3>Configure FRED</h3>
-                Configure FRED application settings and preferences.
-              </span>
-              <mat-card-actions class="full-width-button">
-                <button mat-flat-button (click)="openFredConfigure()">
-                  Configure FRED
-                </button>
-              </mat-card-actions>
+      <!-- Bottom row: two cards side by side -->
+      <div class="bottom-card-row">
+        <mat-card class="flex-card" appearance="outlined">
+          <mat-card-content>
+            <div class="homecard-wrapper">
+              <img class="card-icon" src="assets/edit_config_icon.png" />
+              <div class="text-button-wrapper">
+                <span>
+                  <h3>Configure FRED</h3>
+                  Configure FRED application settings and preferences.
+                </span>
+              </div>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions class="full-width-button">
+              <button mat-flat-button (click)="openFredConfigure()">
+                Configure FRED
+              </button>
+            </mat-card-actions>
+          </mat-card-footer>
+        </mat-card>
 
-      <mat-card class="flex-card" appearance="outlined">
-        <mat-card-content>
-          <div class="homecard-wrapper">
-            <img class="card-icon" src="assets/open_documentation.png" />
-            <div class="text-button-wrapper">
-              <span>
-                <h3>Open Fred Documentation</h3>
-                Documentation and help resources for using FRED.
-              </span>
-              <mat-card-actions class="full-width-button">
-                <button mat-flat-button (click)="openHelpDialog()">
-                  Open Fred Help
-                </button>
-              </mat-card-actions>
+        <mat-card class="flex-card" appearance="outlined">
+          <mat-card-content>
+            <div class="homecard-wrapper">
+              <img class="card-icon" src="assets/open_documentation.png" />
+              <div class="text-button-wrapper">
+                <span>
+                  <h3>Open Fred Documentation</h3>
+                  Documentation and help resources for using FRED.
+                </span>
+              </div>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions class="full-width-button">
+              <button mat-flat-button (click)="openHelpDialog()">
+                Open Fred Help
+              </button>
+            </mat-card-actions>
+          </mat-card-footer>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>
