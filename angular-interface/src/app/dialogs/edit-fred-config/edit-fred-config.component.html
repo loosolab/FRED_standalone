@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>
   <button
+    style="margin-right: 10px"
     mat-mini-fab
     mat-dialog-close
     #tooltip="matTooltip"
@@ -8,10 +9,19 @@
   >
     <mat-icon>close</mat-icon>
   </button>
+  <button
+    mat-mini-fab
+    #tooltip="matTooltip"
+    matTooltip="Open Documentation"
+    matTooltipPosition="below"
+    (click)="openHelp()"
+  >
+    <mat-icon>question_mark</mat-icon>
+  </button>
   Configure FRED
 </h1>
 <div mat-dialog-content>
-  <mat-card appearance="outlined" style="margin-bottom: 16px">
+  <!-- <mat-card appearance="outlined" style="margin-bottom: 16px">
     <mat-card-header>
       <mat-card-subtitle> Information: </mat-card-subtitle>
     </mat-card-header>
@@ -19,13 +29,8 @@
       Dummy dummy for fred settings configuration.
     </mat-card-content></mat-card
   >
-  <mat-divider style="margin-bottom: 16px"></mat-divider>
+  <mat-divider style="margin-bottom: 16px"></mat-divider> -->
 
-  <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
-    <mat-label>Structure</mat-label>
-    <input matInput type="text" [(ngModel)]="fred_config.structure" />
-    <mat-hint>structure YAML file</mat-hint>
-  </mat-form-field>
   <mat-form-field subscriptSizing="dynamic" appearance="fill" class="full-form">
     <mat-label>File Suiffix</mat-label>
     <input matInput type="text" [(ngModel)]="fred_config.filename" />
