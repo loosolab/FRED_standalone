@@ -15,7 +15,7 @@ export class PgmHelpComponent implements OnInit {
     private sanitizer: DomSanitizer,
   ) {
     this.data.help_url =
-      'https://loosolab.pages.gwdg.de/container/bcu-documentation/angular_interface/pgm';
+      'https://loosolab.pages.gwdg.de/software/metadata-organizer/';
     // Assuming url is the dynamic URL you want to bind
     this.sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.data.help_url,
@@ -25,8 +25,6 @@ export class PgmHelpComponent implements OnInit {
   ngOnInit(): void {}
 
   openHelp() {
-    window.open(
-      'https://loosolab.pages.gwdg.de/container/bcu-documentation/index',
-    );
+    window.open('https://loosolab.pages.gwdg.de/software/metadata-organizer/');
   }
 }

@@ -7,7 +7,11 @@
         <div class="hero-text">
           <h1 class="hero-title">Welcome to FRED</h1>
           <p class="hero-subtitle">
-            Universal tool to generate FAIR metadata for omics experiments
+            When publishing scientific studies, it is important to make all data
+            and metadata available to promote scientific discovery and
+            innovation. <b>FRED</b> (<b>F</b>ai<b>R</b>&nbsp;<b>E</b>xperimental
+            <b>D</b>esigns) is a tool to help you generate metadata in a
+            hierarchical structured YAML file using interactive dialogs.
           </p>
         </div>
         <img
@@ -24,12 +28,33 @@
       <mat-card class="flex-card flex-card-large" appearance="outlined">
         <mat-card-content>
           <div class="homecard-wrapper">
-            <img class="card-icon" src="assets/edit_metadata.png" />
-            <div class="text-button-wrapper">
-              <span>
-                <h3>Enter Metadata</h3>
-                Enter Metadata using the FRED Webinterface
-              </span>
+            <div class="metadata-left">
+              <img
+                class="card-icon-enter-metadata"
+                src="assets/edit_metadata.png"
+              />
+              <div class="text-button-wrapper">
+                <span>
+                  <h3>Metadata</h3>
+                  FRED metadata is divided into three sections:
+                  <ul>
+                    <li>
+                      <strong>Project</strong> — contains general information
+                      about the project like description or owner.
+                    </li>
+                    <li>
+                      <strong>Experimental Setting</strong> — depicts the
+                      experimental design information including investigated
+                      conditions and associated samples.
+                    </li>
+                    <li>
+                      <strong>Technical Details</strong> — stores technical
+                      information about the project like sequencing technique or
+                      analysis.
+                    </li>
+                  </ul>
+                </span>
+              </div>
             </div>
             <img
               class="generate-image"
@@ -40,9 +65,7 @@
         </mat-card-content>
         <mat-card-footer>
           <mat-card-actions class="full-width-button">
-            <button mat-flat-button routerLink="/pgm">
-              Go to Metadata Generation
-            </button>
+            <button mat-flat-button routerLink="/pgm">Enter Metadata</button>
           </mat-card-actions>
         </mat-card-footer>
       </mat-card>
@@ -55,8 +78,8 @@
               <img class="card-icon" src="assets/edit_config_icon.png" />
               <div class="text-button-wrapper">
                 <span>
-                  <h3>Configure FRED</h3>
-                  Configure FRED application settings and preferences.
+                  <h3>Settings</h3>
+                  Set your own whitelists for metadata input.
                 </span>
               </div>
             </div>
@@ -76,8 +99,8 @@
               <img class="card-icon" src="assets/open_documentation.png" />
               <div class="text-button-wrapper">
                 <span>
-                  <h3>Open Fred Documentation</h3>
-                  Documentation and help resources for using FRED.
+                  <h3>Help</h3>
+                  Find detailed descriptions and videos on the usage of FRED.
                 </span>
               </div>
             </div>
@@ -85,7 +108,7 @@
           <mat-card-footer>
             <mat-card-actions class="full-width-button">
               <button mat-flat-button (click)="openHelpDialog()">
-                Open Fred Help
+                Open Documentation
               </button>
             </mat-card-actions>
           </mat-card-footer>

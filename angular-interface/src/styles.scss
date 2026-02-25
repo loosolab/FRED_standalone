@@ -259,6 +259,36 @@ body {
   flex: 0 0 auto;
 }
 
+.card-icon-enter-metadata {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+
+.metadata-header {
+  display: flex;
+  align-items: flex-start; /* align to top, not center */
+  gap: 12px;
+}
+
+.metadata-header h3 {
+  margin-top: 0; /* remove any default h3 top margin */
+  margin-bottom: 0;
+  line-height: 1; /* match the icon's visual top edge */
+}
+
+.metadata-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  gap: 8px;
+  margin-top: 0; /* ensure no extra top margin */
+  padding-top: 0; /* ensure no extra top padding */
+}
+
 .text-button-wrapper {
   display: flex;
   flex-direction: column;
