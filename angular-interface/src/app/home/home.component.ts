@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {
     this.sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://loosolab.pages.gwdg.de/container/bcu-documentation/angular_interface/pgm',
+      'https://loosolab.pages.gwdg.de/software/metadata-organizer/index',
     );
   }
 

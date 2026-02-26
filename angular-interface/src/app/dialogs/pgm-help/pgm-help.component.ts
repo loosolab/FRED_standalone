@@ -15,7 +15,7 @@ export class PgmHelpComponent implements OnInit {
     private sanitizer: DomSanitizer,
   ) {
     this.data.help_url =
-      'https://loosolab.pages.gwdg.de/software/metadata-organizer/';
+      'https://loosolab.pages.gwdg.de/software/metadata-organizer/standalone.html#metadata-input';
     // Assuming url is the dynamic URL you want to bind
     this.sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.data.help_url,

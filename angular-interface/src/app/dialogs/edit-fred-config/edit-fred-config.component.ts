@@ -16,6 +16,6 @@ export class EditFredConfigComponent implements OnInit {
   ngOnInit(): void {}
 
   openHelp() {
-    window.open('https://loosolab.pages.gwdg.de/software/metadata-organizer/');
+    window.open('https://loosolab.pages.gwdg.de/software/metadata-organizer/config');
   }
 }
