@@ -1,11 +1,11 @@
 structure: fred
-whitelist_repository: https://gitlab.gwdg.de/loosolab/software/metadata_whitelists.git
+whitelist_repository: https://github.com/loosolab/FRED_whitelists
 private_access:
   name: null
   token: null
-branch: v1.2.*
+branch: main
 whitelist_path: fred
 update_whitelists: true
 output_path: .
 filename: _metadata
-email: bcu.support@mpi-bn.mpg.de
+email: example@email.de
